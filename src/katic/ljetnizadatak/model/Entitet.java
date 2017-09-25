@@ -5,26 +5,64 @@
  */
 package katic.ljetnizadatak.model;
 
+import java.util.Date;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+
 /**
  *
  * @author valentin.katic
  */
-public class Entitet {
-    private int sifra;
+@MappedSuperclass 
+public abstract class Entitet {
+    @Id
+    @GeneratedValue
+    private Long sifra;
 
-    public Entitet(int sifra) {
-        this.sifra = sifra;
-    }
-
-    public Entitet(){}
+    private boolean obrisan=false;
     
-    public int getSifra() {
+     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date datumKreiranja;
+     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date datumPromjene;
+
+    public Long getSifra() {
         return sifra;
     }
 
-    public void setSifra(int sifra) {
+    public void setSifra(Long sifra) {
         this.sifra = sifra;
     }
+    
+    
+
+    public boolean isObrisan() {
+        return obrisan;
+    }
+
+    public void setObrisan(boolean obrisan) {
+        this.obrisan = obrisan;
+    }
+
+    public Date getDatumKreiranja() {
+        return datumKreiranja;
+    }
+
+    public void setDatumKreiranja(Date datumKreiranja) {
+        this.datumKreiranja = datumKreiranja;
+    }
+
+    public Date getDatumPromjene() {
+        return datumPromjene;
+    }
+
+    public void setDatumPromjene(Date datumPromjene) {
+        this.datumPromjene = datumPromjene;
+    }
+    
+    
     
     
 }

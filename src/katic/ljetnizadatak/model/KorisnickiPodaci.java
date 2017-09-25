@@ -5,25 +5,19 @@
  */
 package katic.ljetnizadatak.model;
 
+import java.io.Serializable;
+import javax.persistence.MappedSuperclass;
+
 /**
  *
  * @author valentin.katic
  */
-public class KorisnickiPodaci extends Entitet{
+@MappedSuperclass
+public abstract class KorisnickiPodaci extends Entitet implements Serializable{
     
     private String email;
     private String lozinka;
     private String kontaktBroj;
-
-    public KorisnickiPodaci(int sifra, String email, String lozinka, String kontaktBroj) {
-        super(sifra);
-        this.email = email;
-        this.lozinka = lozinka;
-        this.kontaktBroj = kontaktBroj;
-    }
-
-    public KorisnickiPodaci() {
-    }
        
     public String getEmail() {
         return email;

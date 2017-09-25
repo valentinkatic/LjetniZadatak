@@ -6,35 +6,45 @@
 package katic.ljetnizadatak.view;
 
 import javax.swing.DefaultListModel;
-import katic.ljetnizadatak.controller.ObradaRestoran;
+import katic.ljetnizadatak.controller.HibernateObrada;
 import katic.ljetnizadatak.model.Restoran;
 
 /**
  *
- * @author valentin.katic
+ * @author Polaznik
  */
-public class FormaRestoran extends javax.swing.JFrame {
+public class FormaRestoran extends Forma<Restoran> {
 
-    private ObradaRestoran obrada;
-    private Restoran restoran;
-    
     /**
-     * Creates new form RestoranView
+     * Creates new form FormaRestoran
      */
     public FormaRestoran() {
+        super();
         initComponents();
-        obrada = new ObradaRestoran();
-        restoran = new Restoran();
+        this.obrada = new HibernateObrada();
         
         ucitaj();
     }
     
-    private void ucitaj(){
+    @Override
+    protected void ucitaj(){
         DefaultListModel<Restoran> m = new DefaultListModel<Restoran>();
-        lstRestorani.setModel(m);
-        for (Restoran r: obrada.getRestorani()){
+        lista.setModel(m);
+        for (Restoran r: obrada.createQuery("from Restoran r where r.obrisan=false")){
             m.addElement(r);
         }
+    }
+
+    @Override
+    protected void spremi(){ 
+        entitet.setNaziv(txtNaziv.getText());
+        entitet.setAdresa(txtAdresa.getText());
+        entitet.setGrad(txtGrad.getText());
+        entitet.setKontaktBroj(txtKontaktBroj.getText());
+        entitet.setEmail(txtEmail.getText());
+        entitet.setLozinka(txtLozinka.getText()); 
+        super.spremi();
+        lista.setSelectedValue(entitet, true);
     }
 
     /**
@@ -46,6 +56,8 @@ public class FormaRestoran extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lista = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         txtNaziv = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -53,24 +65,24 @@ public class FormaRestoran extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtGrad = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtBrojTelefona = new javax.swing.JTextField();
-        txtEmail = new javax.swing.JTextField();
+        txtKontaktBroj = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtLozinka = new javax.swing.JTextField();
         btnDodaj = new javax.swing.JButton();
-        btnPromjeni = new javax.swing.JButton();
+        btnPromijeni = new javax.swing.JButton();
         btnObrisi = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        lstRestorani = new javax.swing.JList<>();
         btnListaJela = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
+
+        lista.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaValueChanged(evt);
             }
         });
+        jScrollPane1.setViewportView(lista);
 
         jLabel1.setText("Naziv");
 
@@ -78,9 +90,9 @@ public class FormaRestoran extends javax.swing.JFrame {
 
         jLabel3.setText("Grad");
 
-        jLabel4.setText("Broj telefona");
+        jLabel4.setText("Kontakt broj");
 
-        jLabel5.setText("E-mail");
+        jLabel5.setText("Email");
 
         jLabel6.setText("Lozinka");
 
@@ -91,10 +103,10 @@ public class FormaRestoran extends javax.swing.JFrame {
             }
         });
 
-        btnPromjeni.setText("Promijeni");
-        btnPromjeni.addActionListener(new java.awt.event.ActionListener() {
+        btnPromijeni.setText("Promijeni");
+        btnPromijeni.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPromjeniActionPerformed(evt);
+                btnPromijeniActionPerformed(evt);
             }
         });
 
@@ -104,13 +116,6 @@ public class FormaRestoran extends javax.swing.JFrame {
                 btnObrisiActionPerformed(evt);
             }
         });
-
-        lstRestorani.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstRestoraniValueChanged(evt);
-            }
-        });
-        jScrollPane2.setViewportView(lstRestorani);
 
         btnListaJela.setText("Lista jela");
         btnListaJela.addActionListener(new java.awt.event.ActionListener() {
@@ -124,193 +129,133 @@ public class FormaRestoran extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtAdresa, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtGrad, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtBrojTelefona, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(txtLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnListaJela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnDodaj)
-                                        .addGap(29, 29, 29)
-                                        .addComponent(btnPromjeni)))))
-                        .addContainerGap(220, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(txtNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtAdresa, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtGrad, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtKontaktBroj, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnDodaj)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnPromijeni))
+                                .addComponent(txtLozinka, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 135, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnListaJela)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnObrisi)
-                        .addContainerGap())))
+                        .addGap(39, 39, 39))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtAdresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtGrad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtBrojTelefona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtKontaktBroj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDodaj)
-                    .addComponent(btnPromjeni))
-                .addGap(18, 18, 18)
-                .addComponent(btnListaJela)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addComponent(btnObrisi)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2))
+                    .addComponent(btnPromijeni))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(btnObrisi)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnListaJela)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
+    private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
+       
+        try{
+            entitet = lista.getSelectedValue();
+            txtNaziv.setText(lista.getSelectedValue().getNaziv());
+            txtAdresa.setText(lista.getSelectedValue().getAdresa());
+            txtGrad.setText(lista.getSelectedValue().getGrad());
+            txtKontaktBroj.setText(lista.getSelectedValue().getKontaktBroj());
+            txtEmail.setText(lista.getSelectedValue().getEmail());
+            txtLozinka.setText(lista.getSelectedValue().getLozinka());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_listaValueChanged
 
-        restoran.setNaziv(txtNaziv.getText());
-        restoran.setAdresa(txtAdresa.getText());
-        restoran.setGrad(txtGrad.getText());
-        restoran.setKontaktBroj(txtBrojTelefona.getText());
-        restoran.setEmail(txtEmail.getText());
-        restoran.setLozinka(txtLozinka.getText());  
-        obrada.kreirajRestoran(restoran);
-        ucitaj();
-            
+    private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
+        entitet = new Restoran();
+        spremi();     
     }//GEN-LAST:event_btnDodajActionPerformed
 
-    private void btnPromjeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjeniActionPerformed
-
-        restoran.setSifra(lstRestorani.getSelectedValue().getSifra());
-        restoran.setNaziv(txtNaziv.getText());
-        restoran.setAdresa(txtAdresa.getText());
-        restoran.setGrad(txtGrad.getText());
-        restoran.setKontaktBroj(txtBrojTelefona.getText());
-        restoran.setEmail(txtEmail.getText());
-        restoran.setLozinka(txtLozinka.getText());  
-        obrada.promijeniRestoran(restoran);
-        ucitaj();
-        
-    }//GEN-LAST:event_btnPromjeniActionPerformed
+    private void btnPromijeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromijeniActionPerformed
+        provjeriJelOznaceno(lista);
+        spremi();
+    }//GEN-LAST:event_btnPromijeniActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        restoran.setSifra(lstRestorani.getSelectedValue().getSifra());
-        obrada.obrisiRestoran(restoran);
-        ucitaj();
+        provjeriJelOznaceno(lista);
+        obrisi();
     }//GEN-LAST:event_btnObrisiActionPerformed
 
-    private void lstRestoraniValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstRestoraniValueChanged
-        try{
-            txtNaziv.setText(lstRestorani.getSelectedValue().getNaziv());
-            txtAdresa.setText(lstRestorani.getSelectedValue().getAdresa());
-            txtGrad.setText(lstRestorani.getSelectedValue().getGrad());
-            txtBrojTelefona.setText(lstRestorani.getSelectedValue().getKontaktBroj());
-            txtEmail.setText(lstRestorani.getSelectedValue().getEmail());
-            txtLozinka.setText(lstRestorani.getSelectedValue().getLozinka());
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_lstRestoraniValueChanged
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        obrada.zatvoriVezu();
-    }//GEN-LAST:event_formWindowClosed
-
     private void btnListaJelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaJelaActionPerformed
-        try{
-            new FormaJelo(lstRestorani.getSelectedValue().getSifra()).setVisible(true);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        new FormaJelo(entitet).setVisible(true);
     }//GEN-LAST:event_btnListaJelaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormaRestoran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormaRestoran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormaRestoran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormaRestoran.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormaRestoran().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnListaJela;
     private javax.swing.JButton btnObrisi;
-    private javax.swing.JButton btnPromjeni;
+    private javax.swing.JButton btnPromijeni;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList<Restoran> lstRestorani;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<Restoran> lista;
     private javax.swing.JTextField txtAdresa;
-    private javax.swing.JTextField txtBrojTelefona;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtGrad;
+    private javax.swing.JTextField txtKontaktBroj;
     private javax.swing.JTextField txtLozinka;
     private javax.swing.JTextField txtNaziv;
     // End of variables declaration//GEN-END:variables

@@ -6,37 +6,44 @@
 package katic.ljetnizadatak.view;
 
 import javax.swing.DefaultListModel;
-import katic.ljetnizadatak.controller.ObradaKategorijaJela;
+import javax.swing.JOptionPane;
+import katic.ljetnizadatak.controller.HibernateObrada;
 import katic.ljetnizadatak.model.KategorijaJela;
 
 /**
  *
  * @author valentin.katic
  */
-public class FormaKategorijaJela extends javax.swing.JFrame {
+public class FormaKategorijaJela extends Forma<KategorijaJela> {
 
-    private ObradaKategorijaJela obrada;
-    private KategorijaJela kategorijaJela;
-    
     /**
      * Creates new form KategorijeJelaView
      */
     public FormaKategorijaJela() {
         initComponents();
-        obrada = new ObradaKategorijaJela();
-        kategorijaJela = new KategorijaJela();
+        this.obrada = new HibernateObrada<>();
         
         ucitaj();
     }
     
-    private void ucitaj(){
+    @Override
+    protected void ucitaj(){
         DefaultListModel<KategorijaJela> m = new DefaultListModel<KategorijaJela>();
-        lstKategorijeJela.setModel(m);
-        for (KategorijaJela k: obrada.getKategorijeJela()){
+        lista.setModel(m);
+        for (KategorijaJela k: obrada.createQuery("from KategorijaJela k where k.obrisan=false")){
             m.addElement(k);
         }
+        if (entitet!=null){
+            lista.setSelectedValue(entitet, true);
+        }
     }
-
+    
+    @Override
+    protected void spremi(){               
+        entitet.setNaziv(txtNaziv.getText());
+        super.spremi();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,7 +54,7 @@ public class FormaKategorijaJela extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        lstKategorijeJela = new javax.swing.JList<>();
+        lista = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         txtNaziv = new javax.swing.JTextField();
         btnDodaj = new javax.swing.JButton();
@@ -61,12 +68,12 @@ public class FormaKategorijaJela extends javax.swing.JFrame {
             }
         });
 
-        lstKategorijeJela.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        lista.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstKategorijeJelaValueChanged(evt);
+                listaValueChanged(evt);
             }
         });
-        jScrollPane1.setViewportView(lstKategorijeJela);
+        jScrollPane1.setViewportView(lista);
 
         jLabel1.setText("Naziv");
 
@@ -108,14 +115,13 @@ public class FormaKategorijaJela extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnPromijeni)))
                         .addGap(0, 45, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnObrisi)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jLabel1)
@@ -128,83 +134,45 @@ public class FormaKategorijaJela extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
                 .addComponent(btnObrisi)
                 .addGap(20, 20, 20))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        kategorijaJela.setSifra(lstKategorijeJela.getSelectedValue().getSifra());
-        obrada.obrisiKategorijuJela(kategorijaJela);
-        ucitaj();
+        provjeriJelOznaceno(lista);
+        obrisi();
     }//GEN-LAST:event_btnObrisiActionPerformed
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-       
-        kategorijaJela.setNaziv(txtNaziv.getText());            
-        obrada.kreirajKategorijuJela(kategorijaJela);
-        ucitaj(); 
-        
+        this.entitet = new KategorijaJela(); 
+        spremi();          
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromijeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromijeniActionPerformed
-        
-        kategorijaJela.setSifra(lstKategorijeJela.getSelectedValue().getSifra());
-        kategorijaJela.setNaziv(txtNaziv.getText());            
-        obrada.promijeniKategorijuJela(kategorijaJela);
-        ucitaj(); 
-        
+        provjeriJelOznaceno(lista);
+        spremi();     
     }//GEN-LAST:event_btnPromijeniActionPerformed
 
-    private void lstKategorijeJelaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstKategorijeJelaValueChanged
+    private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
+        if (lista.getSelectedValue()==null){
+            return;
+        }
         try{
-            txtNaziv.setText(lstKategorijeJela.getSelectedValue().getNaziv());          
+            entitet = lista.getSelectedValue();
+            txtNaziv.setText(entitet.getNaziv());          
         } catch (Exception e){
             e.printStackTrace();
         }
-    }//GEN-LAST:event_lstKategorijeJelaValueChanged
+    }//GEN-LAST:event_listaValueChanged
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        obrada.zatvoriVezu();
+
     }//GEN-LAST:event_formWindowClosed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormaKategorijaJela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormaKategorijaJela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormaKategorijaJela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormaKategorijaJela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormaKategorijaJela().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
@@ -212,7 +180,7 @@ public class FormaKategorijaJela extends javax.swing.JFrame {
     private javax.swing.JButton btnPromijeni;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<KategorijaJela> lstKategorijeJela;
+    private javax.swing.JList<KategorijaJela> lista;
     private javax.swing.JTextField txtNaziv;
     // End of variables declaration//GEN-END:variables
 }

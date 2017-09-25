@@ -5,24 +5,27 @@
  */
 package katic.ljetnizadatak.model;
 
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
 /**
  *
  * @author valentin.katic
  */
-public class Korisnik extends KorisnickiPodaci{
+@Entity
+public class Korisnik extends KorisnickiPodaci implements Serializable{
     
     private String ime;
     private String prezime;
 
-    public Korisnik() {
-    }
-
-    public Korisnik(int sifra, String ime, String prezime, String email, String lozinka, String kontaktBroj) {
-        super(sifra, email, lozinka, kontaktBroj);
-        this.ime = ime;
-        this.prezime = prezime;
-    }
-
+    @OneToMany (mappedBy = "korisnik")
+    private List<Narudzba> narudzbe;
+    
+    @OneToMany (mappedBy = "korisnik")
+    private List<AdresaDostave> adreseDostave;
+    
     public String getIme() {
         return ime;
     }
@@ -39,6 +42,22 @@ public class Korisnik extends KorisnickiPodaci{
         this.prezime = prezime;
     }
 
+    public List<Narudzba> getNarudzbe() {
+        return narudzbe;
+    }
+
+    public void setNarudzbe(List<Narudzba> narudzbe) {
+        this.narudzbe = narudzbe;
+    }
+
+    public List<AdresaDostave> getAdreseDostave() {
+        return adreseDostave;
+    }
+
+    public void setAdreseDostave(List<AdresaDostave> adreseDostave) {
+        this.adreseDostave = adreseDostave;
+    }
+    
     @Override
     public String toString() {
         return ime + " " + prezime;

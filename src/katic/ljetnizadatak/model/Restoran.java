@@ -5,30 +5,44 @@
  */
 package katic.ljetnizadatak.model;
 
+import java.io.Serializable;
 import java.sql.Blob;
+import java.util.List;
+import javassist.bytecode.ByteArray;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author valentin.katic
  */
-public class Restoran extends KorisnickiPodaci{
+@Entity
+public class Restoran extends KorisnickiPodaci implements Serializable{
     
     private String naziv;
     private String adresa;
     private String grad;
-    private Blob slika;
+    private byte[] slika;
 
-    public Restoran() {
+    @OneToMany (mappedBy = "restoran")
+    private List<Narudzba> narudzbe;
+    
+    @ManyToMany (mappedBy = "restorani")
+    private List<KategorijaJela> kategorijeJela;
+    
+    @OneToMany (mappedBy = "restoran")
+    private List<Jelo> jela;
+
+    public List<Jelo> getJela() {
+        return jela;
     }
 
-    public Restoran(int sifra, String naziv, String adresa, String grad, String kontaktBroj, String email, String lozinka, Blob slika) {
-        super(sifra, email, lozinka, kontaktBroj);
-        this.naziv = naziv;
-        this.adresa = adresa;
-        this.grad = grad;
-        this.slika = slika;
-    }    
-
+    public void setJela(List<Jelo> jela) {
+        this.jela = jela;
+    }
+    
     public String getNaziv() {
         return naziv;
     }
@@ -53,13 +67,31 @@ public class Restoran extends KorisnickiPodaci{
         this.grad = grad;
     }    
 
-    public Blob getSlika() {
+    public byte[] getSlika() {
         return slika;
     }
 
-    public void setSlika(Blob slika) {
+    public void setSlika(byte[] slika) {
         this.slika = slika;
     }
+
+    public List<Narudzba> getNarudzbe() {
+        return narudzbe;
+    }
+
+    public void setNarudzbe(List<Narudzba> narudzbe) {
+        this.narudzbe = narudzbe;
+    }
+
+    public List<KategorijaJela> getKategorijeJela() {
+        return kategorijeJela;
+    }
+
+    public void setKategorijeJela(List<KategorijaJela> kategorijeJela) {
+        this.kategorijeJela = kategorijeJela;
+    }
+
+    
 
     @Override
     public String toString() {

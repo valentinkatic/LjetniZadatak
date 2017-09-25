@@ -5,38 +5,58 @@
  */
 package katic.ljetnizadatak.view;
 
+import java.util.List;
+import static javafx.scene.input.KeyCode.T;
 import javax.swing.DefaultListModel;
-import katic.ljetnizadatak.controller.ObradaAdresaZaDostavu;
+import katic.ljetnizadatak.controller.HibernateObrada;
 import katic.ljetnizadatak.model.AdresaDostave;
+import katic.ljetnizadatak.model.Korisnik;
+import katic.pomocno.HibernateUtil;
 
 /**
  *
  * @author valentin.katic
  */
-public class FormaAdresaZaDostavu extends javax.swing.JFrame {
+public class FormaAdresaZaDostavu extends Forma<AdresaDostave>
+{
 
-    private ObradaAdresaZaDostavu obrada;
-    private AdresaDostave adresaDostave;
-    private int sifraKorisnika;
-    
+    private Korisnik korisnik;
+    private List<AdresaDostave> adreseDostave;
     /**
      * Creates new form FormaAdresaZaDostavu
      */
-    public FormaAdresaZaDostavu(int sifraKorisnika) {
-        this.sifraKorisnika = sifraKorisnika;
+    public FormaAdresaZaDostavu(Korisnik korisnik) {
+        this.korisnik = korisnik;
         initComponents();
-        obrada = new ObradaAdresaZaDostavu();
-        adresaDostave = new AdresaDostave();
-        
+        obrada = new HibernateObrada<>();
         ucitaj();
     }
 
-    private void ucitaj(){
+    @Override
+    protected void ucitaj(){
         DefaultListModel<AdresaDostave> m = new DefaultListModel<AdresaDostave>();
-        lstAdreseZaDostavu.setModel(m);
-        for (AdresaDostave a: obrada.getAdreseDostave(sifraKorisnika)){
+        lista.setModel(m);
+        adreseDostave = HibernateUtil
+                .getSession()
+                .createQuery("from AdresaDostave a where a.obrisan=false AND a.korisnik = :korisnik")
+                .setLong("korisnik", korisnik.getSifra())
+                .list();
+        for (AdresaDostave a: adreseDostave){
             m.addElement(a);
         }
+        if (entitet!=null){
+            lista.setSelectedValue(entitet, true);
+        }
+    }
+    
+    @Override
+    protected void spremi(){
+        entitet.setUlica(txtUlica.getText());
+        entitet.setKucniBroj(txtKucniBroj.getText());
+        entitet.setGrad(txtGrad.getText());
+        entitet.setKorisnik(korisnik);
+        
+        super.spremi();
     }
     
     /**
@@ -49,7 +69,7 @@ public class FormaAdresaZaDostavu extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        lstAdreseZaDostavu = new javax.swing.JList<>();
+        lista = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         txtUlica = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -67,12 +87,12 @@ public class FormaAdresaZaDostavu extends javax.swing.JFrame {
             }
         });
 
-        lstAdreseZaDostavu.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        lista.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                lstAdreseZaDostavuValueChanged(evt);
+                listaValueChanged(evt);
             }
         });
-        jScrollPane1.setViewportView(lstAdreseZaDostavu);
+        jScrollPane1.setViewportView(lista);
 
         jLabel1.setText("Ulica");
 
@@ -140,11 +160,11 @@ public class FormaAdresaZaDostavu extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtKucniBroj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtGrad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDodaj)
                     .addComponent(btnPromijeni))
@@ -157,76 +177,34 @@ public class FormaAdresaZaDostavu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
-        adresaDostave.setUlica(txtUlica.getText());
-        adresaDostave.setKucniBroj(txtKucniBroj.getText());
-        adresaDostave.setGrad(txtGrad.getText());
-        obrada.kreirajAdresuDostave(adresaDostave, sifraKorisnika);
-        ucitaj();
+        this.entitet = new AdresaDostave();
+        spremi();
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromijeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromijeniActionPerformed
-        adresaDostave.setSifra(lstAdreseZaDostavu.getSelectedValue().getSifra());
-        adresaDostave.setUlica(txtUlica.getText());
-        adresaDostave.setKucniBroj(txtKucniBroj.getText());
-        adresaDostave.setGrad(txtGrad.getText());
-        obrada.promijeniAdresuDostave(adresaDostave);
-        ucitaj();
+        provjeriJelOznaceno(lista);
+        spremi();
     }//GEN-LAST:event_btnPromijeniActionPerformed
 
     private void btnObrišiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrišiActionPerformed
-        adresaDostave.setSifra(lstAdreseZaDostavu.getSelectedValue().getSifra());
-        obrada.obrisiAdresuDostave(adresaDostave);
-        ucitaj();
+        provjeriJelOznaceno(lista);
+        obrisi();
     }//GEN-LAST:event_btnObrišiActionPerformed
 
-    private void lstAdreseZaDostavuValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAdreseZaDostavuValueChanged
+    private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
         try{
-            txtUlica.setText(lstAdreseZaDostavu.getSelectedValue().getUlica());
-            txtKucniBroj.setText(lstAdreseZaDostavu.getSelectedValue().getKucniBroj());           
-            txtGrad.setText(lstAdreseZaDostavu.getSelectedValue().getGrad());           
+            txtUlica.setText(lista.getSelectedValue().getUlica());
+            txtKucniBroj.setText(lista.getSelectedValue().getKucniBroj());           
+            txtGrad.setText(lista.getSelectedValue().getGrad());           
         } catch (Exception e){
             e.printStackTrace();
         }
-    }//GEN-LAST:event_lstAdreseZaDostavuValueChanged
+    }//GEN-LAST:event_listaValueChanged
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-       obrada.zatvoriVezu();
+   
     }//GEN-LAST:event_formWindowClosed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormaAdresaZaDostavu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormaAdresaZaDostavu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormaAdresaZaDostavu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormaAdresaZaDostavu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormaAdresaZaDostavu(Integer.parseInt(args[0])).setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
@@ -236,7 +214,7 @@ public class FormaAdresaZaDostavu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<AdresaDostave> lstAdreseZaDostavu;
+    private javax.swing.JList<AdresaDostave> lista;
     private javax.swing.JTextField txtGrad;
     private javax.swing.JTextField txtKucniBroj;
     private javax.swing.JTextField txtUlica;

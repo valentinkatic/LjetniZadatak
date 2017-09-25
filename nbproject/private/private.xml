@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/valen/OneDrive/Dokumenti/NetBeansProjects/LjetniZadatak/src/katic/ljetnizadatak/view/FormaRestoran.java</file>
-            <file>file:/C:/Users/valen/OneDrive/Dokumenti/NetBeansProjects/LjetniZadatak/src/katic/ljetnizadatak/controller/ObradaRestoran.java</file>
+            <file>file:/D:/J16Workspace/LjetniZadatak/src/katic/ljetnizadatak/model/Restoran.java</file>
+            <file>file:/D:/J16Workspace/LjetniZadatak/src/katic/ljetnizadatak/view/FormaJelo.java</file>
+            <file>file:/D:/J16Workspace/LjetniZadatak/src/katic/ljetnizadatak/view/FormaRestoran.java</file>
+            <file>file:/D:/J16Workspace/LjetniZadatak/src/res/dijagram.png</file>
+            <file>file:/D:/J16Workspace/LjetniZadatak/src/hibernate.cfg.xml</file>
+            <file>file:/D:/J16Workspace/LjetniZadatak/src/katic/ljetnizadatak/view/FormaAdresaZaDostavu.java</file>
         </group>
     </open-files>
 </project-private>

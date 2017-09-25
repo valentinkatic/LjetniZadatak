@@ -5,26 +5,23 @@
  */
 package katic.ljetnizadatak.model;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
 /**
  *
  * @author valentin.katic
  */
+@Entity 
 public class AdresaDostave extends Entitet{
     
     private String ulica;
     private String kucniBroj;
-    private String grad;
+    private String grad;      
 
-    public AdresaDostave(int sifra, String ulica, String kucniBroj, String grad) {
-        super(sifra);
-        this.ulica = ulica;
-        this.kucniBroj = kucniBroj;
-        this.grad = grad;
-    }
-
-    public AdresaDostave() {
-    }       
-
+    @ManyToOne
+    private Korisnik korisnik;
+    
     public String getUlica() {
         return ulica;
     }
@@ -48,6 +45,16 @@ public class AdresaDostave extends Entitet{
     public void setGrad(String grad) {
         this.grad = grad;
     }
+
+    public Korisnik getKorisnik() {
+        return korisnik;
+    }
+
+    public void setKorisnik(Korisnik korisnik) {
+        this.korisnik = korisnik;
+    }
+    
+    
 
     @Override
     public String toString() {
