@@ -6,57 +6,63 @@
 package katic.ljetnizadatak.view;
 
 import java.util.List;
-import static javafx.scene.input.KeyCode.T;
 import javax.swing.DefaultListModel;
-import katic.ljetnizadatak.controller.HibernateObrada;
+import javax.swing.JFrame;
+import katic.ljetnizadatak.controller.ObradaAdresaDostave;
 import katic.ljetnizadatak.model.AdresaDostave;
 import katic.ljetnizadatak.model.Korisnik;
-import katic.pomocno.HibernateUtil;
+import katic.pomocno.Iznimka;
+import katic.pomocno.Pomagala;
 
 /**
  *
  * @author valentin.katic
  */
-public class FormaAdresaZaDostavu extends Forma<AdresaDostave>
+public class FormaAdresaZaDostavu extends JFrame
 {
-
-    private Korisnik korisnik;
+    
+    private final ObradaAdresaDostave obradaAdresaDostave; 
+    private final Korisnik korisnik;
     private List<AdresaDostave> adreseDostave;
+    protected AdresaDostave entitet;
     /**
      * Creates new form FormaAdresaZaDostavu
-     */
+     * 
+     * @param korisnik Objekt koji predstavlja korisnika uz kojeg su vezane adrese
+     * 
+     */   
     public FormaAdresaZaDostavu(Korisnik korisnik) {
         this.korisnik = korisnik;
         initComponents();
-        obrada = new HibernateObrada<>();
+        obradaAdresaDostave = new ObradaAdresaDostave();
         ucitaj();
     }
 
-    @Override
     protected void ucitaj(){
-        DefaultListModel<AdresaDostave> m = new DefaultListModel<AdresaDostave>();
+        DefaultListModel<AdresaDostave> m = new DefaultListModel<>();
         lista.setModel(m);
-        adreseDostave = HibernateUtil
-                .getSession()
-                .createQuery("from AdresaDostave a where a.obrisan=false AND a.korisnik = :korisnik")
-                .setLong("korisnik", korisnik.getSifra())
-                .list();
+        adreseDostave = obradaAdresaDostave.getAdreseDostave(korisnik);
         for (AdresaDostave a: adreseDostave){
             m.addElement(a);
         }
-        if (entitet!=null){
-            lista.setSelectedValue(entitet, true);
+        
+        if (entitet!=null){            
+            lista.setSelectedValue(entitet, rootPaneCheckingEnabled);
         }
     }
     
-    @Override
     protected void spremi(){
         entitet.setUlica(txtUlica.getText());
         entitet.setKucniBroj(txtKucniBroj.getText());
         entitet.setGrad(txtGrad.getText());
         entitet.setKorisnik(korisnik);
         
-        super.spremi();
+        try {
+            obradaAdresaDostave.spremi(entitet);
+            ucitaj();
+        } catch (Iznimka i){
+            i.printStackTrace();
+        }
     }
     
     /**
@@ -81,11 +87,6 @@ public class FormaAdresaZaDostavu extends Forma<AdresaDostave>
         btnObriši = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
 
         lista.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -160,11 +161,11 @@ public class FormaAdresaZaDostavu extends Forma<AdresaDostave>
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtKucniBroj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtGrad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDodaj)
                     .addComponent(btnPromijeni))
@@ -182,28 +183,30 @@ public class FormaAdresaZaDostavu extends Forma<AdresaDostave>
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromijeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromijeniActionPerformed
-        provjeriJelOznaceno(lista);
+        Pomagala.provjeriJelOznaceno(lista, this);
         spremi();
     }//GEN-LAST:event_btnPromijeniActionPerformed
 
     private void btnObrišiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrišiActionPerformed
-        provjeriJelOznaceno(lista);
-        obrisi();
+        Pomagala.provjeriJelOznaceno(lista, this);
+        try {
+            obradaAdresaDostave.obrisi(entitet);
+            ucitaj();
+        } catch (Iznimka i){
+            i.printStackTrace();
+        }
     }//GEN-LAST:event_btnObrišiActionPerformed
 
     private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
         try{
-            txtUlica.setText(lista.getSelectedValue().getUlica());
-            txtKucniBroj.setText(lista.getSelectedValue().getKucniBroj());           
-            txtGrad.setText(lista.getSelectedValue().getGrad());           
+            this.entitet = lista.getSelectedValue();
+            txtUlica.setText(entitet.getUlica());
+            txtKucniBroj.setText(entitet.getKucniBroj());           
+            txtGrad.setText(entitet.getGrad());           
         } catch (Exception e){
             e.printStackTrace();
         }
     }//GEN-LAST:event_listaValueChanged
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-   
-    }//GEN-LAST:event_formWindowClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

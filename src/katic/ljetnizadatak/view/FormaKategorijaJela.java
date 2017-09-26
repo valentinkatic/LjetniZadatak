@@ -6,31 +6,35 @@
 package katic.ljetnizadatak.view;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-import katic.ljetnizadatak.controller.HibernateObrada;
+import javax.swing.JFrame;
+import katic.ljetnizadatak.controller.ObradaKategorijaJela;
 import katic.ljetnizadatak.model.KategorijaJela;
+import katic.pomocno.Iznimka;
+import katic.pomocno.Pomagala;
 
 /**
  *
  * @author valentin.katic
  */
-public class FormaKategorijaJela extends Forma<KategorijaJela> {
+public class FormaKategorijaJela extends JFrame {
 
+    private ObradaKategorijaJela obrada;
+    protected KategorijaJela entitet;
+    
     /**
      * Creates new form KategorijeJelaView
      */
     public FormaKategorijaJela() {
         initComponents();
-        this.obrada = new HibernateObrada<>();
+        this.obrada = new ObradaKategorijaJela();
         
         ucitaj();
     }
     
-    @Override
     protected void ucitaj(){
-        DefaultListModel<KategorijaJela> m = new DefaultListModel<KategorijaJela>();
+        DefaultListModel<KategorijaJela> m = new DefaultListModel<>();
         lista.setModel(m);
-        for (KategorijaJela k: obrada.createQuery("from KategorijaJela k where k.obrisan=false")){
+        for (KategorijaJela k: obrada.getKategorijeJela()){
             m.addElement(k);
         }
         if (entitet!=null){
@@ -38,10 +42,14 @@ public class FormaKategorijaJela extends Forma<KategorijaJela> {
         }
     }
     
-    @Override
     protected void spremi(){               
         entitet.setNaziv(txtNaziv.getText());
-        super.spremi();
+        try{
+            obrada.spremi(entitet);
+        } catch (Iznimka i){
+            i.printStackTrace();
+        }
+        ucitaj();
     }
     
     /**
@@ -144,8 +152,13 @@ public class FormaKategorijaJela extends Forma<KategorijaJela> {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        provjeriJelOznaceno(lista);
-        obrisi();
+        Pomagala.provjeriJelOznaceno(lista, this);
+        try{
+            obrada.obrisi(entitet);
+            ucitaj();
+        } catch (Iznimka i){
+            i.printStackTrace();
+        }
     }//GEN-LAST:event_btnObrisiActionPerformed
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
@@ -154,7 +167,7 @@ public class FormaKategorijaJela extends Forma<KategorijaJela> {
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromijeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromijeniActionPerformed
-        provjeriJelOznaceno(lista);
+        Pomagala.provjeriJelOznaceno(lista, this);
         spremi();     
     }//GEN-LAST:event_btnPromijeniActionPerformed
 
