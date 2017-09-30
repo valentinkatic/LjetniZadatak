@@ -6,6 +6,10 @@
 package katic.pomocno;
 
 import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
@@ -15,10 +19,27 @@ import javax.swing.JOptionPane;
  */
 public class Pomagala {
     
-    public static void provjeriJelOznaceno(JList lista, Component rootPane){
+    public static boolean provjeriJelOznaceno(JList lista, Component rootPane){
         if(lista.getSelectedValue()==null){
             JOptionPane.showMessageDialog(rootPane, "Prvo odaberite stavku");
+            return false;
         } 
+        return true;
+    }
+    
+    public static void izbaciDialogSGreskom(Component rootPane, Iznimka i){
+        JOptionPane.showMessageDialog(rootPane, i.getOpis(), i.getMessage(), JOptionPane.WARNING_MESSAGE);         
+    }
+    
+    public static Image getScaledImage(Image srcImg, int w, int h){
+        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(srcImg, 0, 0, w, h, null);
+        g2.dispose();
+
+        return resizedImg;
     }
     
 }

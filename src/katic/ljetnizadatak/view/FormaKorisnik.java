@@ -7,34 +7,37 @@ package katic.ljetnizadatak.view;
 
 import java.util.List;
 import javax.swing.DefaultListModel;
-import katic.ljetnizadatak.controller.HibernateObrada;
+import javax.swing.JFrame;
+import katic.ljetnizadatak.controller.ObradaKorisnik;
 import katic.ljetnizadatak.model.Korisnik;
-import katic.pomocno.HibernateUtil;
+import katic.pomocno.Iznimka;
+import katic.pomocno.Pomagala;
 
 /**
  *
  * @author valentin.katic
  */
-public class FormaKorisnik extends Forma<Korisnik> {
+public class FormaKorisnik extends JFrame {
     
+    private ObradaKorisnik obrada;
+    private Korisnik entitet;
     private List<Korisnik> rezultati;
     /**
      * Creates new form FormaKorisnik
      */
     public FormaKorisnik() {     
         initComponents();
-        this.obrada = new HibernateObrada<>();
+        this.obrada = new ObradaKorisnik();
         
         ucitaj();
     }
 
-    @Override
-    protected void ucitaj(){
-        rezultati = HibernateUtil.getSession().createQuery("from Korisnik k where k.obrisan = false").list();
+    protected void ucitaj(){     
+        rezultati = obrada.getKorisnike();
         ucitavanje();
         if (entitet!=null){
             lista.setSelectedValue(entitet, true);
-        }
+        }        
     }
     
     private void ucitavanje(){
@@ -42,10 +45,9 @@ public class FormaKorisnik extends Forma<Korisnik> {
         lista.setModel(m);
         rezultati.forEach((k) -> {
             m.addElement(k);
-        });
+});
     }
     
-    @Override
     protected void spremi(){        
         
         entitet.setIme(txtIme.getText());
@@ -53,7 +55,12 @@ public class FormaKorisnik extends Forma<Korisnik> {
         entitet.setKontaktBroj(txtKontaktBroj.getText());
         entitet.setEmail(txtEmail.getText());
         entitet.setLozinka(txtLozinka.getText());
-        super.spremi();
+        try{
+            entitet = obrada.spremi(entitet);
+        } catch (Iznimka i){
+            provjeraGreske(i);
+        }
+        ucitaj();
     }
     
     /**
@@ -230,21 +237,31 @@ public class FormaKorisnik extends Forma<Korisnik> {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
+        if (lista.getSelectedValue()==null){
+            return;
+        }
         try{
             entitet = lista.getSelectedValue();
-            txtIme.setText(lista.getSelectedValue().getIme());
-            txtPrezime.setText(lista.getSelectedValue().getPrezime());           
-            txtKontaktBroj.setText(lista.getSelectedValue().getKontaktBroj());
-            txtEmail.setText(lista.getSelectedValue().getEmail());
-            txtLozinka.setText(lista.getSelectedValue().getLozinka());
+            txtIme.setText(entitet.getIme());
+            txtPrezime.setText(entitet.getPrezime());           
+            txtKontaktBroj.setText(entitet.getKontaktBroj());
+            txtEmail.setText(entitet.getEmail());
+            txtLozinka.setText(entitet.getLozinka());
         } catch (Exception e){
             e.printStackTrace();
         }
     }//GEN-LAST:event_listaValueChanged
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        provjeriJelOznaceno(lista);
-        obrisi();
+        if (!Pomagala.provjeriJelOznaceno(lista, this)){
+            return;
+        }
+        try{
+            obrada.obrisi(entitet);
+            ucitaj();
+        } catch (Iznimka i){
+            provjeraGreske(i);
+        }
     }//GEN-LAST:event_btnObrisiActionPerformed
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
@@ -256,7 +273,9 @@ public class FormaKorisnik extends Forma<Korisnik> {
 
     private void btnPromjeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjeniActionPerformed
         
-        provjeriJelOznaceno(lista);
+        if (!Pomagala.provjeriJelOznaceno(lista, this)){
+            return;
+        }
         spremi();
 
     }//GEN-LAST:event_btnPromjeniActionPerformed
@@ -266,21 +285,48 @@ public class FormaKorisnik extends Forma<Korisnik> {
     }//GEN-LAST:event_formWindowClosed
 
     private void btnAdreseZaDostavuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdreseZaDostavuActionPerformed
+        if (!Pomagala.provjeriJelOznaceno(lista, this)){
+            return;
+        }
         try{
-            new FormaAdresaZaDostavu(lista.getSelectedValue()).setVisible(true);
+            new FormaAdresaZaDostavu(entitet).setVisible(true);
         } catch (Exception e){
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnAdreseZaDostavuActionPerformed
 
     private void btnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziActionPerformed
-        rezultati = HibernateUtil
-                .getSession()
-                .createQuery("from Korisnik k where concat (k.ime, ' ',k.prezime) like :uvjet")
-                .setString("uvjet", "%"+txtPretrazi.getText()+"%").list();
+        try {
+            rezultati = obrada.getKorisnike(txtPretrazi.getText());
+        } catch (Iznimka i){
+            provjeraGreske(i);
+        }
         ucitavanje();
     }//GEN-LAST:event_btnPretraziActionPerformed
 
+    private void provjeraGreske(Iznimka i){
+        Pomagala.izbaciDialogSGreskom(this, i);
+            switch(i.getGreska()){
+                case ObradaKorisnik.IME:
+                   txtIme.requestFocus();
+                   break;
+                case ObradaKorisnik.PREZIME:
+                   txtPrezime.requestFocus();
+                   break;
+                case ObradaKorisnik.KONTAKT_BROJ:
+                   txtKontaktBroj.requestFocus();
+                   break;
+                case ObradaKorisnik.EMAIL:
+                   txtEmail.requestFocus();
+                   break;
+                case ObradaKorisnik.LOZINKA:
+                   txtLozinka.requestFocus();
+                   break;
+                case ObradaKorisnik.PRETRAZIVAC:
+                   txtPretrazi.requestFocus();
+                   break;
+            }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdreseZaDostavu;

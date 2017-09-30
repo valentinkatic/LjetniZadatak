@@ -35,12 +35,7 @@ public class HibernateObrada<T extends Entitet> {
        session.getTransaction().commit();
         return entitet;
     }
-    //Read
-    @Deprecated
-    public List<T> createQuery(String hql){
-        Query q = session.createQuery(hql);
-        return q.list();
-    }
+    
     //Delete
     public void delete(T entitet){ 
         entitet.setObrisan(true);

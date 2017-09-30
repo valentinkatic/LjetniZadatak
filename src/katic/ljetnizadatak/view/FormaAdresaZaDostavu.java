@@ -61,7 +61,7 @@ public class FormaAdresaZaDostavu extends JFrame
             obradaAdresaDostave.spremi(entitet);
             ucitaj();
         } catch (Iznimka i){
-            i.printStackTrace();
+            provjeraGreske(i);        
         }
     }
     
@@ -183,17 +183,21 @@ public class FormaAdresaZaDostavu extends JFrame
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromijeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromijeniActionPerformed
-        Pomagala.provjeriJelOznaceno(lista, this);
+        if (!Pomagala.provjeriJelOznaceno(lista, this)){
+            return;
+        }
         spremi();
     }//GEN-LAST:event_btnPromijeniActionPerformed
 
     private void btnObrišiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrišiActionPerformed
-        Pomagala.provjeriJelOznaceno(lista, this);
+        if (!Pomagala.provjeriJelOznaceno(lista, this)){
+            return;
+        }
         try {
             obradaAdresaDostave.obrisi(entitet);
             ucitaj();
         } catch (Iznimka i){
-            i.printStackTrace();
+            provjeraGreske(i);
         }
     }//GEN-LAST:event_btnObrišiActionPerformed
 
@@ -208,6 +212,20 @@ public class FormaAdresaZaDostavu extends JFrame
         }
     }//GEN-LAST:event_listaValueChanged
 
+    private void provjeraGreske(Iznimka i){
+        Pomagala.izbaciDialogSGreskom(this, i);
+            switch(i.getGreska()){
+                case ObradaAdresaDostave.GRAD:
+                   txtGrad.requestFocus();
+                   break;
+                case ObradaAdresaDostave.ULICA:
+                   txtUlica.requestFocus();
+                   break;
+                case ObradaAdresaDostave.KUCNIBROJ:
+                   txtKucniBroj.requestFocus();
+                   break;
+            }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;

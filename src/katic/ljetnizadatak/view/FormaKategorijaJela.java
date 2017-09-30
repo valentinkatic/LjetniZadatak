@@ -47,7 +47,7 @@ public class FormaKategorijaJela extends JFrame {
         try{
             obrada.spremi(entitet);
         } catch (Iznimka i){
-            i.printStackTrace();
+            provjeraGreske(i);
         }
         ucitaj();
     }
@@ -70,11 +70,6 @@ public class FormaKategorijaJela extends JFrame {
         btnObrisi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
 
         lista.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -152,12 +147,14 @@ public class FormaKategorijaJela extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        Pomagala.provjeriJelOznaceno(lista, this);
+        if (!Pomagala.provjeriJelOznaceno(lista, this)){
+            return;
+        }
         try{
             obrada.obrisi(entitet);
             ucitaj();
         } catch (Iznimka i){
-            i.printStackTrace();
+            provjeraGreske(i);
         }
     }//GEN-LAST:event_btnObrisiActionPerformed
 
@@ -167,7 +164,9 @@ public class FormaKategorijaJela extends JFrame {
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromijeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromijeniActionPerformed
-        Pomagala.provjeriJelOznaceno(lista, this);
+        if (!Pomagala.provjeriJelOznaceno(lista, this)){
+            return;
+        }
         spremi();     
     }//GEN-LAST:event_btnPromijeniActionPerformed
 
@@ -183,10 +182,15 @@ public class FormaKategorijaJela extends JFrame {
         }
     }//GEN-LAST:event_listaValueChanged
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-
-    }//GEN-LAST:event_formWindowClosed
-
+    private void provjeraGreske(Iznimka i){
+        Pomagala.izbaciDialogSGreskom(this, i);
+            switch(i.getGreska()){
+                case ObradaKategorijaJela.NAZIV:
+                   txtNaziv.requestFocus();
+                   break;                
+            }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;

@@ -11,23 +11,33 @@ import java.awt.RenderingHints;
 import java.awt.TrayIcon;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import katic.ljetnizadatak.controller.HibernateObrada;
+import katic.ljetnizadatak.controller.ObradaJelo;
+import katic.ljetnizadatak.controller.ObradaKategorijaJela;
 import katic.ljetnizadatak.model.Jelo;
 import katic.ljetnizadatak.model.KategorijaJela;
 import katic.ljetnizadatak.model.Restoran;
 import katic.pomocno.HibernateUtil;
+import katic.pomocno.Iznimka;
+import katic.pomocno.Pomagala;
 
 /**
  *
  * @author valentin.katic
  */
-public class FormaJelo extends Forma<Jelo> {
+public class FormaJelo extends JFrame {
 
+    private ObradaJelo obrada;
+    private ObradaKategorijaJela obradaKategorijaJela;
     private Restoran restoran;
+    private Jelo entitet;
     private List<KategorijaJela> kategorijeJela;
     private List<Jelo> jela;
     private int indeksKategorije = -1;
@@ -39,20 +49,17 @@ public class FormaJelo extends Forma<Jelo> {
         initComponents();
         
         Image plusImage = new ImageIcon(getClass().getResource("/res/plus_icon.png")).getImage();
-        plusImage = getScaledImage(plusImage, 16, 16);
+        plusImage = Pomagala.getScaledImage(plusImage, 16, 16);
         icoPlus.setIcon(new ImageIcon(plusImage));
         
-        obrada = new HibernateObrada();     
+        obrada = new ObradaJelo();
+        obradaKategorijaJela = new ObradaKategorijaJela();
         
         ucitaj();        
     }
     
-    @Override
     protected void ucitaj(){
-        kategorijeJela = HibernateUtil
-                .getSession()
-                .createQuery("from KategorijaJela k where k.obrisan=false")              
-                .list();
+        kategorijeJela = obradaKategorijaJela.getKategorijeJela();
         DefaultListModel<KategorijaJela> m = new DefaultListModel<KategorijaJela>();
         lstKategorije.setModel(m);
         DefaultComboBoxModel<KategorijaJela> cbm = new DefaultComboBoxModel<>();
@@ -76,14 +83,7 @@ public class FormaJelo extends Forma<Jelo> {
             return;
         }      
         cmbKategorije.setSelectedIndex(-1);
-        jela = HibernateUtil
-                .getSession()
-                .createQuery("from Jelo j where "
-                        + "j.obrisan=false AND j.kategorijaJela= :kategorijaJela "
-                        + "AND j.restoran= :restoran")  
-                .setLong("kategorijaJela", lstKategorije.getSelectedValue().getSifra())
-                .setLong("restoran", restoran.getSifra())
-                .list();
+        jela = obrada.getJela(lstKategorije.getSelectedValue(), restoran);
         DefaultListModel<Jelo> m = new DefaultListModel<Jelo>();
         lstJela.setModel(m);
         for (Jelo j: jela){
@@ -91,21 +91,24 @@ public class FormaJelo extends Forma<Jelo> {
         }     
         if (entitet!=null){            
             lstJela.setSelectedValue(entitet, rootPaneCheckingEnabled);
+        }        
+    }
+
+    private void spremi() {
+        entitet.setNaziv(txtNaziv.getText());
+        entitet.setSastojci(txtSastojci.getText());
+        entitet.setCijena(Double.parseDouble(txtCijena.getText()));
+        KategorijaJela k = (KategorijaJela) cmbKategorije.getSelectedItem();
+        entitet.setKategorijaJela(k);
+        entitet.setRestoran(restoran);
+        try {
+            entitet = obrada.spremi(entitet);
+        } catch (Iznimka i) {
+            provjeraGreske(i);
         }
-        
+        ucitaj();
     }
     
-    private Image getScaledImage(Image srcImg, int w, int h){
-        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = resizedImg.createGraphics();
-
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2.drawImage(srcImg, 0, 0, w, h, null);
-        g2.dispose();
-
-        return resizedImg;
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -281,40 +284,40 @@ public class FormaJelo extends Forma<Jelo> {
 
     private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
         indeksKategorije = lstKategorije.getSelectedIndex();
-        entitet = new Jelo();
-        entitet.setNaziv(txtNaziv.getText());
-        entitet.setSastojci(txtSastojci.getText());
-        entitet.setCijena(Double.parseDouble(txtCijena.getText()));
-        entitet.setKategorijaJela(lstKategorije.getSelectedValue());
-        entitet.setRestoran(restoran);
+        entitet = new Jelo();        
         spremi();
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromijeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromijeniActionPerformed
-        indeksKategorije = cmbKategorije.getSelectedIndex();
-        entitet.setSifra(lstJela.getSelectedValue().getSifra());
-        entitet.setNaziv(txtNaziv.getText());
-        entitet.setSastojci(txtSastojci.getText());
-        entitet.setCijena(Double.parseDouble(txtCijena.getText()));
-        entitet.setKategorijaJela((KategorijaJela)cmbKategorije.getSelectedItem());
+        if (!Pomagala.provjeriJelOznaceno(lstKategorije, this) && !Pomagala.provjeriJelOznaceno(lstJela, this)){
+            return;
+        }
+        indeksKategorije = cmbKategorije.getSelectedIndex();         
         spremi();
     }//GEN-LAST:event_btnPromijeniActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+        if (!Pomagala.provjeriJelOznaceno(lstKategorije, this) && !Pomagala.provjeriJelOznaceno(lstJela, this)){
+            return;
+        }
         indeksKategorije = lstKategorije.getSelectedIndex();
-        obrisi();
+        try {
+            obrada.obrisi(entitet);
+        } catch (Iznimka i) {
+            Pomagala.izbaciDialogSGreskom(this, i);
+        }
     }//GEN-LAST:event_btnObrisiActionPerformed
 
     private void icoPlusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icoPlusMouseClicked
+      
+        String kategorija = JOptionPane.showInputDialog(this, "Unesite naziv kategorije", "Nova kategorija", JOptionPane.INFORMATION_MESSAGE);           
+        KategorijaJela kj = new KategorijaJela();
+        kj.setNaziv(kategorija);
         try {
-            String kategorija = JOptionPane.showInputDialog(this, "Unesite naziv kategorije", "Nova kategorija", JOptionPane.INFORMATION_MESSAGE);
-            HibernateObrada<KategorijaJela> obradaKategorijaJela = new HibernateObrada<>();
-            KategorijaJela kj = new KategorijaJela();
-            kj.setNaziv(kategorija);
-            obradaKategorijaJela.save(kj);
+            obradaKategorijaJela.spremi(kj);
             ucitaj();
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (Iznimka i){
+            provjeraGreske(i);
         }
         
     }//GEN-LAST:event_icoPlusMouseClicked
@@ -333,19 +336,36 @@ public class FormaJelo extends Forma<Jelo> {
     }
     
     private void lstJelaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstJelaValueChanged
-        if (lstJela.getSelectedValue()!=null){
-            entitet = lstJela.getSelectedValue();
-            try{
-                txtNaziv.setText(entitet.getNaziv());
-                txtSastojci.setText(entitet.getSastojci());           
-                txtCijena.setText(Double.toString(entitet.getCijena()));
-            } catch (Exception e){
-                e.printStackTrace();
-                ocistiFormu();
-            }
+        if (lstJela.getSelectedValue()==null){
+            return;
         }
+        entitet = lstJela.getSelectedValue();
+        try{
+            txtNaziv.setText(entitet.getNaziv());
+            txtSastojci.setText(entitet.getSastojci());           
+            txtCijena.setText(Double.toString(entitet.getCijena()));
+        } catch (Exception e){
+            e.printStackTrace();
+            ocistiFormu();
+        }
+        
     }//GEN-LAST:event_lstJelaValueChanged
 
+    private void provjeraGreske(Iznimka i){
+        Pomagala.izbaciDialogSGreskom(this, i);
+            switch(i.getGreska()){
+                case ObradaJelo.NAZIV:
+                   txtNaziv.requestFocus();
+                   break;
+                case ObradaJelo.CIJENA:
+                   txtCijena.requestFocus();
+                   break;
+                case ObradaJelo.KATEGORIJA:
+                   cmbKategorije.requestFocus();
+                   break;                    
+            }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnObrisi;
@@ -367,4 +387,6 @@ public class FormaJelo extends Forma<Jelo> {
     private javax.swing.JTextField txtNaziv;
     private javax.swing.JTextField txtSastojci;
     // End of variables declaration//GEN-END:variables
+
+
 }

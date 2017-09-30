@@ -5,37 +5,44 @@
  */
 package katic.ljetnizadatak.view;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import katic.ljetnizadatak.controller.HibernateObrada;
+import katic.ljetnizadatak.controller.ObradaRestoran;
 import katic.ljetnizadatak.model.Restoran;
+import katic.pomocno.Iznimka;
+import katic.pomocno.Pomagala;
 
 /**
  *
  * @author Polaznik
  */
-public class FormaRestoran extends Forma<Restoran> {
+public class FormaRestoran extends JFrame {
 
-    /**
-     * Creates new form FormaRestoran
-     */
+    private ObradaRestoran obrada;
+    private Restoran entitet;
+    
     public FormaRestoran() {
         super();
         initComponents();
-        this.obrada = new HibernateObrada();
+        this.obrada = new ObradaRestoran();
         
         ucitaj();
     }
     
-    @Override
     protected void ucitaj(){
         DefaultListModel<Restoran> m = new DefaultListModel<Restoran>();
         lista.setModel(m);
-        for (Restoran r: obrada.createQuery("from Restoran r where r.obrisan=false")){
+        for (Restoran r: obrada.getRestorane()){
             m.addElement(r);
         }
+        if (entitet!=null){
+            lista.setSelectedValue(entitet, true);
+        }  
     }
 
-    @Override
     protected void spremi(){ 
         entitet.setNaziv(txtNaziv.getText());
         entitet.setAdresa(txtAdresa.getText());
@@ -43,8 +50,12 @@ public class FormaRestoran extends Forma<Restoran> {
         entitet.setKontaktBroj(txtKontaktBroj.getText());
         entitet.setEmail(txtEmail.getText());
         entitet.setLozinka(txtLozinka.getText()); 
-        super.spremi();
-        lista.setSelectedValue(entitet, true);
+        try {
+            entitet = obrada.spremi(entitet);
+        } catch (Iznimka i) {
+            provjeraGreske(i);
+        }
+        ucitaj();
     }
 
     /**
@@ -205,15 +216,17 @@ public class FormaRestoran extends Forma<Restoran> {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
-       
+        if (lista.getSelectedValue()==null){
+            return;
+        }
         try{
             entitet = lista.getSelectedValue();
-            txtNaziv.setText(lista.getSelectedValue().getNaziv());
-            txtAdresa.setText(lista.getSelectedValue().getAdresa());
-            txtGrad.setText(lista.getSelectedValue().getGrad());
-            txtKontaktBroj.setText(lista.getSelectedValue().getKontaktBroj());
-            txtEmail.setText(lista.getSelectedValue().getEmail());
-            txtLozinka.setText(lista.getSelectedValue().getLozinka());
+            txtNaziv.setText(entitet.getNaziv());
+            txtAdresa.setText(entitet.getAdresa());
+            txtGrad.setText(entitet.getGrad());
+            txtKontaktBroj.setText(entitet.getKontaktBroj());
+            txtEmail.setText(entitet.getEmail());
+            txtLozinka.setText(entitet.getLozinka());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -225,19 +238,51 @@ public class FormaRestoran extends Forma<Restoran> {
     }//GEN-LAST:event_btnDodajActionPerformed
 
     private void btnPromijeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromijeniActionPerformed
-        provjeriJelOznaceno(lista);
+        if (!Pomagala.provjeriJelOznaceno(lista, this)){
+            return;
+        }
         spremi();
     }//GEN-LAST:event_btnPromijeniActionPerformed
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        provjeriJelOznaceno(lista);
-        obrisi();
+        if (!Pomagala.provjeriJelOznaceno(lista, this)){
+            return;
+        }
+        try {
+            obrada.obrisi(entitet);
+            ucitaj();
+        } catch (Iznimka ex) {
+            provjeraGreske(ex);
+        }
     }//GEN-LAST:event_btnObrisiActionPerformed
 
     private void btnListaJelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaJelaActionPerformed
+        if (!Pomagala.provjeriJelOznaceno(lista, this)){
+            return;
+        }
         new FormaJelo(entitet).setVisible(true);
     }//GEN-LAST:event_btnListaJelaActionPerformed
 
+    private void provjeraGreske(Iznimka i){
+        Pomagala.izbaciDialogSGreskom(this, i);
+            switch(i.getGreska()){
+                case ObradaRestoran.NAZIV:
+                   txtNaziv.requestFocus();
+                   break;
+                case ObradaRestoran.GRAD:
+                   txtGrad.requestFocus();
+                   break;
+                case ObradaRestoran.KONTAKT_BROJ:
+                   txtKontaktBroj.requestFocus();
+                   break;
+                case ObradaRestoran.EMAIL:
+                   txtEmail.requestFocus();
+                   break;
+                case ObradaRestoran.LOZINKA:
+                   txtLozinka.requestFocus();
+                   break;
+            }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
