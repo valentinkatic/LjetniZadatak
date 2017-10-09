@@ -82,7 +82,7 @@ public class PanelRegistracijeRestorana extends javax.swing.JPanel {
         jPasswordField1.setBackground(new java.awt.Color(58, 56, 77));
         jPasswordField1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jPasswordField1.setForeground(new java.awt.Color(255, 255, 255));
-        jPasswordField1.setToolTipText("Unesite lozinku restorana");
+        jPasswordField1.setToolTipText("Unesite lozinku koju ćete koristiti");
         jPasswordField1.setBorder(null);
         jPasswordField1.setCaretColor(new java.awt.Color(255, 255, 255));
 
@@ -142,11 +142,11 @@ public class PanelRegistracijeRestorana extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(125, 86, 192));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel1MouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel1MouseExited(evt);
             }
         });
 

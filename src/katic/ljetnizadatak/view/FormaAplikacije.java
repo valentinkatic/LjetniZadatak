@@ -5,7 +5,8 @@
  */
 package katic.ljetnizadatak.view;
 
-import org.netbeans.lib.awtextra.AbsoluteLayout;
+import java.awt.CardLayout;
+import katic.pomocno.StartPanelListener;
 
 /**
  *
@@ -13,15 +14,69 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
  */
 public class FormaAplikacije extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FormaObrazacZaPrijavu
-     */
+    public static String START = "START";
+    public static String USERPANEL = "USERPANEL";
+    public static String RESTAURANTPANEL = "RESTAURANTPANEL";
+    
+    public static String PRIJAVA = "PRIJAVA";
+    public static String REGISTRACIJA = "REGISTRACIJA";
+    
+    public static String RESTORANI = "RESTORANI";
+    public static String KOSARICA = "KOSARICA";
+    public static String POVIJEST_NARUDZBI = "POVIJEST_NARUDZBI";
+    public static String MOJI_PODACI = "MOJI_PODACI";
+    public static String ODJAVA = "ODJAVA";
+    
+    private StartPanelListener startPanelListener = null;
+    
+    private CardLayout layoutLijevogPanela;
+    private CardLayout layoutDesnogPanela;
+    
     public FormaAplikacije() {
         initComponents();
+        pocetnoUcitavanje();
+
+        layoutLijevogPanela = (CardLayout) lijeviPanel.getLayout();
+        layoutDesnogPanela = (CardLayout) desniPanel.getLayout();
         
-        lijeviPanel.add(new PanelPrijave());        
-        desniPanel.add(new PanelRegistracije());
+    }
+    
+    private void pocetnoUcitavanje(){
+        startPanelListener = new StartPanelListener() {
+            @Override
+            public void onMenuChanged(String panel) {
+                try {
+                    layoutDesnogPanela.show(desniPanel, panel);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSignIn(String panel) {
+                layoutLijevogPanela.show(lijeviPanel, panel);
+                desniPanel.removeAll();
+            }
+            
+            @Override
+            public void onSignOut() {
+                layoutLijevogPanela.show(lijeviPanel, START);
+                ucitajPocetniDesniPanel(startPanelListener);
+            }
+        };
         
+        lijeviPanel.add(new PanelStart(startPanelListener), START);
+        lijeviPanel.add(new PanelIzbornikKorisnika(startPanelListener), USERPANEL);
+        
+        ucitajPocetniDesniPanel(startPanelListener);
+    }
+    
+    private void ucitajPocetniDesniPanel(StartPanelListener startPanelListener){
+        desniPanel.removeAll();
+        desniPanel.add(new PanelPrijave(startPanelListener), PRIJAVA);
+        desniPanel.add(new PanelRegistracije(), REGISTRACIJA);
+        desniPanel.validate();
+        desniPanel.repaint();
     }
 
     /**
@@ -32,7 +87,6 @@ public class FormaAplikacije extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         lijeviPanel = new javax.swing.JPanel();
         desniPanel = new javax.swing.JPanel();
@@ -42,34 +96,22 @@ public class FormaAplikacije extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setMaximumSize(new java.awt.Dimension(700, 500));
         setMinimumSize(new java.awt.Dimension(700, 500));
-        setPreferredSize(new java.awt.Dimension(700, 500));
         setSize(700,500);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         lijeviPanel.setBackground(new java.awt.Color(38, 40, 55));
         lijeviPanel.setMaximumSize(new java.awt.Dimension(300, 500));
         lijeviPanel.setMinimumSize(new java.awt.Dimension(300, 500));
         lijeviPanel.setPreferredSize(new java.awt.Dimension(300, 500));
-
-        javax.swing.GroupLayout lijeviPanelLayout = new javax.swing.GroupLayout(lijeviPanel);
-        lijeviPanel.setLayout(lijeviPanelLayout);
-        lijeviPanelLayout.setHorizontalGroup(
-            lijeviPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-        lijeviPanelLayout.setVerticalGroup(
-            lijeviPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(lijeviPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 500));
+        lijeviPanel.setLayout(new java.awt.CardLayout());
+        getContentPane().add(lijeviPanel);
         lijeviPanel.getAccessibleContext().setAccessibleName("");
 
         desniPanel.setBackground(new java.awt.Color(58, 56, 77));
         desniPanel.setMaximumSize(new java.awt.Dimension(400, 500));
         desniPanel.setMinimumSize(new java.awt.Dimension(400, 500));
         desniPanel.setLayout(new java.awt.CardLayout());
-        getContentPane().add(desniPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 400, 500));
+        getContentPane().add(desniPanel);
 
         pack();
         setLocationRelativeTo(null);

@@ -9,6 +9,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import katic.pomocno.PomagalaIzbornika;
 
 /**
  *
@@ -149,20 +150,20 @@ public class PanelRegistracije extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jTextField1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseEntered
-        setHoverTabColor(jTextField1);
+        PomagalaIzbornika.setHoverTabColor(jTextField1);
     }//GEN-LAST:event_jTextField1MouseEntered
 
     private void jTextField1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseExited
         if (pressedTab == 0){
-            setPressedTabColor(jTextField1);
+            PomagalaIzbornika.setPressedTabColor(jTextField1);
         } else {
-            setDefaultTabColor(jTextField1);
+            PomagalaIzbornika.setDefaultTabColor(jTextField1);
         }
     }//GEN-LAST:event_jTextField1MouseExited
 
     private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
-        setPressedTabColor(jTextField1);
-        setDefaultTabColor(jTextField2);
+        PomagalaIzbornika.setPressedTabColor(jTextField1);
+        PomagalaIzbornika.setDefaultTabColor(jTextField2);
         if (pressedTab == 1){
             pressedTab = 0;
             promijeniPanel(KORISNIK);
@@ -170,20 +171,20 @@ public class PanelRegistracije extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1MouseClicked
 
     private void jTextField2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MouseEntered
-        setHoverTabColor(jTextField2);
+        PomagalaIzbornika.setHoverTabColor(jTextField2);
     }//GEN-LAST:event_jTextField2MouseEntered
 
     private void jTextField2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MouseExited
         if (pressedTab == 1){
-            setPressedTabColor(jTextField2);
+            PomagalaIzbornika.setPressedTabColor(jTextField2);
         } else {
-            setDefaultTabColor(jTextField2);
+            PomagalaIzbornika.setDefaultTabColor(jTextField2);
         }
     }//GEN-LAST:event_jTextField2MouseExited
 
     private void jTextField2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MousePressed
-        setPressedTabColor(jTextField2);
-        setDefaultTabColor(jTextField1);
+        PomagalaIzbornika.setPressedTabColor(jTextField2);
+        PomagalaIzbornika.setDefaultTabColor(jTextField1);
         if (pressedTab ==0){
             pressedTab = 1;
             promijeniPanel(RESTORAN);
@@ -194,18 +195,6 @@ public class PanelRegistracije extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void setHoverTabColor(JTextField tab){
-        tab.setBackground(new Color(68,23,80));
-    }
-    
-    private void setPressedTabColor(JTextField tab){
-        tab.setBackground(new Color(58,56,77));
-    }
-    
-    private void setDefaultTabColor(JTextField tab){
-        tab.setBackground(new Color(38,40,55));
-    }
-    
     private void promijeniPanel(String panel){
         cardLayout.next(panelTijela);
     }

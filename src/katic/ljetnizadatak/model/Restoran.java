@@ -6,12 +6,9 @@
 package katic.ljetnizadatak.model;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.util.List;
-import javassist.bytecode.ByteArray;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
