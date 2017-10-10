@@ -6,7 +6,11 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.CardLayout;
-import katic.pomocno.StartPanelListener;
+import katic.ljetnizadatak.model.AdresaDostave;
+import katic.ljetnizadatak.model.Korisnik;
+import katic.ljetnizadatak.model.Restoran;
+import katic.pomocno.AddressListener;
+import katic.pomocno.MenuListener;
 
 /**
  *
@@ -27,7 +31,12 @@ public class FormaAplikacije extends javax.swing.JFrame {
     public static String MOJI_PODACI = "MOJI_PODACI";
     public static String ODJAVA = "ODJAVA";
     
-    private StartPanelListener startPanelListener = null;
+    public static String ADRESE_DOSTAVE = "ADRESE_DOSTAVE";
+    
+    private Korisnik korisnik = null;
+    private Restoran restoran = null;
+    
+    private MenuListener menuListener = null;
     
     private CardLayout layoutLijevogPanela;
     private CardLayout layoutDesnogPanela;
@@ -42,39 +51,79 @@ public class FormaAplikacije extends javax.swing.JFrame {
     }
     
     private void pocetnoUcitavanje(){
-        startPanelListener = new StartPanelListener() {
+        menuListener = new MenuListener() {
             @Override
-            public void onMenuChanged(String panel) {
+            public void promjenaDesnogPanela(String panel) {
                 try {
-                    layoutDesnogPanela.show(desniPanel, panel);
+                    layoutDesnogPanela.show(desniPanel, panel);                    
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
 
             @Override
-            public void onSignIn(String panel) {
+            public void onUserSignIn(String panel, Korisnik kor) {
+                korisnik = kor;
+                lijeviPanel.add(new PanelIzbornikKorisnika(menuListener, korisnik), USERPANEL);
                 layoutLijevogPanela.show(lijeviPanel, panel);
-                desniPanel.removeAll();
+                ucitajPanelPrijavljenogKorisnika();
+                
+            }
+            
+            @Override
+            public void onRestaurantSignIn(String panel, Restoran rest) {
+                restoran = rest;
+                layoutLijevogPanela.show(lijeviPanel, panel);
+                ucitajPanelPrijavljenogKorisnika();
+                
+            }
+            
+            @Override
+            public void promjenaLijevogPanela(String lijeviPnl, String desniPnl){
+                if (lijeviPnl.equals(ADRESE_DOSTAVE)){
+                    lijeviPanel.add(new PanelIzbornikAdresaZaDostavu(korisnik, menuListener), lijeviPnl);
+                    layoutLijevogPanela.show(lijeviPanel, lijeviPnl);
+                    layoutDesnogPanela.show(desniPanel, lijeviPnl);
+                } 
+                
+            }
+            
+            @Override
+            public void onBackPressed(String panel){
+                if (panel.equals(ADRESE_DOSTAVE)){                   
+                    layoutLijevogPanela.show(lijeviPanel, USERPANEL);
+                    layoutDesnogPanela.show(desniPanel, MOJI_PODACI);
+                }
             }
             
             @Override
             public void onSignOut() {
+                korisnik = null;
+                restoran = null;
                 layoutLijevogPanela.show(lijeviPanel, START);
-                ucitajPocetniDesniPanel(startPanelListener);
+                ucitajPocetniDesniPanel();
             }
         };
         
-        lijeviPanel.add(new PanelStart(startPanelListener), START);
-        lijeviPanel.add(new PanelIzbornikKorisnika(startPanelListener), USERPANEL);
+        lijeviPanel.add(new PanelStart(menuListener), START);
         
-        ucitajPocetniDesniPanel(startPanelListener);
+        ucitajPocetniDesniPanel();
     }
     
-    private void ucitajPocetniDesniPanel(StartPanelListener startPanelListener){
+    private void ucitajPocetniDesniPanel(){
         desniPanel.removeAll();
-        desniPanel.add(new PanelPrijave(startPanelListener), PRIJAVA);
+        desniPanel.add(new PanelPrijave(menuListener), PRIJAVA);
         desniPanel.add(new PanelRegistracije(), REGISTRACIJA);
+        desniPanel.validate();
+        desniPanel.repaint();
+    }
+    
+    private void ucitajPanelPrijavljenogKorisnika(){       
+        
+        desniPanel.removeAll();
+        desniPanel.add(new PanelRestoran(menuListener, korisnik), RESTORANI);
+        desniPanel.add(new PanelMojiPodaci(menuListener, korisnik), MOJI_PODACI);
+        desniPanel.add(new PanelAdresaZaDostavu(korisnik), ADRESE_DOSTAVE);
         desniPanel.validate();
         desniPanel.repaint();
     }

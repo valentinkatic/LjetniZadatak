@@ -6,9 +6,6 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.CardLayout;
-import java.awt.Color;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import katic.pomocno.PomagalaIzbornika;
 
 /**

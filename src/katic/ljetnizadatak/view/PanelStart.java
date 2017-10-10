@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import katic.ljetnizadatak.model.Tab;
 import katic.pomocno.PomagalaIzbornika;
-import katic.pomocno.StartPanelListener;
+import katic.pomocno.MenuListener;
 
 /**
  *
@@ -18,18 +18,16 @@ import katic.pomocno.StartPanelListener;
  */
 public class PanelStart extends javax.swing.JPanel {
 
-    private StartPanelListener startPanelListener;
+    private MenuListener menuListener;
     private int pressedTab = 0;
     private List<Tab> tabovi = new ArrayList<>();
-    /**
-     * Creates new form PanelStart
-     */
-    public PanelStart(StartPanelListener startPanelListener) {
+    
+    public PanelStart(MenuListener menuListener) {
         initComponents();
         
         tabovi.add(new Tab(lblPrijava, FormaAplikacije.PRIJAVA));
         tabovi.add(new Tab(lblRegistracija, FormaAplikacije.REGISTRACIJA));
-        this.startPanelListener = startPanelListener;
+        this.menuListener = menuListener;
     }
 
     
@@ -109,11 +107,11 @@ public class PanelStart extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblPrijavaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrijavaMouseClicked
-        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), startPanelListener);
+        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
     }//GEN-LAST:event_lblPrijavaMouseClicked
 
     private void lblRegistracijaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRegistracijaMouseClicked
-        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), startPanelListener);
+        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
     }//GEN-LAST:event_lblRegistracijaMouseClicked
 
     private void lblPrijavaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPrijavaMouseExited

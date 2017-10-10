@@ -5,16 +5,14 @@
  */
 package katic.pomocno;
 
+import katic.ljetnizadatak.model.AdresaDostave;
+
 /**
  *
  * @author Valentin
  */
-public interface StartPanelListener {
+public interface AddressListener {
     
-    void onMenuChanged(String panel);
-    
-    void onSignIn(String panel);
-    
-    void onSignOut();
+    void izabranaAdresa(AdresaDostave adresaDostave);
     
 }

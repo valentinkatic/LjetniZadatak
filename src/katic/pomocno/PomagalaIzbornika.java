@@ -18,17 +18,18 @@ import katic.ljetnizadatak.view.FormaAplikacije;
  */
 public class PomagalaIzbornika {
     
-    public static int setClickedEffect(List<Tab> tabovi, JLabel lbl, StartPanelListener startPanelListener){
+    public static int setClickedEffect(List<Tab> tabovi, JLabel lbl, MenuListener startPanelListener){
         int i=0, pressedTab = 0;
         for (Tab tab: tabovi){
             if (tab.getLbl().equals(lbl)){
                 setPressedTabColor(tab.getLbl());
                 pressedTab = i;
                 if (tab.getKey().equals(FormaAplikacije.ODJAVA)){
+                    setDefaultTabColor(tab.getLbl());
                     startPanelListener.onSignOut();
                     break;
                 }
-                startPanelListener.onMenuChanged(tab.getKey());
+                startPanelListener.promjenaDesnogPanela(tab.getKey());
             } else {
                 setDefaultTabColor(tab.getLbl());
             }

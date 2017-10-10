@@ -8,10 +8,10 @@ package katic.ljetnizadatak.view;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
+import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Tab;
-import katic.pomocno.Pomagala;
 import katic.pomocno.PomagalaIzbornika;
-import katic.pomocno.StartPanelListener;
+import katic.pomocno.MenuListener;
 
 /**
  *
@@ -19,20 +19,24 @@ import katic.pomocno.StartPanelListener;
  */
 public class PanelIzbornikKorisnika extends javax.swing.JPanel {
 
-    private StartPanelListener startPanelListener;
+    private MenuListener menuListener;
+    private Korisnik korisnik;
     private int pressedTab = 0;
     private List<Tab> tabovi = new ArrayList<>();
     
-    public PanelIzbornikKorisnika(StartPanelListener startPanelListener) {
+    public PanelIzbornikKorisnika(MenuListener menuListener, Korisnik korisnik) {
         initComponents();
         
-        this.startPanelListener = startPanelListener;
+        this.menuListener = menuListener;
+        this.korisnik = korisnik;
         
         tabovi.add(new Tab(lblRestorani, FormaAplikacije.RESTORANI));
         tabovi.add(new Tab(lblKošarica, FormaAplikacije.KOSARICA));
         tabovi.add(new Tab(lblPovijestNarudzbi, FormaAplikacije.POVIJEST_NARUDZBI));
         tabovi.add(new Tab(lblMojiPodaci, FormaAplikacije.MOJI_PODACI));
         tabovi.add(new Tab(lblOdjava, FormaAplikacije.ODJAVA));
+        
+        lblIme.setText(korisnik.getIme() + " " + korisnik.getPrezime());
     }
 
     /**
@@ -50,8 +54,8 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
         lblMojiPodaci = new javax.swing.JLabel();
         lblOdjava = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblDobrodosli = new javax.swing.JLabel();
+        lblIme = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(38, 40, 55));
 
@@ -158,15 +162,15 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(38, 40, 55));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Dobrodošli,");
-        jPanel1.add(jLabel2);
+        lblDobrodosli.setFont(new java.awt.Font("Century Gothic", 0, 28)); // NOI18N
+        lblDobrodosli.setForeground(new java.awt.Color(204, 204, 204));
+        lblDobrodosli.setText("Dobrodošli,");
+        jPanel1.add(lblDobrodosli);
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 16)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Valentin Katić");
-        jPanel1.add(jLabel1);
+        lblIme.setFont(new java.awt.Font("Century Gothic", 0, 16)); // NOI18N
+        lblIme.setForeground(new java.awt.Color(204, 204, 204));
+        lblIme.setText("Ime Prezime");
+        jPanel1.add(lblIme);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -205,7 +209,7 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblRestoraniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRestoraniMouseClicked
-        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), startPanelListener);
+        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
     }//GEN-LAST:event_lblRestoraniMouseClicked
 
     private void lblRestoraniMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRestoraniMouseEntered
@@ -217,7 +221,7 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
     }//GEN-LAST:event_lblRestoraniMouseExited
 
     private void lblKošaricaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKošaricaMouseClicked
-        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), startPanelListener);
+        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
     }//GEN-LAST:event_lblKošaricaMouseClicked
 
     private void lblKošaricaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKošaricaMouseEntered
@@ -229,7 +233,7 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
     }//GEN-LAST:event_lblKošaricaMouseExited
 
     private void lblPovijestNarudzbiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPovijestNarudzbiMouseClicked
-        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), startPanelListener);
+        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
     }//GEN-LAST:event_lblPovijestNarudzbiMouseClicked
 
     private void lblPovijestNarudzbiMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPovijestNarudzbiMouseEntered
@@ -241,7 +245,7 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
     }//GEN-LAST:event_lblPovijestNarudzbiMouseExited
 
     private void lblMojiPodaciMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMojiPodaciMouseClicked
-        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), startPanelListener);
+        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
     }//GEN-LAST:event_lblMojiPodaciMouseClicked
 
     private void lblMojiPodaciMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMojiPodaciMouseEntered
@@ -253,7 +257,7 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
     }//GEN-LAST:event_lblMojiPodaciMouseExited
 
     private void lblOdjavaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOdjavaMouseClicked
-        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), startPanelListener);
+        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
     }//GEN-LAST:event_lblOdjavaMouseClicked
 
     private void lblOdjavaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOdjavaMouseEntered
@@ -266,9 +270,9 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblDobrodosli;
+    private javax.swing.JLabel lblIme;
     private javax.swing.JLabel lblKošarica;
     private javax.swing.JLabel lblMojiPodaci;
     private javax.swing.JLabel lblOdjava;

@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import katic.ljetnizadatak.controller.HibernateObrada;
 import katic.ljetnizadatak.controller.ObradaRestoran;
 import katic.ljetnizadatak.model.Restoran;
+import katic.ljetnizadatak.view.renderer.RendererRestorana;
 import katic.pomocno.Iznimka;
 import katic.pomocno.Pomagala;
 
@@ -28,7 +29,6 @@ public class FormaRestoran extends JFrame {
         super();
         initComponents();
         this.obrada = new ObradaRestoran();
-        
         ucitaj();
     }
     

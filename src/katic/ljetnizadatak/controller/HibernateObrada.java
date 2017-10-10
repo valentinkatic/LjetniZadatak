@@ -33,7 +33,7 @@ public class HibernateObrada<T extends Entitet> {
        session.beginTransaction();
        session.saveOrUpdate(entitet);
        session.getTransaction().commit();
-        return entitet;
+       return entitet;
     }
     
     //Delete

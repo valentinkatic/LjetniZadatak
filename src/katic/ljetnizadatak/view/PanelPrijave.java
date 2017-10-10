@@ -6,7 +6,11 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.Color;
-import katic.pomocno.StartPanelListener;
+import katic.ljetnizadatak.controller.ObradaKorisnik;
+import katic.ljetnizadatak.controller.ObradaPrijave;
+import katic.ljetnizadatak.model.Korisnik;
+import katic.pomocno.Iznimka;
+import katic.pomocno.MenuListener;
 
 /**
  *
@@ -14,12 +18,14 @@ import katic.pomocno.StartPanelListener;
  */
 public class PanelPrijave extends javax.swing.JPanel {
 
-    private StartPanelListener startPanelListener;
+    private MenuListener menuListener;
+    private ObradaPrijave obrada;
     
-    public PanelPrijave(StartPanelListener startPanelListener) {
+    public PanelPrijave(MenuListener menuListener) {
         initComponents();
         
-        this.startPanelListener = startPanelListener;
+        this.menuListener = menuListener;
+        this.obrada = new ObradaPrijave();
     }
 
     /**
@@ -34,9 +40,9 @@ public class PanelPrijave extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtLozinka = new javax.swing.JPasswordField();
         jSeparator9 = new javax.swing.JSeparator();
-        jTextField2 = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         pnlPrijava = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
 
@@ -52,31 +58,32 @@ public class PanelPrijave extends javax.swing.JPanel {
 
         jSeparator8.setForeground(new java.awt.Color(255, 255, 255));
 
-        jPasswordField1.setBackground(new java.awt.Color(58, 56, 77));
-        jPasswordField1.setForeground(new java.awt.Color(255, 255, 255));
-        jPasswordField1.setToolTipText("Unesite vašu lozinku");
-        jPasswordField1.setBorder(null);
-        jPasswordField1.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtLozinka.setBackground(new java.awt.Color(58, 56, 77));
+        txtLozinka.setForeground(new java.awt.Color(255, 255, 255));
+        txtLozinka.setToolTipText("Unesite vašu lozinku");
+        txtLozinka.setBorder(null);
+        txtLozinka.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtLozinka.setNextFocusableComponent(pnlPrijava);
 
         jSeparator9.setForeground(new java.awt.Color(255, 255, 255));
 
-        jTextField2.setBackground(new java.awt.Color(58, 56, 77));
-        jTextField2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField2.setToolTipText("Unesite vašu email adresu");
-        jTextField2.setBorder(null);
-        jTextField2.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtEmail.setBackground(new java.awt.Color(58, 56, 77));
+        txtEmail.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(255, 255, 255));
+        txtEmail.setToolTipText("Unesite vašu email adresu");
+        txtEmail.setBorder(null);
+        txtEmail.setCaretColor(new java.awt.Color(255, 255, 255));
 
         pnlPrijava.setBackground(new java.awt.Color(125, 86, 192));
         pnlPrijava.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pnlPrijavaMouseClicked(evt);
             }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pnlPrijavaMouseEntered(evt);
-            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pnlPrijavaMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnlPrijavaMouseEntered(evt);
             }
         });
 
@@ -108,11 +115,11 @@ public class PanelPrijave extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlPrijava, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2)
+                    .addComponent(txtEmail)
                     .addComponent(jSeparator9)
                     .addComponent(jLabel3)
                     .addComponent(jSeparator8)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(123, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -121,13 +128,13 @@ public class PanelPrijave extends javax.swing.JPanel {
                 .addGap(129, 129, 129)
                 .addComponent(jLabel2)
                 .addGap(11, 11, 11)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(jLabel3)
                 .addGap(11, 11, 11)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -145,7 +152,23 @@ public class PanelPrijave extends javax.swing.JPanel {
     }//GEN-LAST:event_pnlPrijavaMouseExited
 
     private void pnlPrijavaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPrijavaMouseClicked
-        startPanelListener.onSignIn(FormaAplikacije.USERPANEL);
+        try {
+            String email = txtEmail.getText();
+            String lozinka = String.valueOf(txtLozinka.getPassword());
+            switch(obrada.prijava(email, lozinka)){
+                case 0: //korisnik
+                    menuListener.onUserSignIn(FormaAplikacije.USERPANEL, obrada.prijavaKorisnika(email, lozinka));
+                    break;
+                    
+                case 1: //restoran
+                    menuListener.onRestaurantSignIn(FormaAplikacije.USERPANEL, obrada.prijavaRestorana(email, lozinka));
+                    break;
+            }
+        } catch (Iznimka i){
+            i.printStackTrace();
+        }
+        
+//        menuListener.onUserSignIn(FormaAplikacije.USERPANEL, new Korisnik());
     }//GEN-LAST:event_pnlPrijavaMouseClicked
 
 
@@ -153,10 +176,10 @@ public class PanelPrijave extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel pnlPrijava;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JPasswordField txtLozinka;
     // End of variables declaration//GEN-END:variables
 }
