@@ -6,32 +6,54 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.Color;
-import javax.swing.DefaultListModel;
+import katic.ljetnizadatak.controller.ObradaAdresaDostave;
 import katic.ljetnizadatak.model.AdresaDostave;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.pomocno.AddressListener;
+import katic.pomocno.Iznimka;
+import katic.pomocno.Pomagala;
 
 /**
  *
  * @author Valentin
  */
-public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressListener{
+public class PanelAdresaZaDostavu extends javax.swing.JPanel{
 
     private Korisnik korisnik;
     private AdresaDostave entitet;
     private AddressListener addressListener;
+    private ObradaAdresaDostave obradaAdresaDostave;
     
-    public PanelAdresaZaDostavu(Korisnik korisnik) {
+    public PanelAdresaZaDostavu(Korisnik korisnik, AdresaDostave entitet) {
         initComponents();
         this.korisnik = korisnik;
+        this.entitet = entitet;   
+        this.obradaAdresaDostave = new ObradaAdresaDostave();
         
-    }
-
-    @Override
-    public void izabranaAdresa(AdresaDostave adresaDostave) {
-        this.entitet = adresaDostave;
-    }        
+        ucitaj();
+    }   
+    private void ucitaj(){
+        if (entitet!=null){
+            txtUlica.setText(entitet.getUlica());
+            txtKucniBroj.setText(entitet.getKucniBroj());           
+            txtGrad.setText(entitet.getGrad());          
+        }
+    }   
     
+    protected void spremi(){
+        entitet.setUlica(txtUlica.getText());
+        entitet.setKucniBroj(txtKucniBroj.getText());
+        entitet.setGrad(txtGrad.getText());
+        entitet.setKorisnik(korisnik);
+        
+        try {
+            obradaAdresaDostave.spremi(entitet);
+            ucitaj();
+        } catch (Iznimka i){
+            provjeraGreske(i);        
+        }
+    }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,7 +65,6 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressL
 
         pnlDodaj = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        txtKucniBroj = new javax.swing.JPasswordField();
         jSeparator9 = new javax.swing.JSeparator();
         jSeparator11 = new javax.swing.JSeparator();
         pnlPromijeni = new javax.swing.JPanel();
@@ -56,6 +77,7 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressL
         jSeparator8 = new javax.swing.JSeparator();
         pnlObrisi = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        txtKucniBroj = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(58, 56, 77));
 
@@ -87,13 +109,6 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressL
                 .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        txtKucniBroj.setBackground(new java.awt.Color(58, 56, 77));
-        txtKucniBroj.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtKucniBroj.setForeground(new java.awt.Color(255, 255, 255));
-        txtKucniBroj.setToolTipText("Unesite vašu lozinku");
-        txtKucniBroj.setBorder(null);
-        txtKucniBroj.setCaretColor(new java.awt.Color(255, 255, 255));
 
         jSeparator9.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -131,7 +146,7 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressL
         txtGrad.setBackground(new java.awt.Color(58, 56, 77));
         txtGrad.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtGrad.setForeground(new java.awt.Color(255, 255, 255));
-        txtGrad.setToolTipText("Unesite vaše ime");
+        txtGrad.setToolTipText("Unesite vaš grad/naselje");
         txtGrad.setBorder(null);
         txtGrad.setCaretColor(new java.awt.Color(255, 255, 255));
 
@@ -146,7 +161,7 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressL
         txtUlica.setBackground(new java.awt.Color(58, 56, 77));
         txtUlica.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtUlica.setForeground(new java.awt.Color(255, 255, 255));
-        txtUlica.setToolTipText("Unesite vašu email adresu");
+        txtUlica.setToolTipText("Unesite vašu ulicu");
         txtUlica.setBorder(null);
         txtUlica.setCaretColor(new java.awt.Color(255, 255, 255));
 
@@ -185,6 +200,13 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressL
                 .addContainerGap())
         );
 
+        txtKucniBroj.setBackground(new java.awt.Color(58, 56, 77));
+        txtKucniBroj.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtKucniBroj.setForeground(new java.awt.Color(255, 255, 255));
+        txtKucniBroj.setToolTipText("Unesite vaš kućni broj");
+        txtKucniBroj.setBorder(null);
+        txtKucniBroj.setCaretColor(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,13 +214,13 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressL
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtKucniBroj, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnlObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnlDodaj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtUlica, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtKucniBroj, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(txtGrad, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,8 +239,8 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressL
                 .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtKucniBroj, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(txtKucniBroj, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -261,6 +283,20 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressL
         pnlObrisi.setBackground(new Color(103,33,122));
     }//GEN-LAST:event_pnlObrisiMouseEntered
 
+    private void provjeraGreske(Iznimka i){
+        Pomagala.izbaciDialogSGreskom(this, i);
+            switch(i.getGreska()){
+                case ObradaAdresaDostave.GRAD:
+                   txtGrad.requestFocus();
+                   break;
+                case ObradaAdresaDostave.ULICA:
+                   txtUlica.requestFocus();
+                   break;
+                case ObradaAdresaDostave.KUCNIBROJ:
+                   txtKucniBroj.requestFocus();
+                   break;
+            }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
@@ -276,7 +312,7 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel implements AddressL
     private javax.swing.JPanel pnlObrisi;
     private javax.swing.JPanel pnlPromijeni;
     private javax.swing.JTextField txtGrad;
-    private javax.swing.JPasswordField txtKucniBroj;
+    private javax.swing.JTextField txtKucniBroj;
     private javax.swing.JTextField txtUlica;
     // End of variables declaration//GEN-END:variables
 }

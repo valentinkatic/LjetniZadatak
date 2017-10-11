@@ -153,8 +153,10 @@ public class PanelPrijave extends javax.swing.JPanel {
 
     private void pnlPrijavaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPrijavaMouseClicked
         try {
-            String email = txtEmail.getText();
-            String lozinka = String.valueOf(txtLozinka.getPassword());
+//            String email = txtEmail.getText();
+//            String lozinka = String.valueOf(txtLozinka.getPassword());
+            String email = "pero.peric@mail.com";
+            String lozinka = "lozinka123";
             switch(obrada.prijava(email, lozinka)){
                 case 0: //korisnik
                     menuListener.onUserSignIn(FormaAplikacije.USERPANEL, obrada.prijavaKorisnika(email, lozinka));

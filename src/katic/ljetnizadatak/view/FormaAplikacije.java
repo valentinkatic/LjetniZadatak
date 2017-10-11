@@ -6,6 +6,7 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import katic.ljetnizadatak.model.AdresaDostave;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
@@ -37,6 +38,7 @@ public class FormaAplikacije extends javax.swing.JFrame {
     private Restoran restoran = null;
     
     private MenuListener menuListener = null;
+    private AddressListener addressListener;
     
     private CardLayout layoutLijevogPanela;
     private CardLayout layoutDesnogPanela;
@@ -81,7 +83,7 @@ public class FormaAplikacije extends javax.swing.JFrame {
             @Override
             public void promjenaLijevogPanela(String lijeviPnl, String desniPnl){
                 if (lijeviPnl.equals(ADRESE_DOSTAVE)){
-                    lijeviPanel.add(new PanelIzbornikAdresaZaDostavu(korisnik, menuListener), lijeviPnl);
+                    lijeviPanel.add(new PanelIzbornikAdresaZaDostavu(korisnik, menuListener, addressListener), lijeviPnl);
                     layoutLijevogPanela.show(lijeviPanel, lijeviPnl);
                     layoutDesnogPanela.show(desniPanel, lijeviPnl);
                 } 
@@ -93,6 +95,14 @@ public class FormaAplikacije extends javax.swing.JFrame {
                 if (panel.equals(ADRESE_DOSTAVE)){                   
                     layoutLijevogPanela.show(lijeviPanel, USERPANEL);
                     layoutDesnogPanela.show(desniPanel, MOJI_PODACI);
+                    Component[] components = desniPanel.getComponents();
+                    for(int i = 0; i < components.length; i++) {
+                        
+                            System.out.println(components[i].getName());
+                        if(components[i].getName().equals(ADRESE_DOSTAVE)) {
+                            layoutDesnogPanela.removeLayoutComponent(components[i]);
+                        }                        
+                    }
                 }
             }
             
@@ -119,11 +129,18 @@ public class FormaAplikacije extends javax.swing.JFrame {
     }
     
     private void ucitajPanelPrijavljenogKorisnika(){       
+        addressListener = new AddressListener() {
+            @Override
+            public void izabranaAdresa(AdresaDostave adresaDostave) {
+                desniPanel.add(new PanelAdresaZaDostavu(korisnik, adresaDostave), ADRESE_DOSTAVE);
+                layoutDesnogPanela.show(desniPanel, ADRESE_DOSTAVE);
+            }
+        };
         
         desniPanel.removeAll();
         desniPanel.add(new PanelRestoran(menuListener, korisnik), RESTORANI);
         desniPanel.add(new PanelMojiPodaci(menuListener, korisnik), MOJI_PODACI);
-        desniPanel.add(new PanelAdresaZaDostavu(korisnik), ADRESE_DOSTAVE);
+        desniPanel.add(new PanelAdresaZaDostavu(korisnik, null), ADRESE_DOSTAVE);
         desniPanel.validate();
         desniPanel.repaint();
     }

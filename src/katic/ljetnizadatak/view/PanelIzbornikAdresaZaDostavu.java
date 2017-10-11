@@ -8,6 +8,7 @@ package katic.ljetnizadatak.view;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JPanel;
 import katic.ljetnizadatak.controller.ObradaAdresaDostave;
 import katic.ljetnizadatak.model.AdresaDostave;
 import katic.ljetnizadatak.model.Korisnik;
@@ -19,7 +20,7 @@ import katic.pomocno.MenuListener;
  *
  * @author Valentin
  */
-public class PanelIzbornikAdresaZaDostavu extends javax.swing.JPanel {
+public class PanelIzbornikAdresaZaDostavu extends JPanel {
 
     private ObradaAdresaDostave obradaAdresaDostave; 
     private Korisnik korisnik;
@@ -28,9 +29,10 @@ public class PanelIzbornikAdresaZaDostavu extends javax.swing.JPanel {
     private List<AdresaDostave> adreseDostave;
     protected AdresaDostave entitet;
     
-    public PanelIzbornikAdresaZaDostavu(Korisnik korisnik, MenuListener menuListener) {
+    public PanelIzbornikAdresaZaDostavu(Korisnik korisnik, MenuListener menuListener, AddressListener addressListener) {
         this.korisnik = korisnik;
         this.menuListener = menuListener;
+        this.addressListener = addressListener;
         initComponents();
         obradaAdresaDostave = new ObradaAdresaDostave();
         ucitaj();
