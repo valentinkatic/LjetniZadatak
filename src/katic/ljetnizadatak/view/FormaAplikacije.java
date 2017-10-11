@@ -10,7 +10,6 @@ import java.awt.Component;
 import katic.ljetnizadatak.model.AdresaDostave;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
-import katic.pomocno.AddressListener;
 import katic.pomocno.MenuListener;
 
 /**
@@ -33,12 +32,12 @@ public class FormaAplikacije extends javax.swing.JFrame {
     public static String ODJAVA = "ODJAVA";
     
     public static String ADRESE_DOSTAVE = "ADRESE_DOSTAVE";
+    public static String PONUDA_RESTORANA = "PONUDA_RESTORANA";
     
     private Korisnik korisnik = null;
     private Restoran restoran = null;
     
     private MenuListener menuListener = null;
-    private AddressListener addressListener;
     
     private CardLayout layoutLijevogPanela;
     private CardLayout layoutDesnogPanela;
@@ -68,7 +67,6 @@ public class FormaAplikacije extends javax.swing.JFrame {
                 korisnik = kor;
                 lijeviPanel.add(new PanelIzbornikKorisnika(menuListener, korisnik), USERPANEL);
                 layoutLijevogPanela.show(lijeviPanel, panel);
-                ucitajPanelPrijavljenogKorisnika();
                 
             }
             
@@ -76,33 +74,32 @@ public class FormaAplikacije extends javax.swing.JFrame {
             public void onRestaurantSignIn(String panel, Restoran rest) {
                 restoran = rest;
                 layoutLijevogPanela.show(lijeviPanel, panel);
-                ucitajPanelPrijavljenogKorisnika();
                 
             }
             
             @Override
             public void promjenaLijevogPanela(String lijeviPnl, String desniPnl){
                 if (lijeviPnl.equals(ADRESE_DOSTAVE)){
-                    lijeviPanel.add(new PanelIzbornikAdresaZaDostavu(korisnik, menuListener, addressListener), lijeviPnl);
+                    lijeviPanel.add(new PanelIzbornikAdresaZaDostavu(korisnik, menuListener), lijeviPnl);
                     layoutLijevogPanela.show(lijeviPanel, lijeviPnl);
                     layoutDesnogPanela.show(desniPanel, lijeviPnl);
-                } 
-                
+                }                 
             }
             
             @Override
-            public void onBackPressed(String panel){
+            public void odabraniRestoran(Restoran restoran){
+                lijeviPanel.add(new PanelIzbornikOdabranogRestorana(korisnik, restoran, menuListener), PONUDA_RESTORANA);
+                layoutLijevogPanela.show(lijeviPanel, PONUDA_RESTORANA);
+            }
+            
+            @Override
+            public void onBackPressed(String panel){               
+                layoutLijevogPanela.show(lijeviPanel, USERPANEL);
                 if (panel.equals(ADRESE_DOSTAVE)){                   
-                    layoutLijevogPanela.show(lijeviPanel, USERPANEL);
                     layoutDesnogPanela.show(desniPanel, MOJI_PODACI);
-                    Component[] components = desniPanel.getComponents();
-                    for(int i = 0; i < components.length; i++) {
-                        
-                            System.out.println(components[i].getName());
-                        if(components[i].getName().equals(ADRESE_DOSTAVE)) {
-                            layoutDesnogPanela.removeLayoutComponent(components[i]);
-                        }                        
-                    }
+                }
+                else if (panel.equals(PONUDA_RESTORANA)){            
+                    layoutDesnogPanela.show(desniPanel, RESTORANI);
                 }
             }
             
@@ -127,23 +124,6 @@ public class FormaAplikacije extends javax.swing.JFrame {
         desniPanel.validate();
         desniPanel.repaint();
     }
-    
-    private void ucitajPanelPrijavljenogKorisnika(){       
-        addressListener = new AddressListener() {
-            @Override
-            public void izabranaAdresa(AdresaDostave adresaDostave) {
-                desniPanel.add(new PanelAdresaZaDostavu(korisnik, adresaDostave), ADRESE_DOSTAVE);
-                layoutDesnogPanela.show(desniPanel, ADRESE_DOSTAVE);
-            }
-        };
-        
-        desniPanel.removeAll();
-        desniPanel.add(new PanelRestoran(menuListener, korisnik), RESTORANI);
-        desniPanel.add(new PanelMojiPodaci(menuListener, korisnik), MOJI_PODACI);
-        desniPanel.add(new PanelAdresaZaDostavu(korisnik, null), ADRESE_DOSTAVE);
-        desniPanel.validate();
-        desniPanel.repaint();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -160,7 +140,6 @@ public class FormaAplikacije extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ljetni zadatak");
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
-        setMaximumSize(new java.awt.Dimension(700, 500));
         setMinimumSize(new java.awt.Dimension(700, 500));
         setSize(700,500);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -196,7 +175,7 @@ public class FormaAplikacije extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel desniPanel;
-    private javax.swing.JPanel lijeviPanel;
+    public static javax.swing.JPanel desniPanel;
+    public static javax.swing.JPanel lijeviPanel;
     // End of variables declaration//GEN-END:variables
 }

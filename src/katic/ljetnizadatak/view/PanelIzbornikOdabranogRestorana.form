@@ -21,7 +21,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace pref="58" max="32767" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="242" max="-2" attributes="0"/>
           </Group>
@@ -68,14 +68,15 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new katic.ljetnizadatak.view.renderer.RendererAdreseZaDostavu()" type="code"/>
+              <Connection code="new RendererKategorijaJela()" type="code"/>
             </Property>
           </Properties>
           <Events>
             <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listaValueChanged"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;AdresaDostave&gt;"/>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="PanelIzbornikOdabranogRestorana_lista"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;KategorijaJela&gt;"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -94,7 +95,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/res/back.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Adrese za dostavu"/>
+        <Property name="text" type="java.lang.String" value="Restoran"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
             <EmptyBorder bottom="5" left="10" right="1" top="5"/>

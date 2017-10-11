@@ -6,9 +6,7 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.Color;
-import katic.ljetnizadatak.controller.ObradaKorisnik;
 import katic.ljetnizadatak.controller.ObradaPrijave;
-import katic.ljetnizadatak.model.Korisnik;
 import katic.pomocno.Iznimka;
 import katic.pomocno.MenuListener;
 
@@ -155,8 +153,8 @@ public class PanelPrijave extends javax.swing.JPanel {
         try {
 //            String email = txtEmail.getText();
 //            String lozinka = String.valueOf(txtLozinka.getPassword());
-            String email = "pero.peric@mail.com";
-            String lozinka = "lozinka123";
+            String email = "vk@mail.com";
+            String lozinka = "vk123";
             switch(obrada.prijava(email, lozinka)){
                 case 0: //korisnik
                     menuListener.onUserSignIn(FormaAplikacije.USERPANEL, obrada.prijavaKorisnika(email, lozinka));

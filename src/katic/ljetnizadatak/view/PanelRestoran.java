@@ -21,7 +21,7 @@ import katic.pomocno.MenuListener;
 public class PanelRestoran extends javax.swing.JPanel {
 
     private ObradaRestoran obrada;
-    private Restoran entitet;
+    private Restoran restoran;
     private Korisnik korisnik;
     /**
      * Creates new form PanelRestoran
@@ -37,16 +37,13 @@ public class PanelRestoran extends javax.swing.JPanel {
         ucitaj();
     }
 
-    protected void ucitaj(){
+    private void ucitaj(){
         DefaultListModel<Restoran> m = new DefaultListModel<Restoran>();
         lista.setModel(m);
         for (Restoran r: obrada.getRestorane()){
             m.addElement(r);
         }
-        if (entitet!=null){
-            lista.setSelectedValue(entitet, true);
-        }  
-    }
+    }   
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,7 +91,9 @@ public class PanelRestoran extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
-        
+        restoran = lista.getSelectedValue();
+        menuListener.odabraniRestoran(restoran);
+        lista.setSelectedIndex(-1);
     }//GEN-LAST:event_listaValueChanged
 
 

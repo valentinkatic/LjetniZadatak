@@ -18,6 +18,8 @@ public interface MenuListener {
     
     void promjenaLijevogPanela(String lijeviPnl, String desniPnl);
     
+    void odabraniRestoran(Restoran restoran);
+    
     void onUserSignIn(String panel, Korisnik korisnik);
     
     void onRestaurantSignIn(String panel, Restoran restoran);

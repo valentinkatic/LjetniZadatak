@@ -8,8 +8,11 @@ package katic.ljetnizadatak.view;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Tab;
+import static katic.ljetnizadatak.view.FormaAplikacije.MOJI_PODACI;
+import static katic.ljetnizadatak.view.FormaAplikacije.RESTORANI;
 import katic.pomocno.PomagalaIzbornika;
 import katic.pomocno.MenuListener;
 
@@ -22,13 +25,17 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
     private MenuListener menuListener;
     private Korisnik korisnik;
     private int pressedTab = 0;
-    private List<Tab> tabovi = new ArrayList<>();
+    private List<Tab> tabovi = new ArrayList<>();   
+    
+    private JPanel desniPanel = FormaAplikacije.desniPanel;
     
     public PanelIzbornikKorisnika(MenuListener menuListener, Korisnik korisnik) {
         initComponents();
         
         this.menuListener = menuListener;
         this.korisnik = korisnik;
+        
+        ucitajPanelPrijavljenogKorisnika();
         
         tabovi.add(new Tab(lblRestorani, FormaAplikacije.RESTORANI));
         tabovi.add(new Tab(lblKošarica, FormaAplikacije.KOSARICA));
@@ -37,6 +44,22 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
         tabovi.add(new Tab(lblOdjava, FormaAplikacije.ODJAVA));
         
         lblIme.setText(korisnik.getIme() + " " + korisnik.getPrezime());
+    }
+    
+    private void ucitajPanelPrijavljenogKorisnika(){       
+//        AddressListener addressListener = new AddressListener() {
+//            @Override
+//            public void izabranaAdresa(AdresaDostave adresaDostave) {
+//                desniPanel.add(new PanelAdresaZaDostavu(korisnik, adresaDostave), ADRESE_DOSTAVE);
+//                layoutDesnogPanela.show(desniPanel, ADRESE_DOSTAVE);
+//            }
+//        };
+        
+        desniPanel.removeAll();
+        desniPanel.add(new PanelRestoran(menuListener, korisnik), RESTORANI);
+        desniPanel.add(new PanelMojiPodaci(menuListener, korisnik), MOJI_PODACI);
+        desniPanel.validate();
+        desniPanel.repaint();
     }
 
     /**

@@ -9,7 +9,6 @@ import java.awt.Color;
 import katic.ljetnizadatak.controller.ObradaAdresaDostave;
 import katic.ljetnizadatak.model.AdresaDostave;
 import katic.ljetnizadatak.model.Korisnik;
-import katic.pomocno.AddressListener;
 import katic.pomocno.Iznimka;
 import katic.pomocno.Pomagala;
 
@@ -18,10 +17,9 @@ import katic.pomocno.Pomagala;
  * @author Valentin
  */
 public class PanelAdresaZaDostavu extends javax.swing.JPanel{
-
+    
     private Korisnik korisnik;
     private AdresaDostave entitet;
-    private AddressListener addressListener;
     private ObradaAdresaDostave obradaAdresaDostave;
     
     public PanelAdresaZaDostavu(Korisnik korisnik, AdresaDostave entitet) {
@@ -32,6 +30,9 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel{
         
         ucitaj();
     }   
+    
+    
+    
     private void ucitaj(){
         if (entitet!=null){
             txtUlica.setText(entitet.getUlica());
