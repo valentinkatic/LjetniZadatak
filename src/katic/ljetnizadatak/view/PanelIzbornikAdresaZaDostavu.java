@@ -31,11 +31,15 @@ public class PanelIzbornikAdresaZaDostavu extends JPanel {
     private List<AdresaDostave> adreseDostave;
     protected AdresaDostave entitet;
     
+    private PanelAdresaZaDostavu panelAdresaZaDostavu;
+    
     public PanelIzbornikAdresaZaDostavu(Korisnik korisnik, MenuListener menuListener) {
         this.korisnik = korisnik;
         this.menuListener = menuListener;
         initComponents();
         obradaAdresaDostave = new ObradaAdresaDostave();
+        
+        panelAdresaZaDostavu = new PanelAdresaZaDostavu(korisnik, null);
         ucitaj();
     }
 
@@ -51,12 +55,13 @@ public class PanelIzbornikAdresaZaDostavu extends JPanel {
             lista.setSelectedValue(entitet, false);
         }
         
-        desniPanel.add(new PanelAdresaZaDostavu(korisnik, null), ADRESE_DOSTAVE);
+        
+        desniPanel.add(panelAdresaZaDostavu, ADRESE_DOSTAVE);
     }
     
     private void ucitajAdresu(AdresaDostave adresaDostave){
-        desniPanel.add(new PanelAdresaZaDostavu(korisnik, adresaDostave), ADRESE_DOSTAVE);
-        ((CardLayout) desniPanel.getLayout()).show(desniPanel, ADRESE_DOSTAVE);
+        panelAdresaZaDostavu.setAdresa(adresaDostave);
+        
     }
     
     /**

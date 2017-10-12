@@ -6,8 +6,10 @@
 package katic.ljetnizadatak.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -23,9 +25,7 @@ public class Narudzba extends Entitet implements Serializable{
     private Restoran restoran;
     
     @ManyToOne
-    private Korisnik korisnik;
-    
-    private Date vrijemeNarudzbe;
+    private Korisnik korisnik;    
     
     @OneToMany (mappedBy = "narudzba")
     private List<NarudzbaJelo> narudzbaJela;
@@ -33,6 +33,26 @@ public class Narudzba extends Entitet implements Serializable{
     @ManyToOne  
     private AdresaDostave adresaDostave;
 
+    private Date vrijemeNarudzbe;
+
+    public Date getVrijemeNarudzbe() {
+        return vrijemeNarudzbe;
+    }
+
+    public void setVrijemeNarudzbe(Date vrijemeNarudzbe) {
+        this.vrijemeNarudzbe = vrijemeNarudzbe;
+    }
+    
+    private boolean nova;       
+
+    public boolean isNova() {
+        return nova;
+    }
+
+    public void setNova(boolean nova) {
+        this.nova = nova;
+    }
+    
     public Restoran getRestoran() {
         return restoran;
     }
@@ -47,14 +67,6 @@ public class Narudzba extends Entitet implements Serializable{
 
     public void setKorisnik(Korisnik korisnik) {
         this.korisnik = korisnik;
-    }
-
-    public Date getVrijemeNarudzbe() {
-        return vrijemeNarudzbe;
-    }
-
-    public void setVrijemeNarudzbe(Date vrijemeNarudzbe) {
-        this.vrijemeNarudzbe = vrijemeNarudzbe;
     }
 
     public AdresaDostave getAdresaDostave() {

@@ -10,8 +10,6 @@ import katic.ljetnizadatak.controller.ObradaRestoran;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
 import katic.ljetnizadatak.view.renderer.RendererRestorana;
-import katic.pomocno.Iznimka;
-import katic.pomocno.Pomagala;
 import katic.pomocno.MenuListener;
 
 /**
@@ -91,9 +89,12 @@ public class PanelRestoran extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
+        if (lista.getSelectedValue()==null){
+            return;
+        }
         restoran = lista.getSelectedValue();
         menuListener.odabraniRestoran(restoran);
-        lista.setSelectedIndex(-1);
+        lista.clearSelection();
     }//GEN-LAST:event_listaValueChanged
 
 

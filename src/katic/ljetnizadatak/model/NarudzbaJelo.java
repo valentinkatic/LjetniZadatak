@@ -18,31 +18,16 @@ import javax.persistence.Table;
  */
 @Entity
 @Table
-public class NarudzbaJelo implements Serializable{
-    
-    @Id
-    @GeneratedValue
-    private Long sifra;
-    
+public class NarudzbaJelo extends Entitet implements Serializable{
+   
     @ManyToOne
     private Narudzba narudzba;
     
     @ManyToOne
     private Jelo jelo;
     
-    private float cijena;
     private int kolicina;
 
-    public Long getSifra() {
-        return sifra;
-    }
-
-    public void setSifra(Long sifra) {
-        this.sifra = sifra;
-    }
-
-    
-    
     public Narudzba getNarudzba() {
         return narudzba;
     }
@@ -57,14 +42,6 @@ public class NarudzbaJelo implements Serializable{
 
     public void setJelo(Jelo jelo) {
         this.jelo = jelo;
-    }
-
-    public float getCijena() {
-        return cijena;
-    }
-
-    public void setCijena(float cijena) {
-        this.cijena = cijena;
     }
 
     public int getKolicina() {

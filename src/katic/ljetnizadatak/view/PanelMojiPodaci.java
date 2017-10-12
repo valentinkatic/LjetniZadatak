@@ -34,6 +34,10 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
         txtLozinka.setText(korisnik.getLozinka());
     }
     
+    private void spremi(){
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,11 +72,14 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
 
         pnlSpremi.setBackground(new java.awt.Color(0, 163, 0));
         pnlSpremi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pnlSpremiMouseExited(evt);
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlSpremiMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnlSpremiMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlSpremiMouseExited(evt);
             }
         });
 
@@ -105,6 +112,11 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
         txtEmail.setToolTipText("Unesite vašu email adresu");
         txtEmail.setBorder(null);
         txtEmail.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(204, 204, 204));
@@ -120,6 +132,11 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
         txtLozinka.setToolTipText("Unesite vašu lozinku");
         txtLozinka.setBorder(null);
         txtLozinka.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtLozinka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLozinkaActionPerformed(evt);
+            }
+        });
 
         jSeparator9.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -133,6 +150,11 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
         txtIme.setToolTipText("Unesite vaše ime");
         txtIme.setBorder(null);
         txtIme.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtIme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImeActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 204, 204));
@@ -144,6 +166,11 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
         txtPrezime.setToolTipText("Unesite vaše prezime");
         txtPrezime.setBorder(null);
         txtPrezime.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtPrezime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrezimeActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(204, 204, 204));
@@ -155,6 +182,11 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
         txtKontaktBroj.setToolTipText("Unesite vaš kontakt broj");
         txtKontaktBroj.setBorder(null);
         txtKontaktBroj.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtKontaktBroj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtKontaktBrojActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(204, 204, 204));
@@ -165,11 +197,11 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pnlAdreseDostaveMouseClicked(evt);
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pnlAdreseDostaveMouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnlAdreseDostaveMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlAdreseDostaveMouseExited(evt);
             }
         });
 
@@ -223,39 +255,39 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
                 .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addGap(11, 11, 11)
+                .addGap(5, 5, 5)
                 .addComponent(txtIme, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(2, 2, 2)
                 .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jLabel5)
                 .addGap(3, 3, 3)
                 .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtKontaktBroj, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlAdreseDostave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlSpremi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -278,6 +310,30 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
     private void pnlAdreseDostaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAdreseDostaveMouseClicked
         menuListener.promjenaLijevogPanela(FormaAplikacije.ADRESE_DOSTAVE, FormaAplikacije.ADRESE_DOSTAVE);
     }//GEN-LAST:event_pnlAdreseDostaveMouseClicked
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        txtLozinka.requestFocus();
+    }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void txtLozinkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLozinkaActionPerformed
+        txtIme.requestFocus();
+    }//GEN-LAST:event_txtLozinkaActionPerformed
+
+    private void txtImeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImeActionPerformed
+        txtPrezime.requestFocus();
+    }//GEN-LAST:event_txtImeActionPerformed
+
+    private void txtPrezimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrezimeActionPerformed
+        txtKontaktBroj.requestFocus();
+    }//GEN-LAST:event_txtPrezimeActionPerformed
+
+    private void txtKontaktBrojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKontaktBrojActionPerformed
+        spremi();
+    }//GEN-LAST:event_txtKontaktBrojActionPerformed
+
+    private void pnlSpremiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlSpremiMouseClicked
+        spremi();
+    }//GEN-LAST:event_pnlSpremiMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -29,7 +29,9 @@ public class PanelIzbornikOdabranogRestorana extends javax.swing.JPanel {
     private Korisnik korisnik;
     private Restoran restoran;
     private MenuListener menuListener;
-    protected KategorijaJela entitet;
+    private KategorijaJela entitet;
+    
+    private PanelOdabraneKategorije panelOdabraneKategorije;
     
     public PanelIzbornikOdabranogRestorana(Korisnik korisnik, Restoran restoran, MenuListener menuListener) {
         this.korisnik = korisnik;
@@ -38,6 +40,7 @@ public class PanelIzbornikOdabranogRestorana extends javax.swing.JPanel {
         initComponents();
         
         lblBack.setText(restoran.getNaziv());
+        panelOdabraneKategorije = new PanelOdabraneKategorije(korisnik, restoran, null);
         obradaKategorijaJela = new ObradaKategorijaJela();
         ucitaj();
     }
@@ -53,13 +56,14 @@ public class PanelIzbornikOdabranogRestorana extends javax.swing.JPanel {
             lista.setSelectedValue(entitet, false);
         }
         
-        ucitajOdabranuKategoriju(null);
+         desniPanel.add(panelOdabraneKategorije, PONUDA_RESTORANA);
+         ((CardLayout) desniPanel.getLayout()).show(desniPanel, PONUDA_RESTORANA);
     }
-     
-    private void ucitajOdabranuKategoriju(KategorijaJela kategorijaJela){
-        desniPanel.add(new PanelOdabraneKategorije(korisnik, restoran, kategorijaJela), PONUDA_RESTORANA);
-        ((CardLayout) desniPanel.getLayout()).show(desniPanel, PONUDA_RESTORANA);
-    }
+//     
+//    private void ucitajOdabranuKategoriju(KategorijaJela kategorijaJela){
+//       
+//        ((CardLayout) desniPanel.getLayout()).show(desniPanel, PONUDA_RESTORANA);
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -132,7 +136,7 @@ public class PanelIzbornikOdabranogRestorana extends javax.swing.JPanel {
     private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
         try{
             this.entitet = lista.getSelectedValue();
-            ucitajOdabranuKategoriju(entitet);
+            panelOdabraneKategorije.setKategorija(entitet);
         } catch (Exception e){
             e.printStackTrace();
         }

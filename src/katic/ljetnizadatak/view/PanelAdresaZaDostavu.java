@@ -31,7 +31,10 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel{
         ucitaj();
     }   
     
-    
+    public void setAdresa(AdresaDostave adresaDostave){
+        this.entitet = adresaDostave;
+        ucitaj();
+    }
     
     private void ucitaj(){
         if (entitet!=null){

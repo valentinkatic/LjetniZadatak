@@ -25,6 +25,28 @@ public class PanelPrijave extends javax.swing.JPanel {
         this.menuListener = menuListener;
         this.obrada = new ObradaPrijave();
     }
+    
+    private void prijava(){
+        try {
+//            String email = txtEmail.getText();
+//            String lozinka = String.valueOf(txtLozinka.getPassword());
+            String email = "vk@mail.com";
+            String lozinka = "vk123";
+            switch(obrada.prijava(email, lozinka)){
+                case 0: //korisnik
+                    menuListener.onUserSignIn(FormaAplikacije.USERPANEL, obrada.prijavaKorisnika(email, lozinka));
+                    break;
+                    
+                case 1: //restoran
+                    menuListener.onRestaurantSignIn(FormaAplikacije.USERPANEL, obrada.prijavaRestorana(email, lozinka));
+                    break;
+            }
+        } catch (Iznimka i){
+            i.printStackTrace();
+        }
+        
+//        menuListener.onUserSignIn(FormaAplikacije.USERPANEL, new Korisnik());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,6 +84,11 @@ public class PanelPrijave extends javax.swing.JPanel {
         txtLozinka.setBorder(null);
         txtLozinka.setCaretColor(new java.awt.Color(255, 255, 255));
         txtLozinka.setNextFocusableComponent(pnlPrijava);
+        txtLozinka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLozinkaActionPerformed(evt);
+            }
+        });
 
         jSeparator9.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -71,17 +98,23 @@ public class PanelPrijave extends javax.swing.JPanel {
         txtEmail.setToolTipText("Unesite vašu email adresu");
         txtEmail.setBorder(null);
         txtEmail.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtEmail.setNextFocusableComponent(txtLozinka);
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
 
         pnlPrijava.setBackground(new java.awt.Color(125, 86, 192));
         pnlPrijava.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pnlPrijavaMouseClicked(evt);
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pnlPrijavaMouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnlPrijavaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlPrijavaMouseExited(evt);
             }
         });
 
@@ -150,26 +183,16 @@ public class PanelPrijave extends javax.swing.JPanel {
     }//GEN-LAST:event_pnlPrijavaMouseExited
 
     private void pnlPrijavaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPrijavaMouseClicked
-        try {
-//            String email = txtEmail.getText();
-//            String lozinka = String.valueOf(txtLozinka.getPassword());
-            String email = "vk@mail.com";
-            String lozinka = "vk123";
-            switch(obrada.prijava(email, lozinka)){
-                case 0: //korisnik
-                    menuListener.onUserSignIn(FormaAplikacije.USERPANEL, obrada.prijavaKorisnika(email, lozinka));
-                    break;
-                    
-                case 1: //restoran
-                    menuListener.onRestaurantSignIn(FormaAplikacije.USERPANEL, obrada.prijavaRestorana(email, lozinka));
-                    break;
-            }
-        } catch (Iznimka i){
-            i.printStackTrace();
-        }
-        
-//        menuListener.onUserSignIn(FormaAplikacije.USERPANEL, new Korisnik());
+        prijava();
     }//GEN-LAST:event_pnlPrijavaMouseClicked
+
+    private void txtLozinkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLozinkaActionPerformed
+        prijava();
+    }//GEN-LAST:event_txtLozinkaActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        txtLozinka.requestFocus();
+    }//GEN-LAST:event_txtEmailActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

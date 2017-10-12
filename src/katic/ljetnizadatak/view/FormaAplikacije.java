@@ -40,7 +40,7 @@ public class FormaAplikacije extends javax.swing.JFrame {
     private MenuListener menuListener = null;
     
     private CardLayout layoutLijevogPanela;
-    private CardLayout layoutDesnogPanela;
+    private CardLayout layoutDesnogPanela;           
     
     public FormaAplikacije() {
         initComponents();
@@ -65,7 +65,8 @@ public class FormaAplikacije extends javax.swing.JFrame {
             @Override
             public void onUserSignIn(String panel, Korisnik kor) {
                 korisnik = kor;
-                lijeviPanel.add(new PanelIzbornikKorisnika(menuListener, korisnik), USERPANEL);
+                PanelIzbornikKorisnika panelIzbornikKorisnika = new PanelIzbornikKorisnika(menuListener, korisnik);
+                lijeviPanel.add(panelIzbornikKorisnika, USERPANEL);
                 layoutLijevogPanela.show(lijeviPanel, panel);
                 
             }
@@ -93,13 +94,15 @@ public class FormaAplikacije extends javax.swing.JFrame {
             }
             
             @Override
-            public void onBackPressed(String panel){               
-                layoutLijevogPanela.show(lijeviPanel, USERPANEL);
-                if (panel.equals(ADRESE_DOSTAVE)){                   
-                    layoutDesnogPanela.show(desniPanel, MOJI_PODACI);
-                }
-                else if (panel.equals(PONUDA_RESTORANA)){            
-                    layoutDesnogPanela.show(desniPanel, RESTORANI);
+            public void onBackPressed(String panel){
+                if (korisnik!=null){
+                    layoutLijevogPanela.show(lijeviPanel, USERPANEL);
+                    if (panel.equals(ADRESE_DOSTAVE)){                   
+                        layoutDesnogPanela.show(desniPanel, MOJI_PODACI);
+                    }
+                    else if (panel.equals(PONUDA_RESTORANA)){            
+                        layoutDesnogPanela.show(desniPanel, RESTORANI);
+                    }
                 }
             }
             

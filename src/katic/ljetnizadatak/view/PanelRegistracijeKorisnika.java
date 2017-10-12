@@ -19,6 +19,10 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
     public PanelRegistracijeKorisnika() {
         initComponents();
     }
+    
+    private void registracija(){
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,7 +38,7 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         txtKontaktBroj = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        pnlRegistracija = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
@@ -62,6 +66,11 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
         txtPrezime.setToolTipText("Unesite vaše prezime");
         txtPrezime.setBorder(null);
         txtPrezime.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtPrezime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrezimeActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(204, 204, 204));
@@ -73,18 +82,26 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
         txtKontaktBroj.setToolTipText("Unesite vaš kontakt broj");
         txtKontaktBroj.setBorder(null);
         txtKontaktBroj.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtKontaktBroj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtKontaktBrojActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(204, 204, 204));
         jLabel5.setText("PREZIME");
 
-        jPanel1.setBackground(new java.awt.Color(125, 86, 192));
-        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel1MouseExited(evt);
+        pnlRegistracija.setBackground(new java.awt.Color(125, 86, 192));
+        pnlRegistracija.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlRegistracijaMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel1MouseEntered(evt);
+                pnlRegistracijaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlRegistracijaMouseExited(evt);
             }
         });
 
@@ -93,15 +110,15 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Registriraj se");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pnlRegistracijaLayout = new javax.swing.GroupLayout(pnlRegistracija);
+        pnlRegistracija.setLayout(pnlRegistracijaLayout);
+        pnlRegistracijaLayout.setHorizontalGroup(
+            pnlRegistracijaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnlRegistracijaLayout.setVerticalGroup(
+            pnlRegistracijaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlRegistracijaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
                 .addContainerGap())
@@ -121,6 +138,11 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
         txtLozinka.setToolTipText("Unesite vašu lozinku");
         txtLozinka.setBorder(null);
         txtLozinka.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtLozinka.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLozinkaActionPerformed(evt);
+            }
+        });
 
         jSeparator9.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -134,6 +156,11 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
         txtIme.setToolTipText("Unesite vaše ime");
         txtIme.setBorder(null);
         txtIme.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtIme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtImeActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 204));
@@ -145,6 +172,12 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
         txtEmail.setToolTipText("Unesite vašu email adresu");
         txtEmail.setBorder(null);
         txtEmail.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtEmail.setNextFocusableComponent(txtLozinka);
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -167,7 +200,7 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
                     .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlRegistracija, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtKontaktBroj, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(159, Short.MAX_VALUE))
         );
@@ -184,39 +217,63 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtIme, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(4, 4, 4)
                 .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jLabel5)
                 .addGap(3, 3, 3)
                 .addComponent(txtPrezime, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtKontaktBroj, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addComponent(pnlRegistracija, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(97, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered
-        jPanel1.setBackground(new Color(103,33,122));
-    }//GEN-LAST:event_jPanel1MouseEntered
+    private void pnlRegistracijaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlRegistracijaMouseEntered
+        pnlRegistracija.setBackground(new Color(103,33,122));
+    }//GEN-LAST:event_pnlRegistracijaMouseEntered
 
-    private void jPanel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseExited
-        jPanel1.setBackground(new Color(125,86,192));
-    }//GEN-LAST:event_jPanel1MouseExited
+    private void pnlRegistracijaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlRegistracijaMouseExited
+        pnlRegistracija.setBackground(new Color(125,86,192));
+    }//GEN-LAST:event_pnlRegistracijaMouseExited
+
+    private void txtImeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImeActionPerformed
+        txtPrezime.requestFocus();
+    }//GEN-LAST:event_txtImeActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        txtLozinka.requestFocus();
+    }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void txtLozinkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLozinkaActionPerformed
+        txtIme.requestFocus();
+    }//GEN-LAST:event_txtLozinkaActionPerformed
+
+    private void txtPrezimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrezimeActionPerformed
+        txtKontaktBroj.requestFocus();
+    }//GEN-LAST:event_txtPrezimeActionPerformed
+
+    private void txtKontaktBrojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKontaktBrojActionPerformed
+        registracija();
+    }//GEN-LAST:event_txtKontaktBrojActionPerformed
+
+    private void pnlRegistracijaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlRegistracijaMouseClicked
+        registracija();
+    }//GEN-LAST:event_pnlRegistracijaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -226,12 +283,12 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JPanel pnlRegistracija;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtIme;
     private javax.swing.JTextField txtKontaktBroj;
