@@ -30,6 +30,10 @@ public class PanelStart extends javax.swing.JPanel {
         this.menuListener = menuListener;
     }
 
+    public void setTabPrijave(){
+        pressedTab = 0;
+        PomagalaIzbornika.setClickedEffect(tabovi, lblPrijava, menuListener);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.

@@ -68,7 +68,7 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new RendererKategorijaJela()" type="code"/>
+              <Connection code="new katic.ljetnizadatak.view.renderer.RendererKategorijaJelaULijevomPanelu()" type="code"/>
             </Property>
           </Properties>
           <Events>

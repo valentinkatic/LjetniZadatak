@@ -15,6 +15,7 @@ import katic.ljetnizadatak.model.AdresaDostave;
 import katic.ljetnizadatak.model.Korisnik;
 import static katic.ljetnizadatak.view.FormaAplikacije.ADRESE_DOSTAVE;
 import katic.ljetnizadatak.view.renderer.RendererAdreseZaDostavu;
+import katic.pomocno.AddressListener;
 import katic.pomocno.MenuListener;
 
 /**
@@ -29,7 +30,8 @@ public class PanelIzbornikAdresaZaDostavu extends JPanel {
     private Korisnik korisnik;
     private MenuListener menuListener;
     private List<AdresaDostave> adreseDostave;
-    protected AdresaDostave entitet;
+    private AdresaDostave entitet;
+    private AddressListener addressListener;
     
     private PanelAdresaZaDostavu panelAdresaZaDostavu;
     
@@ -39,7 +41,25 @@ public class PanelIzbornikAdresaZaDostavu extends JPanel {
         initComponents();
         obradaAdresaDostave = new ObradaAdresaDostave();
         
-        panelAdresaZaDostavu = new PanelAdresaZaDostavu(korisnik, null);
+        addressListener = new AddressListener() {
+            @Override
+            public void adresaObrisana() {
+                ucitaj();
+                lista.clearSelection();
+                ucitajAdresu(null);
+            }
+            
+            @Override
+            public void adresaSpremljena(AdresaDostave adresaDostave) {
+                ucitaj();
+                lista.setSelectedValue(adresaDostave, true);
+                ucitajAdresu(adresaDostave);
+            }
+        }; 
+        
+        panelAdresaZaDostavu = new PanelAdresaZaDostavu(korisnik, null, addressListener);
+                
+        desniPanel.add(panelAdresaZaDostavu, ADRESE_DOSTAVE);
         ucitaj();
     }
 
@@ -55,13 +75,10 @@ public class PanelIzbornikAdresaZaDostavu extends JPanel {
             lista.setSelectedValue(entitet, false);
         }
         
-        
-        desniPanel.add(panelAdresaZaDostavu, ADRESE_DOSTAVE);
     }
     
     private void ucitajAdresu(AdresaDostave adresaDostave){
-        panelAdresaZaDostavu.setAdresa(adresaDostave);
-        
+        panelAdresaZaDostavu.setAdresa(adresaDostave);        
     }
     
     /**

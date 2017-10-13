@@ -7,6 +7,11 @@ package katic.ljetnizadatak.view;
 
 import java.awt.Color;
 import javax.swing.JTextField;
+import katic.ljetnizadatak.controller.ObradaRestoran;
+import katic.ljetnizadatak.model.Restoran;
+import katic.pomocno.Iznimka;
+import katic.pomocno.MenuListener;
+import katic.pomocno.Pomagala;
 
 /**
  *
@@ -14,17 +19,33 @@ import javax.swing.JTextField;
  */
 public class PanelRegistracijeRestorana extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelObrazacZaPrijavu
-     */
-    public PanelRegistracijeRestorana() {
+    private MenuListener menuListener;
+    private Restoran entitet;
+    private ObradaRestoran obrada;
+    
+    public PanelRegistracijeRestorana(MenuListener menuListener) {
         initComponents();
         
+        this.menuListener = menuListener;
+        this.entitet = new Restoran();
+        this.obrada = new ObradaRestoran();
         
     }
     
     private void registracija(){
-        
+        entitet.setNaziv(txtNaziv.getText());
+        entitet.setAdresa(txtAdresa.getText());
+        entitet.setGrad(txtGrad.getText());
+        entitet.setKontaktBroj(txtKontaktBroj.getText());
+        entitet.setEmail(txtEmail.getText());
+        entitet.setLozinka(String.valueOf(txtLozinka.getPassword())); 
+        entitet.setTip(1);
+        try {
+            entitet = obrada.spremi(entitet);
+            menuListener.onRestaurantSignIn(FormaAplikacije.RESTAURANTPANEL, entitet);
+        } catch (Iznimka i) {
+            provjeraGreske(i);
+        }
     }
 
     /**
@@ -310,6 +331,26 @@ public class PanelRegistracijeRestorana extends javax.swing.JPanel {
         txtNaziv.requestFocus();
     }//GEN-LAST:event_txtLozinkaActionPerformed
 
+    private void provjeraGreske(Iznimka i){
+        Pomagala.izbaciDialogSGreskom(this, i);
+            switch(i.getGreska()){
+                case ObradaRestoran.NAZIV:
+                   txtNaziv.requestFocus();
+                   break;
+                case ObradaRestoran.GRAD:
+                   txtGrad.requestFocus();
+                   break;
+                case ObradaRestoran.KONTAKT_BROJ:
+                   txtKontaktBroj.requestFocus();
+                   break;
+                case ObradaRestoran.EMAIL:
+                   txtEmail.requestFocus();
+                   break;
+                case ObradaRestoran.LOZINKA:
+                   txtLozinka.requestFocus();
+                   break;
+            }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;

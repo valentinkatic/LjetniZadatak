@@ -14,7 +14,7 @@ import katic.ljetnizadatak.model.KategorijaJela;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
 import static katic.ljetnizadatak.view.FormaAplikacije.PONUDA_RESTORANA;
-import katic.ljetnizadatak.view.renderer.RendererKategorijaJela;
+import katic.ljetnizadatak.view.renderer.RendererKategorijaJelaULijevomPanelu;
 import katic.pomocno.MenuListener;
 
 /**
@@ -84,7 +84,7 @@ public class PanelIzbornikOdabranogRestorana extends javax.swing.JPanel {
 
         lista.setBackground(new java.awt.Color(38, 40, 55));
         lista.setToolTipText("");
-        lista.setCellRenderer(new RendererKategorijaJela());
+        lista.setCellRenderer(new RendererKategorijaJelaULijevomPanelu());
         lista.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listaValueChanged(evt);

@@ -25,7 +25,7 @@
               <EmptySpace min="0" pref="58" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="lblRestorani" alignment="1" min="-2" pref="242" max="-2" attributes="0"/>
-                  <Component id="lblKošarica" alignment="1" min="-2" pref="242" max="-2" attributes="0"/>
+                  <Component id="lblKosarica" alignment="1" min="-2" pref="242" max="-2" attributes="0"/>
                   <Component id="lblPovijestNarudzbi" alignment="1" min="-2" pref="242" max="-2" attributes="0"/>
                   <Component id="lblMojiPodaci" alignment="1" min="-2" pref="242" max="-2" attributes="0"/>
                   <Component id="lblOdjava" alignment="1" min="-2" pref="242" max="-2" attributes="0"/>
@@ -46,7 +46,7 @@
               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="lblRestorani" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="lblKošarica" min="-2" max="-2" attributes="0"/>
+              <Component id="lblKosarica" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="lblPovijestNarudzbi" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -88,7 +88,7 @@
         <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblRestoraniMouseExited"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblKo&#x161;arica">
+    <Component class="javax.swing.JLabel" name="lblKosarica">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="37" green="28" red="26" type="rgb"/>
@@ -112,9 +112,9 @@
         <Property name="opaque" type="boolean" value="true"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblKo&#x161;aricaMouseClicked"/>
-        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblKo&#x161;aricaMouseEntered"/>
-        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblKo&#x161;aricaMouseExited"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblKosaricaMouseClicked"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblKosaricaMouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblKosaricaMouseExited"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblPovijestNarudzbi">

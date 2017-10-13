@@ -6,6 +6,7 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.CardLayout;
+import katic.pomocno.MenuListener;
 import katic.pomocno.PomagalaIzbornika;
 
 /**
@@ -17,19 +18,22 @@ public class PanelRegistracije extends javax.swing.JPanel {
     private static final String KORISNIK = "KORISNIK";
     private static final String RESTORAN = "RESTORAN";
     
+    private MenuListener menuListener;
     private CardLayout cardLayout;
     private int pressedTab = 0;
     /**
      * Creates new form PanelRegistracije
      */
-    public PanelRegistracije() {
+    public PanelRegistracije(MenuListener menuListener) {
         initComponents();
+        this.menuListener = menuListener;
+        
         cardLayout = (CardLayout) panelTijela.getLayout();
         
         panelTijela.setBounds(0, 25, 400, 500);
-        PanelRegistracijeKorisnika panelRegistracijeKorisnika = new PanelRegistracijeKorisnika();
+        PanelRegistracijeKorisnika panelRegistracijeKorisnika = new PanelRegistracijeKorisnika(menuListener);
         panelRegistracijeKorisnika.setSize(400,475);
-        PanelRegistracijeRestorana panelRegistracijeRestorana = new PanelRegistracijeRestorana();
+        PanelRegistracijeRestorana panelRegistracijeRestorana = new PanelRegistracijeRestorana(menuListener);
         panelRegistracijeRestorana.setSize(400,475);
         
         panelTijela.add(panelRegistracijeKorisnika, KORISNIK);

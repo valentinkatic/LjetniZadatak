@@ -6,8 +6,11 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.Color;
+import katic.ljetnizadatak.controller.ObradaKorisnik;
 import katic.ljetnizadatak.model.Korisnik;
+import katic.pomocno.Iznimka;
 import katic.pomocno.MenuListener;
+import katic.pomocno.Pomagala;
 
 /**
  *
@@ -17,12 +20,14 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
 
     private MenuListener menuListener;
     private Korisnik korisnik;
+    private ObradaKorisnik obrada;
     
     public PanelMojiPodaci(MenuListener menuListener, Korisnik korisnik) {
         initComponents();
         this.menuListener = menuListener;
         this.korisnik = korisnik;
         
+        obrada = new ObradaKorisnik();
         ucitaj();
     }
 
@@ -35,7 +40,17 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
     }
     
     private void spremi(){
-        
+        korisnik.setIme(txtIme.getText());
+        korisnik.setPrezime(txtPrezime.getText());
+        korisnik.setKontaktBroj(txtKontaktBroj.getText());
+        korisnik.setEmail(txtEmail.getText());
+        korisnik.setLozinka(String.valueOf(txtLozinka.getPassword()));
+        try{
+            korisnik = obrada.spremi(korisnik);
+        } catch (Iznimka i){
+            provjeraGreske(i);
+        }
+        ucitaj();
     }
     
     /**
@@ -335,6 +350,26 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
         spremi();
     }//GEN-LAST:event_pnlSpremiMouseClicked
 
+    private void provjeraGreske(Iznimka i){
+        Pomagala.izbaciDialogSGreskom(this, i);
+            switch(i.getGreska()){
+                case ObradaKorisnik.IME:
+                   txtIme.requestFocus();
+                   break;
+                case ObradaKorisnik.PREZIME:
+                   txtPrezime.requestFocus();
+                   break;
+                case ObradaKorisnik.KONTAKT_BROJ:
+                   txtKontaktBroj.requestFocus();
+                   break;
+                case ObradaKorisnik.EMAIL:
+                   txtEmail.requestFocus();
+                   break;
+                case ObradaKorisnik.LOZINKA:
+                   txtLozinka.requestFocus();
+                   break;
+            }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;

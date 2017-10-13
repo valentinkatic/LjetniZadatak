@@ -38,7 +38,7 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
         ucitajPanelPrijavljenogKorisnika();
         
         tabovi.add(new Tab(lblRestorani, FormaAplikacije.RESTORANI));
-        tabovi.add(new Tab(lblKošarica, FormaAplikacije.KOSARICA));
+        tabovi.add(new Tab(lblKosarica, FormaAplikacije.KOSARICA));
         tabovi.add(new Tab(lblPovijestNarudzbi, FormaAplikacije.POVIJEST_NARUDZBI));
         tabovi.add(new Tab(lblMojiPodaci, FormaAplikacije.MOJI_PODACI));
         tabovi.add(new Tab(lblOdjava, FormaAplikacije.ODJAVA));
@@ -72,7 +72,7 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
     private void initComponents() {
 
         lblRestorani = new javax.swing.JLabel();
-        lblKošarica = new javax.swing.JLabel();
+        lblKosarica = new javax.swing.JLabel();
         lblPovijestNarudzbi = new javax.swing.JLabel();
         lblMojiPodaci = new javax.swing.JLabel();
         lblOdjava = new javax.swing.JLabel();
@@ -102,23 +102,23 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
             }
         });
 
-        lblKošarica.setBackground(new java.awt.Color(38, 40, 55));
-        lblKošarica.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
-        lblKošarica.setForeground(new java.awt.Color(204, 204, 204));
-        lblKošarica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/cart.png"))); // NOI18N
-        lblKošarica.setText("Košarica");
-        lblKošarica.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        lblKošarica.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        lblKošarica.setOpaque(true);
-        lblKošarica.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblKosarica.setBackground(new java.awt.Color(38, 40, 55));
+        lblKosarica.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        lblKosarica.setForeground(new java.awt.Color(204, 204, 204));
+        lblKosarica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/cart.png"))); // NOI18N
+        lblKosarica.setText("Košarica");
+        lblKosarica.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        lblKosarica.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        lblKosarica.setOpaque(true);
+        lblKosarica.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblKošaricaMouseClicked(evt);
+                lblKosaricaMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lblKošaricaMouseEntered(evt);
+                lblKosaricaMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                lblKošaricaMouseExited(evt);
+                lblKosaricaMouseExited(evt);
             }
         });
 
@@ -203,7 +203,7 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
                 .addGap(0, 58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblRestorani, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblKošarica, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblKosarica, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPovijestNarudzbi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblMojiPodaci, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblOdjava, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -220,7 +220,7 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(lblRestorani)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblKošarica)
+                .addComponent(lblKosarica)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblPovijestNarudzbi)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -243,17 +243,17 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
         PomagalaIzbornika.setUnHoverEffect(tabovi.get(pressedTab), (JLabel)evt.getComponent());
     }//GEN-LAST:event_lblRestoraniMouseExited
 
-    private void lblKošaricaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKošaricaMouseClicked
+    private void lblKosaricaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKosaricaMouseClicked
         pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
-    }//GEN-LAST:event_lblKošaricaMouseClicked
+    }//GEN-LAST:event_lblKosaricaMouseClicked
 
-    private void lblKošaricaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKošaricaMouseEntered
+    private void lblKosaricaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKosaricaMouseEntered
         PomagalaIzbornika.setHoverEffect((JLabel)evt.getComponent());
-    }//GEN-LAST:event_lblKošaricaMouseEntered
+    }//GEN-LAST:event_lblKosaricaMouseEntered
 
-    private void lblKošaricaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKošaricaMouseExited
+    private void lblKosaricaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKosaricaMouseExited
         PomagalaIzbornika.setUnHoverEffect(tabovi.get(pressedTab), (JLabel)evt.getComponent());
-    }//GEN-LAST:event_lblKošaricaMouseExited
+    }//GEN-LAST:event_lblKosaricaMouseExited
 
     private void lblPovijestNarudzbiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPovijestNarudzbiMouseClicked
         pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
@@ -296,7 +296,7 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblDobrodosli;
     private javax.swing.JLabel lblIme;
-    private javax.swing.JLabel lblKošarica;
+    private javax.swing.JLabel lblKosarica;
     private javax.swing.JLabel lblMojiPodaci;
     private javax.swing.JLabel lblOdjava;
     private javax.swing.JLabel lblPovijestNarudzbi;

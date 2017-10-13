@@ -49,6 +49,16 @@ public class ObradaNarudzba {
                 .list();
     }
     
+    public List<Narudzba> getSveNoveNarudzbe(Korisnik k){
+        return HibernateUtil
+                .getSession()
+                .createQuery("from Narudzba n where "
+                        + "n.obrisan=false AND n.korisnik= :korisnik "
+                        + "AND n.nova=true")  
+                .setLong("korisnik", k.getSifra())
+                .list();
+    }
+    
     public Narudzba spremi(Narudzba n) throws Iznimka{
         
         if (n==null){

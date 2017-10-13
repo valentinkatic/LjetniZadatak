@@ -6,8 +6,7 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.CardLayout;
-import java.awt.Component;
-import katic.ljetnizadatak.model.AdresaDostave;
+import katic.ljetnizadatak.model.KategorijaJela;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
 import katic.pomocno.MenuListener;
@@ -34,13 +33,19 @@ public class FormaAplikacije extends javax.swing.JFrame {
     public static String ADRESE_DOSTAVE = "ADRESE_DOSTAVE";
     public static String PONUDA_RESTORANA = "PONUDA_RESTORANA";
     
+    public static String PODACI_RESTORANA = "PODACI_RESTORANA";
+    public static String LISTA_KATEGORIJA = "LISTA_KATEGORIJA";
+    public static String NARUDZBE = "NARUDZBE";
+    
     private Korisnik korisnik = null;
     private Restoran restoran = null;
     
     private MenuListener menuListener = null;
     
     private CardLayout layoutLijevogPanela;
-    private CardLayout layoutDesnogPanela;           
+    private CardLayout layoutDesnogPanela;   
+    
+    private PanelStart panelStart;
     
     public FormaAplikacije() {
         initComponents();
@@ -67,15 +72,15 @@ public class FormaAplikacije extends javax.swing.JFrame {
                 korisnik = kor;
                 PanelIzbornikKorisnika panelIzbornikKorisnika = new PanelIzbornikKorisnika(menuListener, korisnik);
                 lijeviPanel.add(panelIzbornikKorisnika, USERPANEL);
-                layoutLijevogPanela.show(lijeviPanel, panel);
-                
+                layoutLijevogPanela.show(lijeviPanel, panel);                
             }
             
             @Override
             public void onRestaurantSignIn(String panel, Restoran rest) {
                 restoran = rest;
-                layoutLijevogPanela.show(lijeviPanel, panel);
-                
+                PanelIzbornikRestorana panelIzbornikRestorana = new PanelIzbornikRestorana(menuListener, restoran);
+                lijeviPanel.add(panelIzbornikRestorana, RESTAURANTPANEL);
+                layoutLijevogPanela.show(lijeviPanel, panel);                
             }
             
             @Override
@@ -84,13 +89,19 @@ public class FormaAplikacije extends javax.swing.JFrame {
                     lijeviPanel.add(new PanelIzbornikAdresaZaDostavu(korisnik, menuListener), lijeviPnl);
                     layoutLijevogPanela.show(lijeviPanel, lijeviPnl);
                     layoutDesnogPanela.show(desniPanel, lijeviPnl);
-                }                 
+                }                
             }
             
             @Override
             public void odabraniRestoran(Restoran restoran){
                 lijeviPanel.add(new PanelIzbornikOdabranogRestorana(korisnik, restoran, menuListener), PONUDA_RESTORANA);
                 layoutLijevogPanela.show(lijeviPanel, PONUDA_RESTORANA);
+            }
+            
+            @Override
+            public void odabranaKategorija(Restoran restoran, KategorijaJela kategorijaJela){
+                lijeviPanel.add(new PanelIzbornikOdabraneKategorije(restoran, kategorijaJela, menuListener), LISTA_KATEGORIJA);
+                layoutLijevogPanela.show(lijeviPanel, LISTA_KATEGORIJA);
             }
             
             @Override
@@ -102,6 +113,11 @@ public class FormaAplikacije extends javax.swing.JFrame {
                     }
                     else if (panel.equals(PONUDA_RESTORANA)){            
                         layoutDesnogPanela.show(desniPanel, RESTORANI);
+                    }                    
+                } else if (restoran!=null){
+                    layoutLijevogPanela.show(lijeviPanel, RESTAURANTPANEL);
+                    if (panel.equals(LISTA_KATEGORIJA)){            
+                        layoutDesnogPanela.show(desniPanel, LISTA_KATEGORIJA);
                     }
                 }
             }
@@ -111,11 +127,12 @@ public class FormaAplikacije extends javax.swing.JFrame {
                 korisnik = null;
                 restoran = null;
                 layoutLijevogPanela.show(lijeviPanel, START);
+                panelStart.setTabPrijave();
                 ucitajPocetniDesniPanel();
             }
         };
-        
-        lijeviPanel.add(new PanelStart(menuListener), START);
+        panelStart = new PanelStart(menuListener);
+        lijeviPanel.add(panelStart, START);
         
         ucitajPocetniDesniPanel();
     }
@@ -123,7 +140,7 @@ public class FormaAplikacije extends javax.swing.JFrame {
     private void ucitajPocetniDesniPanel(){
         desniPanel.removeAll();
         desniPanel.add(new PanelPrijave(menuListener), PRIJAVA);
-        desniPanel.add(new PanelRegistracije(), REGISTRACIJA);
+        desniPanel.add(new PanelRegistracije(menuListener), REGISTRACIJA);
         desniPanel.validate();
         desniPanel.repaint();
     }

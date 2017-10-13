@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.TrayIcon;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,11 +101,14 @@ public class FormaJelo extends JFrame {
         entitet.setCijena(Double.parseDouble(txtCijena.getText()));
         KategorijaJela k = (KategorijaJela) cmbKategorije.getSelectedItem();
         entitet.setKategorijaJela(k);
-        entitet.setRestoran(restoran);
+        k.getRestorani().add(restoran);
+        entitet.setRestoran(restoran);        
         try {
             entitet = obrada.spremi(entitet);
+            k = obradaKategorijaJela.spremi(k);
         } catch (Iznimka i) {
             provjeraGreske(i);
+            i.printStackTrace();
         }
         ucitaj();
     }

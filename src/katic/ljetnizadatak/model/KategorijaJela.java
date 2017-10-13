@@ -50,8 +50,6 @@ public class KategorijaJela extends Entitet implements Serializable{
         this.restorani = restorani;
     }
 
-    
-    
     @Override
     public String toString() {
         return naziv;

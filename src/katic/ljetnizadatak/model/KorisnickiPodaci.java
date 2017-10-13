@@ -18,7 +18,7 @@ public abstract class KorisnickiPodaci extends Entitet implements Serializable{
     private String email;
     private String lozinka;
     private String kontaktBroj;
-    private int tip;    //0 restoran, 1 korisnik
+    private int tip;    //0 korisnik, 1 restoran
        
     public String getEmail() {
         return email;

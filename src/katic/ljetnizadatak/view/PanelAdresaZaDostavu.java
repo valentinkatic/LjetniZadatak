@@ -9,6 +9,7 @@ import java.awt.Color;
 import katic.ljetnizadatak.controller.ObradaAdresaDostave;
 import katic.ljetnizadatak.model.AdresaDostave;
 import katic.ljetnizadatak.model.Korisnik;
+import katic.pomocno.AddressListener;
 import katic.pomocno.Iznimka;
 import katic.pomocno.Pomagala;
 
@@ -21,13 +22,14 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel{
     private Korisnik korisnik;
     private AdresaDostave entitet;
     private ObradaAdresaDostave obradaAdresaDostave;
+    private AddressListener addressListener;
     
-    public PanelAdresaZaDostavu(Korisnik korisnik, AdresaDostave entitet) {
+    public PanelAdresaZaDostavu(Korisnik korisnik, AdresaDostave entitet, AddressListener addressListener) {
         initComponents();
         this.korisnik = korisnik;
         this.entitet = entitet;   
         this.obradaAdresaDostave = new ObradaAdresaDostave();
-        
+        this.addressListener = addressListener;
         ucitaj();
     }   
     
@@ -87,6 +89,9 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel{
 
         pnlDodaj.setBackground(new java.awt.Color(125, 86, 192));
         pnlDodaj.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlDodajMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pnlDodajMouseExited(evt);
             }
@@ -120,6 +125,9 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel{
 
         pnlPromijeni.setBackground(new java.awt.Color(0, 163, 0));
         pnlPromijeni.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlPromijeniMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pnlPromijeniMouseExited(evt);
             }
@@ -177,6 +185,9 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel{
 
         pnlObrisi.setBackground(new java.awt.Color(218, 83, 44));
         pnlObrisi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlObrisiMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pnlObrisiMouseExited(evt);
             }
@@ -286,6 +297,27 @@ public class PanelAdresaZaDostavu extends javax.swing.JPanel{
     private void pnlObrisiMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlObrisiMouseEntered
         pnlObrisi.setBackground(new Color(103,33,122));
     }//GEN-LAST:event_pnlObrisiMouseEntered
+
+    private void pnlObrisiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlObrisiMouseClicked
+        try {
+            obradaAdresaDostave.obrisi(entitet);
+            addressListener.adresaObrisana();
+            ucitaj();
+        } catch (Iznimka i){
+            provjeraGreske(i);
+        }
+    }//GEN-LAST:event_pnlObrisiMouseClicked
+
+    private void pnlPromijeniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPromijeniMouseClicked
+        spremi();
+        addressListener.adresaSpremljena(entitet);
+    }//GEN-LAST:event_pnlPromijeniMouseClicked
+
+    private void pnlDodajMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDodajMouseClicked
+        this.entitet = new AdresaDostave();
+        spremi();        
+        addressListener.adresaSpremljena(entitet);
+    }//GEN-LAST:event_pnlDodajMouseClicked
 
     private void provjeraGreske(Iznimka i){
         Pomagala.izbaciDialogSGreskom(this, i);

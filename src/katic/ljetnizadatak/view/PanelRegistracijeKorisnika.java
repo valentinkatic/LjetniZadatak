@@ -6,6 +6,11 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.Color;
+import katic.ljetnizadatak.controller.ObradaKorisnik;
+import katic.ljetnizadatak.model.Korisnik;
+import katic.pomocno.Iznimka;
+import katic.pomocno.MenuListener;
+import katic.pomocno.Pomagala;
 
 /**
  *
@@ -13,15 +18,31 @@ import java.awt.Color;
  */
 public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelObrazacZaPrijavu
-     */
-    public PanelRegistracijeKorisnika() {
+    private Korisnik entitet;
+    private ObradaKorisnik obrada;
+    private MenuListener menuListener;
+    
+    public PanelRegistracijeKorisnika(MenuListener menuListener) {
         initComponents();
+        
+        this.entitet = new Korisnik();
+        this.obrada = new ObradaKorisnik();
+        this.menuListener = menuListener;
     }
     
     private void registracija(){
-        
+        entitet.setIme(txtIme.getText());
+        entitet.setPrezime(txtPrezime.getText());
+        entitet.setKontaktBroj(txtKontaktBroj.getText());
+        entitet.setEmail(txtEmail.getText());
+        entitet.setLozinka(String.valueOf(txtLozinka.getPassword()));        
+        entitet.setTip(0);
+        try{
+            entitet = obrada.spremi(entitet);
+            menuListener.onUserSignIn(FormaAplikacije.USERPANEL, entitet);
+        } catch (Iznimka i){
+            provjeraGreske(i);
+        }
     }
 
     /**
@@ -275,6 +296,26 @@ public class PanelRegistracijeKorisnika extends javax.swing.JPanel {
         registracija();
     }//GEN-LAST:event_pnlRegistracijaMouseClicked
 
+    private void provjeraGreske(Iznimka i){
+        Pomagala.izbaciDialogSGreskom(this, i);
+            switch(i.getGreska()){
+                case ObradaKorisnik.IME:
+                   txtIme.requestFocus();
+                   break;
+                case ObradaKorisnik.PREZIME:
+                   txtPrezime.requestFocus();
+                   break;
+                case ObradaKorisnik.KONTAKT_BROJ:
+                   txtKontaktBroj.requestFocus();
+                   break;
+                case ObradaKorisnik.EMAIL:
+                   txtEmail.requestFocus();
+                   break;
+                case ObradaKorisnik.LOZINKA:
+                   txtLozinka.requestFocus();
+                   break;
+            }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;

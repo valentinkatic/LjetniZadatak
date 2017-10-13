@@ -5,6 +5,7 @@
  */
 package katic.pomocno;
 
+import katic.ljetnizadatak.model.KategorijaJela;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
 
@@ -19,6 +20,8 @@ public interface MenuListener {
     void promjenaLijevogPanela(String lijeviPnl, String desniPnl);
     
     void odabraniRestoran(Restoran restoran);
+    
+    void odabranaKategorija(Restoran restoran, KategorijaJela kategorijaJela);
     
     void onUserSignIn(String panel, Korisnik korisnik);
     

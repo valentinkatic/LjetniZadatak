@@ -10,16 +10,15 @@ import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import katic.ljetnizadatak.model.KategorijaJela;
-import katic.ljetnizadatak.model.Restoran;
+import katic.ljetnizadatak.model.Jelo;
 
 /**
  *
  * @author Valentin
  */
-public class RendererKategorijaJela extends JLabel implements ListCellRenderer{
+public class RendererJelaULijevomPanelu extends JLabel implements ListCellRenderer{
     
-    public RendererKategorijaJela() {
+    public RendererJelaULijevomPanelu() {
         setOpaque(true);
         setIconTextGap(12);
         setForeground(new java.awt.Color(204, 204, 204));
@@ -31,7 +30,7 @@ public class RendererKategorijaJela extends JLabel implements ListCellRenderer{
     public Component getListCellRendererComponent(JList list, Object value,
         int index, boolean isSelected, boolean cellHasFocus) {
        
-        KategorijaJela entry = (KategorijaJela) value;
+        Jelo entry = (Jelo) value;
         setText(entry.getNaziv());
         if (isSelected) {
           setBackground(new Color(58,56,77));

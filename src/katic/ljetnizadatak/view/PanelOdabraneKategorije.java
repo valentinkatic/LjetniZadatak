@@ -6,8 +6,10 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import katic.ljetnizadatak.controller.ObradaJelo;
 import katic.ljetnizadatak.controller.ObradaNarudzba;
 import katic.ljetnizadatak.controller.ObradaNarudzbaJelo;
@@ -35,8 +37,11 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
     private List<Jelo> jela;
     private Jelo odabranoJelo;
     private Narudzba narudzba;
+    private boolean dodanoUNarudzbu = false;
+    private boolean triggerPromjena = false;
     
     private int kolicina = 1;
+    private int pocetnaKolicina = 1;
     
     public PanelOdabraneKategorije(Korisnik korisnik, Restoran restoran, KategorijaJela kategorijaJela) {
         this.korisnik = korisnik;
@@ -86,10 +91,7 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
         ucitaj();
     }
     
-    private void setUkupno(){        
-        if (odabranoJelo == null){
-            return;
-        }
+    private void setUkupno(){      
         lblUkupno.setText(String.format("%.2f kn", kolicina*odabranoJelo.getCijena()));
     }
     
@@ -97,11 +99,34 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
         kolicina = 1;
         lblUkupno.setText(String.format("0.00 kn"));
         lblKolicina.setText("1");
+        pocetnaKolicina = 1;
+    }
+    
+    private void provjeriJelUNarudzbi(){
+        dodanoUNarudzbu = false;
+        List<Narudzba> narudzbe = obradaNarudzba.getSveNoveNarudzbe(korisnik);
+        for (Narudzba n:narudzbe){
+           for (NarudzbaJelo nj: n.getNarudzbaJela()){
+               if (nj.getJelo().equals(odabranoJelo) && !nj.isObrisan()){
+                   dodanoUNarudzbu = true;                        
+                   lblKolicina.setText(String.format("%d", nj.getKolicina()));
+                   kolicina = nj.getKolicina();
+                   pocetnaKolicina = kolicina;                   
+                   break;
+               }
+           }
+        }
+        setDefaultBackground();
+        if (!dodanoUNarudzbu){                                  
+            lblKolicina.setText("1");
+            lblUkupno.setText("0.00 kn");
+            kolicina = 1;
+        }
     }
     
     private void dodajUKosaricu(){
         if (odabranoJelo.getRestoran()!=narudzba.getRestoran()){
-            System.out.println("katic.ljetnizadatak.view.PanelOdabraneKategorije.dodajUKosaricu()");
+            JOptionPane.showMessageDialog(this, "Ne možete imati više od jednog restorana u košarici!", "Košarica", JOptionPane.WARNING_MESSAGE); 
             return;
         }
         if (narudzba.getSifra()==null){
@@ -111,32 +136,75 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
                 i.printStackTrace();
             }
         }
+        
         NarudzbaJelo narudzbaJelo = null;
-        boolean imaJelo = false;
+        boolean jeloVecUNarudzbi = false;
         if (narudzba.getNarudzbaJela()!=null){
             for (NarudzbaJelo nj: narudzba.getNarudzbaJela()){
                 if (nj.getJelo()==odabranoJelo){
                     nj.setKolicina(kolicina);
+                    nj.setObrisan(false);
                     narudzbaJelo = nj;
-                    imaJelo = true;
+                    jeloVecUNarudzbi = true;
                     break;
                 }
             }
         }
         
-        if (!imaJelo){
+        if (!jeloVecUNarudzbi){
             narudzbaJelo = new NarudzbaJelo();
             narudzbaJelo.setKolicina(kolicina);            
             narudzbaJelo.setNarudzba(narudzba);      
             odabranoJelo.getNarudzbaJela().add(narudzbaJelo); 
-            narudzbaJelo.setJelo(odabranoJelo);    
+            narudzbaJelo.setJelo(odabranoJelo); 
+            if (narudzba.getNarudzbaJela()==null){
+                narudzba.setNarudzbaJela(new ArrayList<>());
+            }
             narudzba.getNarudzbaJela().add(narudzbaJelo);
         }
         try {            
             narudzba = obradaNarudzba.spremi(narudzba);
             narudzbaJelo = obradaNarudzbaJelo.spremi(narudzbaJelo);
+            provjeriJelUNarudzbi();
+            triggerPromjena = false;
+            pocetnaKolicina = kolicina;
+            setDefaultBackground();
         } catch (Iznimka i){
             i.printStackTrace();
+        }
+    }
+    
+    private void izbrisiIzKosarice(){
+        for (Narudzba n: obradaNarudzba.getSveNoveNarudzbe(korisnik)){
+            for (NarudzbaJelo nj: n.getNarudzbaJela()){
+                if (nj.getJelo().equals(odabranoJelo)){
+                    nj.setObrisan(true);
+                    try {
+                        obradaNarudzbaJelo.spremi(nj);
+                        provjeriJelUNarudzbi();
+                        setZadaneVrijednosti();
+                        setDefaultBackground();
+                    } catch (Iznimka i){
+                        i.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }        
+    }
+    
+    private void setDefaultBackground(){
+        if (dodanoUNarudzbu){
+            if (triggerPromjena){
+                pnlDodajUKosaricu.setBackground(new Color(0,163,0));
+                lblDodajUKošaricu.setText("Promijeni");
+            } else {
+                pnlDodajUKosaricu.setBackground(new Color(238,17,17));
+                lblDodajUKošaricu.setText("Izbriši iz košarice");
+            }
+        } else {
+            pnlDodajUKosaricu.setBackground(new Color(125,86,192));
+            lblDodajUKošaricu.setText("Dodaj u košaricu");
         }
     }
     
@@ -157,7 +225,7 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
         lblKolicina = new javax.swing.JLabel();
         lblUkupno = new javax.swing.JLabel();
         pnlDodajUKosaricu = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        lblDodajUKošaricu = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(58, 56, 77));
 
@@ -215,10 +283,10 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Dodaj u košaricu");
+        lblDodajUKošaricu.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        lblDodajUKošaricu.setForeground(new java.awt.Color(255, 255, 255));
+        lblDodajUKošaricu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDodajUKošaricu.setText("Dodaj u košaricu");
 
         javax.swing.GroupLayout pnlDodajUKosaricuLayout = new javax.swing.GroupLayout(pnlDodajUKosaricu);
         pnlDodajUKosaricu.setLayout(pnlDodajUKosaricuLayout);
@@ -228,7 +296,7 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
             .addGroup(pnlDodajUKosaricuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlDodajUKosaricuLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(lblDodajUKošaricu, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         pnlDodajUKosaricuLayout.setVerticalGroup(
@@ -237,7 +305,7 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
             .addGroup(pnlDodajUKosaricuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlDodajUKosaricuLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDodajUKošaricu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -256,8 +324,9 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
                         .addComponent(btnPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblUkupno, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pnlDodajUKosaricu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlDodajUKosaricu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(lblNaziv)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -282,11 +351,19 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnlDodajUKosaricuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDodajUKosaricuMouseClicked
-        dodajUKosaricu();
+        if (dodanoUNarudzbu){
+            if (triggerPromjena){
+                dodajUKosaricu();
+            } else {
+                izbrisiIzKosarice();
+            }
+        } else {
+            dodajUKosaricu();
+        }
     }//GEN-LAST:event_pnlDodajUKosaricuMouseClicked
 
     private void pnlDodajUKosaricuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDodajUKosaricuMouseExited
-        pnlDodajUKosaricu.setBackground(new Color(125,86,192));
+        setDefaultBackground();
     }//GEN-LAST:event_pnlDodajUKosaricuMouseExited
 
     private void pnlDodajUKosaricuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlDodajUKosaricuMouseEntered
@@ -295,6 +372,12 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
 
     private void btnPlusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPlusMouseClicked
         kolicina ++;
+        if (dodanoUNarudzbu && kolicina!=pocetnaKolicina){
+            triggerPromjena = true;
+        } else {
+            triggerPromjena = false;
+        }
+        setDefaultBackground();
         lblKolicina.setText(String.format("%d", kolicina));
         setUkupno();
     }//GEN-LAST:event_btnPlusMouseClicked
@@ -303,16 +386,20 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
         if (lista.getSelectedValue()==null){
             return;
         }
-        odabranoJelo = lista.getSelectedValue();
-        lblKolicina.setText("1");
-        lblUkupno.setText("0.00 kn");
-        kolicina = 1;
+        odabranoJelo = lista.getSelectedValue();       
+        provjeriJelUNarudzbi();
         setUkupno();
     }//GEN-LAST:event_listaValueChanged
 
     private void btnMinusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinusMouseClicked
         if (kolicina>1){
             kolicina --;
+            if (dodanoUNarudzbu && kolicina!=pocetnaKolicina){
+                triggerPromjena = true;
+            } else {
+                triggerPromjena = false;
+            }
+            setDefaultBackground();
             lblKolicina.setText(String.format("%d", kolicina));            
         }
         setUkupno();
@@ -322,8 +409,8 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnMinus;
     private javax.swing.JLabel btnPlus;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDodajUKošaricu;
     private javax.swing.JLabel lblKolicina;
     private javax.swing.JLabel lblNaziv;
     private javax.swing.JLabel lblUkupno;
