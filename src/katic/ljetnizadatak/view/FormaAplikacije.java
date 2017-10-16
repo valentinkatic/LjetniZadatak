@@ -9,6 +9,7 @@ import java.awt.CardLayout;
 import katic.ljetnizadatak.model.KategorijaJela;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
+import katic.pomocno.KorisnikListener;
 import katic.pomocno.MenuListener;
 
 /**
@@ -36,6 +37,7 @@ public class FormaAplikacije extends javax.swing.JFrame {
     public static String PODACI_RESTORANA = "PODACI_RESTORANA";
     public static String LISTA_KATEGORIJA = "LISTA_KATEGORIJA";
     public static String NARUDZBE = "NARUDZBE";
+    public static String JELO = "JELO";
     
     private Korisnik korisnik = null;
     private Restoran restoran = null;
@@ -93,8 +95,8 @@ public class FormaAplikacije extends javax.swing.JFrame {
             }
             
             @Override
-            public void odabraniRestoran(Restoran restoran){
-                lijeviPanel.add(new PanelIzbornikOdabranogRestorana(korisnik, restoran, menuListener), PONUDA_RESTORANA);
+            public void odabraniRestoran(Restoran restoran, KorisnikListener korisnikListener){
+                lijeviPanel.add(new PanelIzbornikOdabranogRestorana(korisnik, restoran, menuListener, korisnikListener), PONUDA_RESTORANA);
                 layoutLijevogPanela.show(lijeviPanel, PONUDA_RESTORANA);
             }
             

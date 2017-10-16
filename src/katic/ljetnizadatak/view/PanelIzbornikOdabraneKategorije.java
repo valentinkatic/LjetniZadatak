@@ -9,13 +9,15 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import katic.ljetnizadatak.controller.ObradaJelo;
 import katic.ljetnizadatak.controller.ObradaKategorijaJela;
+import katic.ljetnizadatak.controller.ObradaRestoran;
 import katic.ljetnizadatak.model.Jelo;
 import katic.ljetnizadatak.model.KategorijaJela;
-import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
+import static katic.ljetnizadatak.view.FormaAplikacije.JELO;
 import static katic.ljetnizadatak.view.FormaAplikacije.LISTA_KATEGORIJA;
-import katic.ljetnizadatak.view.renderer.RendererKategorijaJelaULijevomPanelu;
+import katic.pomocno.JeloListener;
 import katic.pomocno.MenuListener;
 
 /**
@@ -27,47 +29,67 @@ public class PanelIzbornikOdabraneKategorije extends javax.swing.JPanel {
     private JPanel desniPanel = FormaAplikacije.desniPanel;
     
     private ObradaKategorijaJela obradaKategorijaJela; 
+    private ObradaJelo obradaJelo;
     private Restoran restoran;
     private KategorijaJela kategorijaJela;
     private Jelo jelo;
     private MenuListener menuListener;
     private KategorijaJela entitet;
     
-    private PanelOdabraneKategorije panelOdabraneKategorije;
+    private PanelJelo panelJelo;
     
     public PanelIzbornikOdabraneKategorije(Restoran restoran, KategorijaJela kategorijaJela, MenuListener menuListener) {
         this.kategorijaJela = kategorijaJela;
         this.restoran = restoran;
         this.menuListener = menuListener;
+       
         initComponents();
         
+        JeloListener jeloListener = new JeloListener() {
+            @Override
+            public void jeloObrisano() {
+                ucitaj();
+                lista.clearSelection();
+                ucitajJelo(null);
+            }
+
+            @Override
+            public void jeloSpremljeno(Jelo jelo) {
+                ucitaj();
+                if (kategorijaJela.equals(jelo.getKategorijaJela())){
+                    lista.setSelectedValue(jelo, true);
+                } else {
+                    menuListener.odabranaKategorija(restoran, jelo.getKategorijaJela());
+                }
+                ucitajJelo(jelo);                
+            }
+        };
+        
         lblBack.setText(kategorijaJela.getNaziv());
-//        panelOdabraneKategorije = new PanelOdabraneKategorije(korisnik, restoran, null);
+        panelJelo = new PanelJelo(restoran, null, kategorijaJela, jeloListener);
         obradaKategorijaJela = new ObradaKategorijaJela();
+        obradaJelo = new ObradaJelo();
         ucitaj();
     }
     
      private void ucitaj(){       
         DefaultListModel<Jelo> m = new DefaultListModel<>();
         lista.setModel(m);
-        for (Jelo j: restoran.getJela()){
-            if (j.getKategorijaJela().equals(kategorijaJela)){
-                m.addElement(j);
-            }
+        for (Jelo j: obradaJelo.getJela(kategorijaJela, restoran)){
+            m.addElement(j);
         }
         
         if (entitet!=null){            
             lista.setSelectedValue(entitet, false);
         }
         
-//         desniPanel.add(panelOdabraneKategorije, LISTA_KATEGORIJA);
-//         ((CardLayout) desniPanel.getLayout()).show(desniPanel, LISTA_KATEGORIJA);
+         desniPanel.add(panelJelo, JELO);
+         ((CardLayout) desniPanel.getLayout()).show(desniPanel, JELO);
     }
-//     
-//    private void ucitajOdabranuKategoriju(KategorijaJela kategorijaJela){
-//       
-//        ((CardLayout) desniPanel.getLayout()).show(desniPanel, PONUDA_RESTORANA);
-//    }
+     
+    private void ucitajJelo(Jelo j){
+        panelJelo.setJelo(j);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -140,7 +162,7 @@ public class PanelIzbornikOdabraneKategorije extends javax.swing.JPanel {
     private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
         try{
             jelo = lista.getSelectedValue();
-//            panelOdabraneKategorije.setKategorija(entitet);
+            panelJelo.setJelo(jelo);
         } catch (Exception e){
             e.printStackTrace();
         }

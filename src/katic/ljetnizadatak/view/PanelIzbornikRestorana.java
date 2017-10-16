@@ -13,6 +13,7 @@ import katic.ljetnizadatak.model.Restoran;
 import katic.ljetnizadatak.model.Tab;
 import katic.pomocno.PomagalaIzbornika;
 import katic.pomocno.MenuListener;
+import katic.pomocno.RestoranListener;
 
 /**
  *
@@ -42,9 +43,16 @@ public class PanelIzbornikRestorana extends javax.swing.JPanel {
         lblIme.setText(restoran.getNaziv());
     }
     
-    private void ucitajPanelPrijavljenogRestorana(){              
+    private void ucitajPanelPrijavljenogRestorana(){ 
+        RestoranListener restoranListener = new RestoranListener() {
+            @Override
+            public void updateRestorana(Restoran restoran) {
+                lblIme.setText(restoran.getNaziv());
+            }
+        };
+        
         desniPanel.removeAll();
-        desniPanel.add(new PanelPodaciRestorana(menuListener, restoran), FormaAplikacije.PODACI_RESTORANA);
+        desniPanel.add(new PanelPodaciRestorana(menuListener, restoran, restoranListener), FormaAplikacije.PODACI_RESTORANA);
         desniPanel.add(new PanelKategorijeJela(menuListener, restoran), FormaAplikacije.LISTA_KATEGORIJA);
         desniPanel.validate();
         desniPanel.repaint();

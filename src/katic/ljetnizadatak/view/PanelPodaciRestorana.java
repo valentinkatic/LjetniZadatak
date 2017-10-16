@@ -13,6 +13,7 @@ import katic.ljetnizadatak.model.Restoran;
 import katic.pomocno.Iznimka;
 import katic.pomocno.MenuListener;
 import katic.pomocno.Pomagala;
+import katic.pomocno.RestoranListener;
 
 /**
  *
@@ -21,12 +22,14 @@ import katic.pomocno.Pomagala;
 public class PanelPodaciRestorana extends javax.swing.JPanel {
 
     private MenuListener menuListener;
+    private RestoranListener restoranListener;
     private Restoran restoran;
     private ObradaRestoran obrada;
     
-    public PanelPodaciRestorana(MenuListener menuListener, Restoran restoran) {
+    public PanelPodaciRestorana(MenuListener menuListener, Restoran restoran, RestoranListener restoranListener) {
         initComponents();
         this.menuListener = menuListener;
+        this.restoranListener = restoranListener;
         this.restoran = restoran;
         
         obrada = new ObradaRestoran();
@@ -313,6 +316,7 @@ public class PanelPodaciRestorana extends javax.swing.JPanel {
 
     private void pnlSpremiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlSpremiMouseClicked
         spremi();
+        restoranListener.updateRestorana(restoran);
     }//GEN-LAST:event_pnlSpremiMouseClicked
 
     private void txtGradActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGradActionPerformed

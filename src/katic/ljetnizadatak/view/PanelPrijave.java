@@ -30,8 +30,8 @@ public class PanelPrijave extends javax.swing.JPanel {
         try {
 //            String email = txtEmail.getText();
 //            String lozinka = String.valueOf(txtLozinka.getPassword());
-            String email = "lamut@mail.com";
-            String lozinka = "lamut123";
+            String email = "vk@mail.com";
+            String lozinka = "vk123";
             switch(obrada.prijava(email, lozinka)){
                 case 0: //korisnik
                     menuListener.onUserSignIn(FormaAplikacije.USERPANEL, obrada.prijavaKorisnika(email, lozinka));

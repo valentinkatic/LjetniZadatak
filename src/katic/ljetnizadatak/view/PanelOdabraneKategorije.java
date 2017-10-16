@@ -21,6 +21,7 @@ import katic.ljetnizadatak.model.NarudzbaJelo;
 import katic.ljetnizadatak.model.Restoran;
 import katic.ljetnizadatak.view.renderer.RendererJelaUKategoriji;
 import katic.pomocno.Iznimka;
+import katic.pomocno.KorisnikListener;
 
 /**
  *
@@ -31,6 +32,7 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
     private Korisnik korisnik;
     private Restoran restoran;
     private KategorijaJela kategorijaJela;
+    private KorisnikListener korisnikListener;
     private ObradaJelo obradaJelo;
     private ObradaNarudzba obradaNarudzba;
     private ObradaNarudzbaJelo obradaNarudzbaJelo;
@@ -43,10 +45,11 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
     private int kolicina = 1;
     private int pocetnaKolicina = 1;
     
-    public PanelOdabraneKategorije(Korisnik korisnik, Restoran restoran, KategorijaJela kategorijaJela) {
+    public PanelOdabraneKategorije(Korisnik korisnik, Restoran restoran, KategorijaJela kategorijaJela, KorisnikListener korisnikListener) {
         this.korisnik = korisnik;
         this.restoran = restoran;
         this.kategorijaJela = kategorijaJela;
+        this.korisnikListener = korisnikListener;
         initComponents();
         
         this.obradaJelo = new ObradaJelo();
@@ -169,6 +172,7 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
             triggerPromjena = false;
             pocetnaKolicina = kolicina;
             setDefaultBackground();
+            korisnikListener.updateNarudzbe();
         } catch (Iznimka i){
             i.printStackTrace();
         }
@@ -184,6 +188,7 @@ public class PanelOdabraneKategorije extends javax.swing.JPanel {
                         provjeriJelUNarudzbi();
                         setZadaneVrijednosti();
                         setDefaultBackground();
+                        korisnikListener.updateNarudzbe();
                     } catch (Iznimka i){
                         i.printStackTrace();
                     }

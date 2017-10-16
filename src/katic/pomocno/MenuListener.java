@@ -19,7 +19,7 @@ public interface MenuListener {
     
     void promjenaLijevogPanela(String lijeviPnl, String desniPnl);
     
-    void odabraniRestoran(Restoran restoran);
+    void odabraniRestoran(Restoran restoran, KorisnikListener korisnikListener);
     
     void odabranaKategorija(Restoran restoran, KategorijaJela kategorijaJela);
     

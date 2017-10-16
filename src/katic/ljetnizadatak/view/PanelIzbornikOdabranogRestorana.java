@@ -15,6 +15,7 @@ import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
 import static katic.ljetnizadatak.view.FormaAplikacije.PONUDA_RESTORANA;
 import katic.ljetnizadatak.view.renderer.RendererKategorijaJelaULijevomPanelu;
+import katic.pomocno.KorisnikListener;
 import katic.pomocno.MenuListener;
 
 /**
@@ -29,18 +30,20 @@ public class PanelIzbornikOdabranogRestorana extends javax.swing.JPanel {
     private Korisnik korisnik;
     private Restoran restoran;
     private MenuListener menuListener;
+    private KorisnikListener korisnikListener;
     private KategorijaJela entitet;
     
     private PanelOdabraneKategorije panelOdabraneKategorije;
     
-    public PanelIzbornikOdabranogRestorana(Korisnik korisnik, Restoran restoran, MenuListener menuListener) {
+    public PanelIzbornikOdabranogRestorana(Korisnik korisnik, Restoran restoran, MenuListener menuListener, KorisnikListener korisnikListener) {
         this.korisnik = korisnik;
         this.restoran = restoran;
         this.menuListener = menuListener;
+        this.korisnikListener = korisnikListener;
         initComponents();
         
         lblBack.setText(restoran.getNaziv());
-        panelOdabraneKategorije = new PanelOdabraneKategorije(korisnik, restoran, null);
+        panelOdabraneKategorije = new PanelOdabraneKategorije(korisnik, restoran, null, korisnikListener);
         obradaKategorijaJela = new ObradaKategorijaJela();
         ucitaj();
     }
@@ -48,8 +51,10 @@ public class PanelIzbornikOdabranogRestorana extends javax.swing.JPanel {
      private void ucitaj(){       
         DefaultListModel<KategorijaJela> m = new DefaultListModel<>();
         lista.setModel(m);
-        for (KategorijaJela k: restoran.getKategorijeJela()){
-            m.addElement(k);
+        for (KategorijaJela k: obradaKategorijaJela.getKategorijeJela()){
+            if (restoran.getKategorijeJela().contains(k) && k.getJelo()!=null && k.getJelo().size()>0){
+                m.addElement(k);
+            }
         }
         
         if (entitet!=null){            
@@ -59,11 +64,6 @@ public class PanelIzbornikOdabranogRestorana extends javax.swing.JPanel {
          desniPanel.add(panelOdabraneKategorije, PONUDA_RESTORANA);
          ((CardLayout) desniPanel.getLayout()).show(desniPanel, PONUDA_RESTORANA);
     }
-//     
-//    private void ucitajOdabranuKategoriju(KategorijaJela kategorijaJela){
-//       
-//        ((CardLayout) desniPanel.getLayout()).show(desniPanel, PONUDA_RESTORANA);
-//    }
 
     /**
      * This method is called from within the constructor to initialize the form.

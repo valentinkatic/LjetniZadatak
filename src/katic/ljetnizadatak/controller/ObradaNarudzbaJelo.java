@@ -5,7 +5,11 @@
  */
 package katic.ljetnizadatak.controller;
 
+import java.util.List;
+import katic.ljetnizadatak.model.Jelo;
+import katic.ljetnizadatak.model.Narudzba;
 import katic.ljetnizadatak.model.NarudzbaJelo;
+import katic.pomocno.HibernateUtil;
 import katic.pomocno.Iznimka;
 
 /**
@@ -35,6 +39,16 @@ public class ObradaNarudzbaJelo {
 //                .setLong("korisnik", k.getSifra())
 //                .list();
 //    }
+    
+    public List<Jelo> getJelaIzNarudzbe(Narudzba narudzba){
+           return HibernateUtil
+                .getSession()
+                .createQuery("select nj.jelo from NarudzbaJelo nj where "
+                        + "nj.obrisan=false AND nj.narudzba= :narudzba "
+                        )  
+                .setLong("narudzba", narudzba.getSifra())
+                .list();     
+    }
     
     public NarudzbaJelo spremi(NarudzbaJelo nj) throws Iznimka{
         

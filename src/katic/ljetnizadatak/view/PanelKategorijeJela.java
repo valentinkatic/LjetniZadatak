@@ -7,11 +7,15 @@ package katic.ljetnizadatak.view;
 
 import java.awt.Color;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import katic.ljetnizadatak.controller.ObradaJelo;
 import katic.ljetnizadatak.controller.ObradaKategorijaJela;
 import katic.ljetnizadatak.model.KategorijaJela;
 import katic.ljetnizadatak.model.Restoran;
 import katic.ljetnizadatak.view.renderer.RendererKategorijaJelaUDesnomPanelu;
+import katic.pomocno.Iznimka;
 import katic.pomocno.MenuListener;
+import katic.pomocno.Pomagala;
 
 /**
  *
@@ -125,7 +129,15 @@ public class PanelKategorijeJela extends javax.swing.JPanel {
     }//GEN-LAST:event_listaValueChanged
 
     private void lblNovaKategorijaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNovaKategorijaMouseClicked
-        
+        String kategorija = JOptionPane.showInputDialog(this, "Unesite naziv kategorije", "Nova kategorija", JOptionPane.INFORMATION_MESSAGE);           
+        KategorijaJela kj = new KategorijaJela();
+        kj.setNaziv(kategorija);
+        try {
+            obrada.spremi(kj);
+            ucitaj();
+        } catch (Iznimka i){
+            provjeraGreske(i);
+        }
     }//GEN-LAST:event_lblNovaKategorijaMouseClicked
 
     private void lblNovaKategorijaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNovaKategorijaMouseEntered
@@ -136,6 +148,9 @@ public class PanelKategorijeJela extends javax.swing.JPanel {
         lblNovaKategorija.setBackground(new Color(58,56,77));
     }//GEN-LAST:event_lblNovaKategorijaMouseExited
 
+    private void provjeraGreske(Iznimka i){
+        Pomagala.izbaciDialogSGreskom(this, i);            
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

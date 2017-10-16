@@ -10,6 +10,7 @@ import katic.ljetnizadatak.controller.ObradaRestoran;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
 import katic.ljetnizadatak.view.renderer.RendererRestorana;
+import katic.pomocno.KorisnikListener;
 import katic.pomocno.MenuListener;
 
 /**
@@ -21,15 +22,17 @@ public class PanelRestoran extends javax.swing.JPanel {
     private ObradaRestoran obrada;
     private Restoran restoran;
     private Korisnik korisnik;
+    private KorisnikListener korisnikListener;
     /**
      * Creates new form PanelRestoran
      */
     private MenuListener menuListener;
     
-    public PanelRestoran(MenuListener menuListener, Korisnik korisnik) {
+    public PanelRestoran(MenuListener menuListener, Korisnik korisnik, KorisnikListener korisnikListener) {
         initComponents();
         this.menuListener = menuListener;
         this.korisnik = korisnik;
+        this.korisnikListener = korisnikListener;
         
         this.obrada = new ObradaRestoran();      
         ucitaj();
@@ -93,7 +96,7 @@ public class PanelRestoran extends javax.swing.JPanel {
             return;
         }
         restoran = lista.getSelectedValue();
-        menuListener.odabraniRestoran(restoran);
+        menuListener.odabraniRestoran(restoran, korisnikListener);
         lista.clearSelection();
     }//GEN-LAST:event_listaValueChanged
 

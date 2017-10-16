@@ -9,6 +9,7 @@ import java.awt.Color;
 import katic.ljetnizadatak.controller.ObradaKorisnik;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.pomocno.Iznimka;
+import katic.pomocno.KorisnikListener;
 import katic.pomocno.MenuListener;
 import katic.pomocno.Pomagala;
 
@@ -19,12 +20,14 @@ import katic.pomocno.Pomagala;
 public class PanelMojiPodaci extends javax.swing.JPanel {
 
     private MenuListener menuListener;
+    private KorisnikListener korisnikListener;
     private Korisnik korisnik;
     private ObradaKorisnik obrada;
     
-    public PanelMojiPodaci(MenuListener menuListener, Korisnik korisnik) {
+    public PanelMojiPodaci(MenuListener menuListener, Korisnik korisnik, KorisnikListener korisnikListener) {
         initComponents();
         this.menuListener = menuListener;
+        this.korisnikListener = korisnikListener;
         this.korisnik = korisnik;
         
         obrada = new ObradaKorisnik();
@@ -348,6 +351,7 @@ public class PanelMojiPodaci extends javax.swing.JPanel {
 
     private void pnlSpremiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlSpremiMouseClicked
         spremi();
+        korisnikListener.updateKorisnika(korisnik);
     }//GEN-LAST:event_pnlSpremiMouseClicked
 
     private void provjeraGreske(Iznimka i){

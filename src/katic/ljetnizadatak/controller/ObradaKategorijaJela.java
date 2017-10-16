@@ -7,6 +7,7 @@ package katic.ljetnizadatak.controller;
 
 import java.util.List;
 import katic.ljetnizadatak.model.KategorijaJela;
+import katic.ljetnizadatak.model.Restoran;
 import katic.pomocno.HibernateUtil;
 import katic.pomocno.Iznimka;
 
