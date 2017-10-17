@@ -38,6 +38,7 @@ public class PanelIzbornikRestorana extends javax.swing.JPanel {
         
         tabovi.add(new Tab(lblPodaciRestorana, FormaAplikacije.PODACI_RESTORANA));
         tabovi.add(new Tab(lblListaJela, FormaAplikacije.LISTA_KATEGORIJA));
+        tabovi.add(new Tab(lblNarudzbe, FormaAplikacije.NARUDZBE));
         tabovi.add(new Tab(lblOdjava, FormaAplikacije.ODJAVA));
         
         lblIme.setText(restoran.getNaziv());
@@ -54,6 +55,7 @@ public class PanelIzbornikRestorana extends javax.swing.JPanel {
         desniPanel.removeAll();
         desniPanel.add(new PanelPodaciRestorana(menuListener, restoran, restoranListener), FormaAplikacije.PODACI_RESTORANA);
         desniPanel.add(new PanelKategorijeJela(menuListener, restoran), FormaAplikacije.LISTA_KATEGORIJA);
+        desniPanel.add(new PanelNarudzbe(menuListener, restoran), FormaAplikacije.NARUDZBE);
         desniPanel.validate();
         desniPanel.repaint();
     }

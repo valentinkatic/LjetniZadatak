@@ -41,7 +41,10 @@ public class ObradaNarudzbaJelo {
 //    }
     
     public List<Jelo> getJelaIzNarudzbe(Narudzba narudzba){
-           return HibernateUtil
+        if (narudzba==null || narudzba.getSifra()==null){
+            return null;
+        }   
+        return HibernateUtil
                 .getSession()
                 .createQuery("select nj.jelo from NarudzbaJelo nj where "
                         + "nj.obrisan=false AND nj.narudzba= :narudzba "
@@ -74,6 +77,14 @@ public class ObradaNarudzbaJelo {
         
         return obrada.save(nj);
     }      
+    
+    public List<NarudzbaJelo> spremi (List<NarudzbaJelo> nj) throws Iznimka{       
+        if (nj==null){
+            throw new Iznimka("Lista podataka", "Nije primljena (null)", ENTITET);
+        }
+        
+        return obrada.save(nj);
+    }
     
     public void obrisi(NarudzbaJelo nj) throws Iznimka{       
         nj.setObrisan(true);

@@ -10,10 +10,11 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import katic.ljetnizadatak.model.Korisnik;
-import katic.ljetnizadatak.model.Narudzba;
 import katic.ljetnizadatak.model.Tab;
 import static katic.ljetnizadatak.view.FormaAplikacije.KOSARICA;
 import static katic.ljetnizadatak.view.FormaAplikacije.MOJI_PODACI;
+import static katic.ljetnizadatak.view.FormaAplikacije.ODJAVA;
+import static katic.ljetnizadatak.view.FormaAplikacije.POVIJEST_NARUDZBI;
 import static katic.ljetnizadatak.view.FormaAplikacije.RESTORANI;
 import katic.pomocno.KorisnikListener;
 import katic.pomocno.PomagalaIzbornika;
@@ -26,7 +27,7 @@ import katic.pomocno.MenuListener;
 public class PanelIzbornikKorisnika extends javax.swing.JPanel {
 
     private MenuListener menuListener;
-    private Korisnik korisnik;
+    private Korisnik korisnik;    
     private int pressedTab = 0;
     private List<Tab> tabovi = new ArrayList<>();   
     
@@ -40,17 +41,19 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
         
         ucitajPanelPrijavljenogKorisnika();
         
-        tabovi.add(new Tab(lblRestorani, FormaAplikacije.RESTORANI));
-        tabovi.add(new Tab(lblKosarica, FormaAplikacije.KOSARICA));
-        tabovi.add(new Tab(lblPovijestNarudzbi, FormaAplikacije.POVIJEST_NARUDZBI));
-        tabovi.add(new Tab(lblMojiPodaci, FormaAplikacije.MOJI_PODACI));
-        tabovi.add(new Tab(lblOdjava, FormaAplikacije.ODJAVA));
+        tabovi.add(new Tab(lblRestorani, RESTORANI));
+        tabovi.add(new Tab(lblKosarica, KOSARICA));
+        tabovi.add(new Tab(lblPovijestNarudzbi, POVIJEST_NARUDZBI));
+        tabovi.add(new Tab(lblMojiPodaci, MOJI_PODACI));
+        tabovi.add(new Tab(lblOdjava, ODJAVA));
         
         lblIme.setText(korisnik.getIme() + " " + korisnik.getPrezime());
     }
     
-    private void ucitajPanelPrijavljenogKorisnika(){
-        PanelKosarice panelKosarice = new PanelKosarice(korisnik);
+    private PanelKosarice panelKosarice;
+    private PanelPovijestNarudzbi panelPovijestNarudzbi;
+        
+    private void ucitajPanelPrijavljenogKorisnika(){  
         
         KorisnikListener korisnikListener = new KorisnikListener() {
             @Override
@@ -59,14 +62,25 @@ public class PanelIzbornikKorisnika extends javax.swing.JPanel {
             }
             
             @Override
-            public void updateNarudzbe(){
+            public void updateNarudzbe(){                 
                 panelKosarice.osvjeziNarudzbu();
+                panelPovijestNarudzbi.osvjeziPovijest();                
+            }
+            
+            @Override
+            public void dodanaStaraNarudzba(){
+                pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, lblKosarica, menuListener);
+                updateNarudzbe();
             }
         };
+        
+        panelKosarice = new PanelKosarice(korisnik, korisnikListener);
+        panelPovijestNarudzbi = new PanelPovijestNarudzbi(menuListener, korisnik, korisnikListener);
         
         desniPanel.removeAll();
         desniPanel.add(new PanelRestoran(menuListener, korisnik, korisnikListener), RESTORANI);
         desniPanel.add(panelKosarice, KOSARICA);
+        desniPanel.add(panelPovijestNarudzbi, POVIJEST_NARUDZBI);
         desniPanel.add(new PanelMojiPodaci(menuListener, korisnik, korisnikListener), MOJI_PODACI);
         desniPanel.validate();
         desniPanel.repaint();

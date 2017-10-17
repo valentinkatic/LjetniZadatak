@@ -8,6 +8,7 @@ package katic.ljetnizadatak.view;
 import java.awt.CardLayout;
 import katic.ljetnizadatak.model.KategorijaJela;
 import katic.ljetnizadatak.model.Korisnik;
+import katic.ljetnizadatak.model.Narudzba;
 import katic.ljetnizadatak.model.Restoran;
 import katic.pomocno.KorisnikListener;
 import katic.pomocno.MenuListener;
@@ -37,6 +38,7 @@ public class FormaAplikacije extends javax.swing.JFrame {
     public static String PODACI_RESTORANA = "PODACI_RESTORANA";
     public static String LISTA_KATEGORIJA = "LISTA_KATEGORIJA";
     public static String NARUDZBE = "NARUDZBE";
+    public static String ODABRANA_NARUDZBA = "ODABRANA_NARUDZBA";
     public static String JELO = "JELO";
     
     private Korisnik korisnik = null;
@@ -107,6 +109,17 @@ public class FormaAplikacije extends javax.swing.JFrame {
             }
             
             @Override
+            public void odabranaNarudzba(Narudzba narudzba, KorisnikListener korisnikListener){
+                if (restoran!=null){
+                    desniPanel.add(new PanelOtvoreneNarudzbe(narudzba, menuListener), ODABRANA_NARUDZBA);
+                    layoutDesnogPanela.show(desniPanel, ODABRANA_NARUDZBA);
+                } else if (korisnik!=null){
+                    desniPanel.add(new PanelOtvoreneNarudzbe(narudzba, korisnik, menuListener, korisnikListener), ODABRANA_NARUDZBA);
+                    layoutDesnogPanela.show(desniPanel, ODABRANA_NARUDZBA);
+                }
+            }
+            
+            @Override
             public void onBackPressed(String panel){
                 if (korisnik!=null){
                     layoutLijevogPanela.show(lijeviPanel, USERPANEL);
@@ -115,11 +128,15 @@ public class FormaAplikacije extends javax.swing.JFrame {
                     }
                     else if (panel.equals(PONUDA_RESTORANA)){            
                         layoutDesnogPanela.show(desniPanel, RESTORANI);
-                    }                    
+                    } else if (panel.equals(ODABRANA_NARUDZBA)){
+                        layoutDesnogPanela.show(desniPanel, POVIJEST_NARUDZBI);
+                    }                   
                 } else if (restoran!=null){
                     layoutLijevogPanela.show(lijeviPanel, RESTAURANTPANEL);
                     if (panel.equals(LISTA_KATEGORIJA)){            
                         layoutDesnogPanela.show(desniPanel, LISTA_KATEGORIJA);
+                    } else if (panel.equals(ODABRANA_NARUDZBA)){
+                        layoutDesnogPanela.show(desniPanel, NARUDZBE);
                     }
                 }
             }

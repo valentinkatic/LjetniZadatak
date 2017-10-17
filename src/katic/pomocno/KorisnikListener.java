@@ -18,4 +18,6 @@ public interface KorisnikListener {
     
     void updateNarudzbe();
     
+    void dodanaStaraNarudzba();
+    
 }

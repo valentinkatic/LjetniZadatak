@@ -6,10 +6,8 @@
 package katic.ljetnizadatak.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -44,7 +42,7 @@ public class Narudzba extends Entitet implements Serializable{
     }
     
     private boolean nova;       
-
+    
     public boolean isNova() {
         return nova;
     }
@@ -84,7 +82,5 @@ public class Narudzba extends Entitet implements Serializable{
     public void setNarudzbaJela(List<NarudzbaJelo> narudzbaJela) {
         this.narudzbaJela = narudzbaJela;
     }
-    
-    
     
 }

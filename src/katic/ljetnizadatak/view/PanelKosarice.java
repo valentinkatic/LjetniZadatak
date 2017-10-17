@@ -7,20 +7,22 @@ package katic.ljetnizadatak.view;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import katic.ljetnizadatak.controller.ObradaAdresaDostave;
 import katic.ljetnizadatak.controller.ObradaJelo;
 import katic.ljetnizadatak.controller.ObradaNarudzba;
 import katic.ljetnizadatak.controller.ObradaNarudzbaJelo;
+import katic.ljetnizadatak.model.AdresaDostave;
 import katic.ljetnizadatak.model.Jelo;
-import katic.ljetnizadatak.model.KategorijaJela;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Narudzba;
 import katic.ljetnizadatak.model.NarudzbaJelo;
-import katic.ljetnizadatak.model.Restoran;
 import katic.ljetnizadatak.view.renderer.RendererJelaUKategoriji;
 import katic.pomocno.Iznimka;
+import katic.pomocno.KorisnikListener;
 
 /**
  *
@@ -29,11 +31,11 @@ import katic.pomocno.Iznimka;
 public class PanelKosarice extends javax.swing.JPanel {
 
     private Korisnik korisnik;
-    private Restoran restoran;
-    private KategorijaJela kategorijaJela;
     private ObradaJelo obradaJelo;
     private ObradaNarudzba obradaNarudzba;
     private ObradaNarudzbaJelo obradaNarudzbaJelo;
+    private ObradaAdresaDostave obradaAdresaDostave;
+    private KorisnikListener korisnikListener;
     private List<Jelo> jela;
     private Jelo odabranoJelo;
     private Narudzba narudzba;
@@ -44,13 +46,15 @@ public class PanelKosarice extends javax.swing.JPanel {
     private int pocetnaKolicina = 1;
     private double suma = 0;
     
-    public PanelKosarice(Korisnik korisnik) {
+    public PanelKosarice(Korisnik korisnik, KorisnikListener korisnikListener) {
         this.korisnik = korisnik;
+        this.korisnikListener = korisnikListener;
         initComponents();
         
         this.obradaJelo = new ObradaJelo();
         this.obradaNarudzba = new ObradaNarudzba();
         this.obradaNarudzbaJelo = new ObradaNarudzbaJelo();
+        this.obradaAdresaDostave = new ObradaAdresaDostave();
         
         narudzba = obradaNarudzba.getNarudzba(korisnik);
         
@@ -60,23 +64,30 @@ public class PanelKosarice extends javax.swing.JPanel {
         ucitajSumu();
     }
     
-    private void ucitaj(){        
-        if (narudzba==null){
+    private void ucitaj(){ 
+        DefaultListModel<Jelo> m = new DefaultListModel<Jelo>();
+        lista.setModel(m); 
+      
+        jela = obradaNarudzbaJelo.getJelaIzNarudzbe(narudzba);
+        if (jela==null){
+            m.removeAllElements();
             return;
         }
-        jela = obradaNarudzbaJelo.getJelaIzNarudzbe(narudzba);
-
-        DefaultListModel<Jelo> m = new DefaultListModel<Jelo>();
-        lista.setModel(m);
-
+        
         for (Jelo j: jela){
             m.addElement(j);            
-        }  
-        
+        } 
+                
         if (jela.isEmpty()){
             prikaziPodnozje(false);
         } else {            
             prikaziPodnozje(true);
+        }
+        
+        if (narudzba.getAdresaDostave()==null){
+            lblPosaljiNarudzbu.setText("Postavi adresu");
+        } else {
+            lblPosaljiNarudzbu.setText("Pošalji narudžbu");
         }
     }
 
@@ -99,7 +110,7 @@ public class PanelKosarice extends javax.swing.JPanel {
     }
     
     public void osvjeziNarudzbu(){
-        narudzba = obradaNarudzba.getNarudzba(korisnik);
+        narudzba = obradaNarudzba.getNarudzba(korisnik);        
         ucitaj();
         ucitajSumu();
     }
@@ -114,6 +125,26 @@ public class PanelKosarice extends javax.swing.JPanel {
         lblUkupno.setText(String.format("0.00 kn"));
         lblKolicina.setText("1");
         pocetnaKolicina = 1;
+    }
+    
+    private void postaviAdresu(){
+        List<AdresaDostave> adreseDostave = obradaAdresaDostave.getAdreseDostave(korisnik);
+        if (adreseDostave==null){
+            JOptionPane.showMessageDialog(this, "Dodajte barem jednu adresu preko izbornika moji podaci", "Nema spremljenih adresa", JOptionPane.WARNING_MESSAGE);         
+        } else {
+            AdresaDostave[] choices = adreseDostave.toArray(new AdresaDostave[adreseDostave.size()]);
+            AdresaDostave adresa = new DialogListeAdresa().main(choices);
+            if (adresa==null){
+                return;
+            }
+            narudzba.setAdresaDostave(adresa);
+            try {
+                narudzba = obradaNarudzba.spremi(narudzba);
+                ucitaj();
+            } catch (Iznimka i){
+                
+            }
+        }
     }
     
     private void prikaziPodnozje(boolean vrijednost ){
@@ -259,7 +290,7 @@ public class PanelKosarice extends javax.swing.JPanel {
         lblSumaIznos = new javax.swing.JLabel();
         lblSuma = new javax.swing.JLabel();
         pnlPosaljiNarudzbu = new javax.swing.JPanel();
-        lblDodajUKošaricu1 = new javax.swing.JLabel();
+        lblPosaljiNarudzbu = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(58, 56, 77));
 
@@ -366,10 +397,10 @@ public class PanelKosarice extends javax.swing.JPanel {
             }
         });
 
-        lblDodajUKošaricu1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        lblDodajUKošaricu1.setForeground(new java.awt.Color(255, 255, 255));
-        lblDodajUKošaricu1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDodajUKošaricu1.setText("Pošalji narudžbu");
+        lblPosaljiNarudzbu.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        lblPosaljiNarudzbu.setForeground(new java.awt.Color(255, 255, 255));
+        lblPosaljiNarudzbu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPosaljiNarudzbu.setText("Pošalji narudžbu");
 
         javax.swing.GroupLayout pnlPosaljiNarudzbuLayout = new javax.swing.GroupLayout(pnlPosaljiNarudzbu);
         pnlPosaljiNarudzbu.setLayout(pnlPosaljiNarudzbuLayout);
@@ -379,7 +410,7 @@ public class PanelKosarice extends javax.swing.JPanel {
             .addGroup(pnlPosaljiNarudzbuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlPosaljiNarudzbuLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(lblDodajUKošaricu1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(lblPosaljiNarudzbu, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         pnlPosaljiNarudzbuLayout.setVerticalGroup(
@@ -388,7 +419,7 @@ public class PanelKosarice extends javax.swing.JPanel {
             .addGroup(pnlPosaljiNarudzbuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlPosaljiNarudzbuLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(lblDodajUKošaricu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPosaljiNarudzbu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -505,14 +536,21 @@ public class PanelKosarice extends javax.swing.JPanel {
     }//GEN-LAST:event_btnMinusMouseClicked
 
     private void pnlPosaljiNarudzbuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPosaljiNarudzbuMouseClicked
-        narudzba.setNova(false);
-        try {
-            obradaNarudzba.spremi(narudzba);
-            narudzba = null;
-            ucitaj();
-            ucitajSumu();
-        } catch (Iznimka i){
-            
+        if (narudzba.getAdresaDostave()==null){
+            postaviAdresu();
+        } else {
+            narudzba.setNova(false);       
+            narudzba.setVrijemeNarudzbe(new Date());
+            try {
+                obradaNarudzba.spremi(narudzba);
+                narudzba = null;
+                ucitaj();
+                ucitajSumu();
+                setZadaneVrijednosti();
+                korisnikListener.updateNarudzbe();
+            } catch (Iznimka i){
+
+            }
         }
     }//GEN-LAST:event_pnlPosaljiNarudzbuMouseClicked
 
@@ -530,9 +568,9 @@ public class PanelKosarice extends javax.swing.JPanel {
     private javax.swing.JLabel btnPlus;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDodajUKošaricu;
-    private javax.swing.JLabel lblDodajUKošaricu1;
     private javax.swing.JLabel lblKolicina;
     private javax.swing.JLabel lblNaziv;
+    private javax.swing.JLabel lblPosaljiNarudzbu;
     private javax.swing.JLabel lblSuma;
     private javax.swing.JLabel lblSumaIznos;
     private javax.swing.JLabel lblUkupno;

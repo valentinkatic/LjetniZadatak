@@ -71,14 +71,14 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new RendererRestorana()" type="code"/>
+              <Connection code="new RendererPovijestiNarudzbi()" type="code"/>
             </Property>
           </Properties>
           <Events>
             <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listaValueChanged"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Restoran&gt;"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Narudzba&gt;"/>
           </AuxValues>
         </Component>
       </SubComponents>

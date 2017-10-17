@@ -8,6 +8,7 @@ package katic.ljetnizadatak.controller;
 import java.util.List;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Narudzba;
+import katic.ljetnizadatak.model.Restoran;
 import katic.pomocno.HibernateUtil;
 import katic.pomocno.Iznimka;
 
@@ -59,11 +60,21 @@ public class ObradaNarudzba {
                 .list();
     }
     
-    public Narudzba spremi(Narudzba n) throws Iznimka{
+    public List<Narudzba> getSveNarudzbeOdRestorana(Restoran r){
+        return HibernateUtil
+                .getSession()              
+                .createQuery("from Narudzba n where "
+                        + "n.obrisan=false AND n.restoran= :restoran "
+                        + "AND n.nova=false")  
+                .setLong("restoran", r.getSifra())                
+                .list();
+    }
+    
+    public Narudzba spremi(Narudzba n) throws Iznimka{      
         
         if (n==null){
             throw new Iznimka("Entitet Jelo", "Nije primljen (null)", ENTITET);
-        }
+        }              
         
 //        if (n.getNaziv()==null){
 //            throw new Iznimka("Naziv", "Nije primljen (null)", NAZIV);
@@ -82,7 +93,13 @@ public class ObradaNarudzba {
 //        }    
         
         return obrada.save(n);
-    }      
+    }    
+    
+    public void obrisiNeizvrseneNarudzbe(Korisnik k) throws Iznimka{
+        for (Narudzba n: getSveNoveNarudzbe(k)){            
+            obrisi(n);
+        }
+    }
     
     public void obrisi(Narudzba n) throws Iznimka{       
         n.setObrisan(true);
