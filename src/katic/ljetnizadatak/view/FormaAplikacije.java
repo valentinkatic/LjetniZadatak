@@ -10,6 +10,7 @@ import katic.ljetnizadatak.model.KategorijaJela;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Narudzba;
 import katic.ljetnizadatak.model.Restoran;
+import katic.pomocno.HibernateUtil;
 import katic.pomocno.KorisnikListener;
 import katic.pomocno.MenuListener;
 
@@ -209,6 +210,7 @@ public class FormaAplikacije extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FormaAplikacije().setVisible(true);
+                HibernateUtil.getSession();
             }
         });
     }
