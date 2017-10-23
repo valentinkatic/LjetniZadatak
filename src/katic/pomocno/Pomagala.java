@@ -10,6 +10,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
@@ -40,6 +42,23 @@ public class Pomagala {
         g2.dispose();
 
         return resizedImg;
+    }
+    
+    public static String ucitajFile(String filename) {
+        String result = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filename));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                line = br.readLine();
+            }
+            result = sb.toString();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
     
 }

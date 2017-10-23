@@ -5,6 +5,7 @@
  */
 package katic.ljetnizadatak.view;
 
+import katic.ljetnizadatak.FormaAplikacije;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.util.List;
@@ -13,7 +14,7 @@ import javax.swing.JPanel;
 import katic.ljetnizadatak.controller.ObradaAdresaDostave;
 import katic.ljetnizadatak.model.AdresaDostave;
 import katic.ljetnizadatak.model.Korisnik;
-import static katic.ljetnizadatak.view.FormaAplikacije.ADRESE_DOSTAVE;
+import static katic.ljetnizadatak.FormaAplikacije.ADRESE_DOSTAVE;
 import katic.ljetnizadatak.view.renderer.RendererAdreseZaDostavu;
 import katic.pomocno.AddressListener;
 import katic.pomocno.MenuListener;

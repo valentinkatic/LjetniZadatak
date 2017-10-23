@@ -5,6 +5,7 @@
  */
 package katic.ljetnizadatak.view;
 
+import katic.ljetnizadatak.FormaAplikacije;
 import java.awt.Color;
 import katic.ljetnizadatak.controller.ObradaKorisnik;
 import katic.ljetnizadatak.model.Korisnik;

@@ -5,6 +5,7 @@
  */
 package katic.ljetnizadatak.view;
 
+import katic.ljetnizadatak.FormaAplikacije;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;

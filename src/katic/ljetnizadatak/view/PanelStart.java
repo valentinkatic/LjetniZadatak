@@ -5,6 +5,7 @@
  */
 package katic.ljetnizadatak.view;
 
+import katic.ljetnizadatak.FormaAplikacije;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
@@ -46,6 +47,9 @@ public class PanelStart extends javax.swing.JPanel {
 
         lblRegistracija = new javax.swing.JLabel();
         lblPrijava = new javax.swing.JLabel();
+        btnGitHub = new javax.swing.JLabel();
+        btnImportPodataka = new javax.swing.JLabel();
+        btnERADijagram = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(38, 40, 55));
 
@@ -89,6 +93,66 @@ public class PanelStart extends javax.swing.JPanel {
             }
         });
 
+        btnGitHub.setBackground(new java.awt.Color(38, 40, 55));
+        btnGitHub.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        btnGitHub.setForeground(new java.awt.Color(204, 204, 204));
+        btnGitHub.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/signup.png"))); // NOI18N
+        btnGitHub.setText("GitHub");
+        btnGitHub.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnGitHub.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        btnGitHub.setOpaque(true);
+        btnGitHub.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGitHubMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnGitHubMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnGitHubMouseExited(evt);
+            }
+        });
+
+        btnImportPodataka.setBackground(new java.awt.Color(38, 40, 55));
+        btnImportPodataka.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        btnImportPodataka.setForeground(new java.awt.Color(204, 204, 204));
+        btnImportPodataka.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/signup.png"))); // NOI18N
+        btnImportPodataka.setText("Import podataka");
+        btnImportPodataka.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnImportPodataka.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        btnImportPodataka.setOpaque(true);
+        btnImportPodataka.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnImportPodatakaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnImportPodatakaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnImportPodatakaMouseExited(evt);
+            }
+        });
+
+        btnERADijagram.setBackground(new java.awt.Color(38, 40, 55));
+        btnERADijagram.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        btnERADijagram.setForeground(new java.awt.Color(204, 204, 204));
+        btnERADijagram.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/signup.png"))); // NOI18N
+        btnERADijagram.setText("ERA dijagram");
+        btnERADijagram.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnERADijagram.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        btnERADijagram.setOpaque(true);
+        btnERADijagram.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnERADijagramMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnERADijagramMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnERADijagramMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,7 +161,10 @@ public class PanelStart extends javax.swing.JPanel {
                 .addGap(0, 58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblRegistracija, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPrijava, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblPrijava, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnImportPodataka, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnERADijagram, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGitHub, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,7 +173,13 @@ public class PanelStart extends javax.swing.JPanel {
                 .addComponent(lblPrijava)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblRegistracija)
-                .addContainerGap(313, Short.MAX_VALUE))
+                .addGap(149, 149, 149)
+                .addComponent(btnImportPodataka)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnERADijagram)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGitHub)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -134,8 +207,47 @@ public class PanelStart extends javax.swing.JPanel {
         PomagalaIzbornika.setUnHoverEffect(tabovi.get(pressedTab), (JLabel)evt.getComponent());
     }//GEN-LAST:event_lblRegistracijaMouseExited
 
+    private void btnGitHubMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGitHubMouseClicked
+        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
+    }//GEN-LAST:event_btnGitHubMouseClicked
+
+    private void btnGitHubMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGitHubMouseEntered
+        PomagalaIzbornika.setHoverEffect((JLabel)evt.getComponent());
+    }//GEN-LAST:event_btnGitHubMouseEntered
+
+    private void btnGitHubMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGitHubMouseExited
+        PomagalaIzbornika.setUnHoverEffect(tabovi.get(pressedTab), (JLabel)evt.getComponent());
+    }//GEN-LAST:event_btnGitHubMouseExited
+
+    private void btnERADijagramMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnERADijagramMouseClicked
+        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
+    }//GEN-LAST:event_btnERADijagramMouseClicked
+
+    private void btnERADijagramMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnERADijagramMouseEntered
+        PomagalaIzbornika.setHoverEffect((JLabel)evt.getComponent());
+    }//GEN-LAST:event_btnERADijagramMouseEntered
+
+    private void btnERADijagramMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnERADijagramMouseExited
+        PomagalaIzbornika.setUnHoverEffect(tabovi.get(pressedTab), (JLabel)evt.getComponent());
+    }//GEN-LAST:event_btnERADijagramMouseExited
+
+    private void btnImportPodatakaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImportPodatakaMouseExited
+        PomagalaIzbornika.setUnHoverEffect(tabovi.get(pressedTab), (JLabel)evt.getComponent());
+    }//GEN-LAST:event_btnImportPodatakaMouseExited
+
+    private void btnImportPodatakaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImportPodatakaMouseEntered
+        PomagalaIzbornika.setHoverEffect((JLabel)evt.getComponent());
+    }//GEN-LAST:event_btnImportPodatakaMouseEntered
+
+    private void btnImportPodatakaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImportPodatakaMouseClicked
+        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
+    }//GEN-LAST:event_btnImportPodatakaMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnERADijagram;
+    private javax.swing.JLabel btnGitHub;
+    private javax.swing.JLabel btnImportPodataka;
     private javax.swing.JLabel lblPrijava;
     private javax.swing.JLabel lblRegistracija;
     // End of variables declaration//GEN-END:variables

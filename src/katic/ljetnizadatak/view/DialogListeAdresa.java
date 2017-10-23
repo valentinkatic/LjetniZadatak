@@ -19,8 +19,8 @@ public class DialogListeAdresa {
        
     public static AdresaDostave main(AdresaDostave[] choices) {
             
-        AdresaDostave input = (AdresaDostave) JOptionPane.showInputDialog(null, "Choose now...",
-            "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null, // Use
+        AdresaDostave input = (AdresaDostave) JOptionPane.showInputDialog(null, "",
+            "Odaberite adresu", JOptionPane.INFORMATION_MESSAGE, null, // Use
                                                                             // default
                                                                             // icon
             choices , // Array of choices

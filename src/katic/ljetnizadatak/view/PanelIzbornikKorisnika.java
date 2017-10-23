@@ -5,17 +5,18 @@
  */
 package katic.ljetnizadatak.view;
 
+import katic.ljetnizadatak.FormaAplikacije;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Tab;
-import static katic.ljetnizadatak.view.FormaAplikacije.KOSARICA;
-import static katic.ljetnizadatak.view.FormaAplikacije.MOJI_PODACI;
-import static katic.ljetnizadatak.view.FormaAplikacije.ODJAVA;
-import static katic.ljetnizadatak.view.FormaAplikacije.POVIJEST_NARUDZBI;
-import static katic.ljetnizadatak.view.FormaAplikacije.RESTORANI;
+import static katic.ljetnizadatak.FormaAplikacije.KOSARICA;
+import static katic.ljetnizadatak.FormaAplikacije.MOJI_PODACI;
+import static katic.ljetnizadatak.FormaAplikacije.ODJAVA;
+import static katic.ljetnizadatak.FormaAplikacije.POVIJEST_NARUDZBI;
+import static katic.ljetnizadatak.FormaAplikacije.RESTORANI;
 import katic.pomocno.KorisnikListener;
 import katic.pomocno.PomagalaIzbornika;
 import katic.pomocno.MenuListener;

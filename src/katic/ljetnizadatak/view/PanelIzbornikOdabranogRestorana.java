@@ -5,6 +5,7 @@
  */
 package katic.ljetnizadatak.view;
 
+import katic.ljetnizadatak.FormaAplikacije;
 import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.DefaultListModel;
@@ -13,7 +14,7 @@ import katic.ljetnizadatak.controller.ObradaKategorijaJela;
 import katic.ljetnizadatak.model.KategorijaJela;
 import katic.ljetnizadatak.model.Korisnik;
 import katic.ljetnizadatak.model.Restoran;
-import static katic.ljetnizadatak.view.FormaAplikacije.PONUDA_RESTORANA;
+import static katic.ljetnizadatak.FormaAplikacije.PONUDA_RESTORANA;
 import katic.ljetnizadatak.view.renderer.RendererKategorijaJelaULijevomPanelu;
 import katic.pomocno.KorisnikListener;
 import katic.pomocno.MenuListener;

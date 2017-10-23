@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import katic.ljetnizadatak.model.Tab;
-import katic.ljetnizadatak.view.FormaAplikacije;
+import katic.ljetnizadatak.FormaAplikacije;
 
 /**
  *
