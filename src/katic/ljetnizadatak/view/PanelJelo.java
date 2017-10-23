@@ -6,6 +6,7 @@
 package katic.ljetnizadatak.view;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ListCellRenderer;
@@ -82,6 +83,9 @@ public class PanelJelo extends javax.swing.JPanel{
         entitet.setCijena(Double.parseDouble(txtCijena.getText()));
         KategorijaJela k = (KategorijaJela) cmbKategorije.getSelectedItem();
         entitet.setKategorijaJela(k);
+        if (k.getRestorani()==null){
+            k.setRestorani(new ArrayList<>());
+        }
         k.getRestorani().add(restoran);
         entitet.setRestoran(restoran);        
         try {

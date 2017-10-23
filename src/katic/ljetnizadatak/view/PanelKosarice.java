@@ -129,7 +129,7 @@ public class PanelKosarice extends javax.swing.JPanel {
     
     private void postaviAdresu(){
         List<AdresaDostave> adreseDostave = obradaAdresaDostave.getAdreseDostave(korisnik);
-        if (adreseDostave==null){
+        if (adreseDostave==null || adreseDostave.isEmpty()){
             JOptionPane.showMessageDialog(this, "Dodajte barem jednu adresu preko izbornika moji podaci", "Nema spremljenih adresa", JOptionPane.WARNING_MESSAGE);         
         } else {
             AdresaDostave[] choices = adreseDostave.toArray(new AdresaDostave[adreseDostave.size()]);
