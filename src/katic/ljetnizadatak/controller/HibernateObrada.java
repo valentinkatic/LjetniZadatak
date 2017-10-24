@@ -57,4 +57,16 @@ public class HibernateObrada<T extends Entitet> {
         return lista;
     }
     
+    public List<T> saveFromImport(List<T> lista){
+       session.beginTransaction();
+       lista.stream().forEach((entitet)->{
+           Date d = new Date();
+            entitet.setDatumKreiranja(d);
+            entitet.setDatumPromjene(d);
+           session.save(entitet);
+       });
+       session.getTransaction().commit();
+        return lista;
+    }
+    
 }

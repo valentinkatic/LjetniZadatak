@@ -32,9 +32,14 @@ public class RendererJelaUKategoriji extends javax.swing.JPanel implements ListC
     public Component getListCellRendererComponent(JList list, Object value,
         int index, boolean isSelected, boolean cellHasFocus) {
        
-        Jelo entry = (Jelo) value;
+        Jelo entry = (Jelo) value;       
         lblNaziv.setText(entry.getNaziv());
-        lblSastojci.setText(entry.getSastojci());
+        String sastojci = entry.getSastojci();
+        if (sastojci.length()>40){
+            sastojci = sastojci.substring(0,37) + "...";
+        }
+        lblSastojci.setText(sastojci);
+        lblSastojci.setToolTipText(entry.getSastojci());
         lblCijena.setText(String.format(Locale.getDefault(), "%.2f kn", entry.getCijena()));
        
         if (isSelected) {
@@ -86,7 +91,6 @@ public class RendererJelaUKategoriji extends javax.swing.JPanel implements ListC
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         add(lblSastojci, gridBagConstraints);
 

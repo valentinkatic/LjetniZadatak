@@ -1,0 +1,217 @@
+{
+  "kategorijeJela": [
+    {
+      "naziv" : "Pizze",
+      "sifra": 1
+    },
+    {
+      "naziv" : "Doručak",
+      "sifra": 2
+    },
+    {
+      "naziv" : "Jela s roštilja",
+      "sifra": 3
+    },
+    {
+      "naziv" : "Deserti",
+      "sifra": 4
+    },
+    {
+      "naziv" : "Sendviči",
+      "sifra": 5
+    }
+  ],
+  "restorani": [
+    {
+      "sifra": 6,
+      "obrisan":"0",
+      "email":"karaka@mail.com",
+      "kontaktBroj":"031203500",
+      "lozinka":"karaka123",
+      "adresa":"Kneza Trpimira 16",
+      "grad":"Osijek",
+      "naziv":"Karaka",
+      "tip":1
+    },
+    {
+      "sifra": 7,
+      "obrisan":"0",
+      "email":"rustika@mail.com",
+      "kontaktBroj":"031369400",
+      "lozinka":"rustika123",
+      "adresa":"Ul. Pavla Pejačevića 32",
+      "grad":"Osijek",
+      "naziv":"Rustika",
+      "tip":1
+    },
+    {
+      "sifra": 8,
+      "obrisan":"0",
+      "email":"oliva@mail.com",
+      "kontaktBroj":"031202040",
+      "lozinka":"oliva123",
+      "adresa":"Kninska ul. 24",
+      "grad":"Osijek",
+      "naziv":"Oliva",
+      "tip":1
+    }
+  ],
+  "korisnici": [
+    {
+      "sifra": 21,
+      "obrisan":"0",
+      "email":"vk@mail.com",
+      "kontaktBroj":"0989889572",
+      "lozinka":"vk123",
+      "ime":"Valentin",
+      "prezime":"Katić",
+      "tip":0
+    }
+  ],
+  "kategorijeJela_restorani": [
+    {
+      "kategorijeJela_sifra": 1,
+      "restorani_sifra": 6
+    },
+    {
+      "kategorijeJela_sifra": 4,
+      "restorani_sifra": 6
+    },
+    {
+      "kategorijeJela_sifra": 1,
+      "restorani_sifra": 7
+    },
+    {
+      "kategorijeJela_sifra": 2,
+      "restorani_sifra": 7
+    },
+    {
+      "kategorijeJela_sifra": 3,
+      "restorani_sifra": 8
+    },
+    {
+      "kategorijeJela_sifra": 5,
+      "restorani_sifra": 8
+    }
+  ],
+  "jela": [
+    {
+      "sifra": 9,
+      "obrisan":"0",
+      "cijena": 32,
+      "naziv":"Capricciosa",
+      "sastojci":"rajčica, sir, šunka, gljive",
+      "kategorijaJela_sifra": 1,
+      "restoran_sifra": 6
+    },
+    {
+      "sifra": 10,
+      "obrisan":"0",
+      "cijena": 41,
+      "naziv":"Mexican",
+      "sastojci":"rajčica, sir, suhi vrat, kulen, slanina, jaje, paprika, vrhnje, feferoni",
+      "kategorijaJela_sifra": 1,
+      "restoran_sifra": 6
+    },
+    {
+      "sifra": 11,
+      "obrisan":"0",
+      "cijena": 19,
+      "naziv":"Bakine palačinke",
+      "sastojci":"palačinke s domaćim džemom od plavih šljiva i kajmakom",
+      "kategorijaJela_sifra": 4,
+      "restoran_sifra": 6
+    },
+    {
+      "sifra": 12,
+      "obrisan":"0",
+      "cijena": 25,
+      "naziv":"Palačinke karaka",
+      "sastojci":"palačinke sa sladoledom i toplim preljevom od višanja",
+      "kategorijaJela_sifra": 4,
+      "restoran_sifra": 6
+    },
+    {
+      "sifra": 13,
+      "obrisan":"0",
+      "cijena": 37,
+      "naziv":"Capricciosa",
+      "sastojci":"rajčica, sir, šunka, gljive",
+      "kategorijaJela_sifra": 1,
+      "restoran_sifra": 7
+    },
+    {
+      "sifra": 14,
+      "obrisan":"0",
+      "cijena": 42,
+      "naziv":"Rustika",
+      "sastojci":"rajčica, sir, suhi vrat, vrhnje, gljive, pršut, jaje",
+      "kategorijaJela_sifra": 1,
+      "restoran_sifra": 7
+    },
+    {
+      "sifra": 15,
+      "obrisan":"0",
+      "cijena": 28,
+      "naziv":"Povrće s piletinom",
+      "sastojci":"povrće, piletina, lepinjice i topli napitak",
+      "kategorijaJela_sifra": 2,
+      "restoran_sifra": 7
+    },
+    {
+      "sifra": 16,
+      "obrisan":"0",
+      "cijena": 25,
+      "naziv":"Omlet sa slaninom i gljivama",
+      "sastojci":"jaja, slanina, gljive, lepinjice i topli napitak",
+      "kategorijaJela_sifra": 2,
+      "restoran_sifra": 7
+    },
+    {
+      "sifra": 17,
+      "obrisan":"0",
+      "cijena": 55,
+      "naziv":"Miješano meso",
+      "sastojci":"pljeskavica, roštilj kobasica, cevapi, kotlet, slanina, ražnjići, lepinjice, pommes, luk, ajvar, gljive",
+      "kategorijaJela_sifra": 3,
+      "restoran_sifra": 8
+    },
+    {
+      "sifra": 18,
+      "obrisan":"0",
+      "cijena": 36,
+      "naziv":"Punjena pljeskavica",
+      "sastojci":"šunka, sir, lepinjice, pommes, luk, ajvar",
+      "kategorijaJela_sifra": 3,
+      "restoran_sifra": 8
+    },
+    {
+      "sifra": 19,
+      "obrisan":"0",
+      "cijena": 21,
+      "naziv":"Oliva",
+      "sastojci":"sir, šunka, kiseli krastavci, vrhnje, majoneza",
+      "kategorijaJela_sifra": 5,
+      "restoran_sifra": 8
+    },
+    {
+      "sifra": 20,
+      "obrisan":"0",
+      "cijena": 21,
+      "naziv":"S kulenom",
+      "sastojci":"sir, kulen, sezonsko povrće, vrhnje",
+      "kategorijaJela_sifra": 5,
+      "restoran_sifra": 8
+    }
+  ],
+  "adreseDostave": [
+    {
+      "sifra": 22,
+      "obrisan":"0",
+      "grad":"Cerna",
+      "kucniBroj":"46",
+      "ulica":"Velika Cerna",
+      "korisnik_sifra": 21
+    }
+  ]
+}

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 /**
  *
@@ -32,7 +33,13 @@ public class Jelo extends Entitet implements Serializable{
     
     @ManyToOne
     private Restoran restoran;
+    
+    @Transient
+    private Long kategorijaJela_sifra;
 
+    @Transient
+    private Long restoran_sifra;
+    
     public Restoran getRestoran() {
         return restoran;
     }
@@ -89,7 +96,21 @@ public class Jelo extends Entitet implements Serializable{
         this.narudzbaJela = narudzbaJela;
     }
 
-         
+    public Long getKategorijaJela_sifra() {
+        return kategorijaJela_sifra;
+    }
+
+    public void setKategorijaJela_sifra(Long kategorijaJela_sifra) {
+        this.kategorijaJela_sifra = kategorijaJela_sifra;
+    }
+
+    public Long getRestoran_sifra() {
+        return restoran_sifra;
+    }
+
+    public void setRestoran_sifra(Long restoran_sifra) {
+        this.restoran_sifra = restoran_sifra;
+    }        
 
     @Override
     public String toString() {

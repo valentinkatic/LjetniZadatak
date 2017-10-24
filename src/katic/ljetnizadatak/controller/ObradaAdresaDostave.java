@@ -22,7 +22,7 @@ public class ObradaAdresaDostave {
     public static final int KUCNIBROJ = 2; 
     public static final int GRAD = 3; 
     
-    HibernateObrada<AdresaDostave> obrada;
+    private HibernateObrada<AdresaDostave> obrada;
 
     public ObradaAdresaDostave() {
         obrada = new HibernateObrada<>();

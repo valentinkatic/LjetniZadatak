@@ -5,6 +5,7 @@
  */
 package katic.ljetnizadatak.view;
 
+import com.google.gson.Gson;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import katic.ljetnizadatak.controller.ObradaImportPodataka;
+import katic.ljetnizadatak.model.ImportPodataka;
 import katic.ljetnizadatak.model.Tab;
 import katic.pomocno.PomagalaIzbornika;
 import katic.pomocno.MenuListener;
+import katic.pomocno.Pomagala;
 
 /**
  *
@@ -218,7 +223,7 @@ public class PanelStart extends javax.swing.JPanel {
             Runtime.getRuntime().exec("cmd /c start https://github.com/valentinkatic/LjetniZadatak ");
         } catch (IOException ex) {
             Logger.getLogger(PanelStart.class.getName()).log(Level.SEVERE, null, ex);
-}
+        }
     }//GEN-LAST:event_btnGitHubMouseClicked
 
     private void btnGitHubMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGitHubMouseEntered
@@ -257,7 +262,11 @@ public class PanelStart extends javax.swing.JPanel {
     }//GEN-LAST:event_btnImportPodatakaMouseEntered
 
     private void btnImportPodatakaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImportPodatakaMouseClicked
-        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
+        String importPodatakaJson = Pomagala.dohvatiJson();
+        Gson gson = new Gson();
+        ImportPodataka importPodataka = gson.fromJson(importPodatakaJson, ImportPodataka.class);
+//        System.out.println(importPodatakaJson);
+        new ObradaImportPodataka(importPodataka);
     }//GEN-LAST:event_btnImportPodatakaMouseClicked
 
 

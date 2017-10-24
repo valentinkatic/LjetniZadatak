@@ -53,7 +53,7 @@ public class PanelIzbornikOdabranogRestorana extends javax.swing.JPanel {
         DefaultListModel<KategorijaJela> m = new DefaultListModel<>();
         lista.setModel(m);
         for (KategorijaJela k: obradaKategorijaJela.getKategorijeJela()){
-            if (restoran.getKategorijeJela()!=null && restoran.getKategorijeJela().contains(k) && k.getJelo()!=null && k.getJelo().size()>0){
+            if (restoran.getKategorijeJela()!=null && restoran.getKategorijeJela().contains(k) && k.getRestorani()!=null && k.getRestorani().contains(restoran) && k.getJelo()!=null && k.getJelo().size()>0){
                 m.addElement(k);
             }
         }

@@ -7,6 +7,7 @@ package katic.ljetnizadatak.model;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 /**
  *
@@ -21,6 +22,9 @@ public class AdresaDostave extends Entitet{
 
     @ManyToOne
     private Korisnik korisnik;
+    
+    @Transient
+    private Long korisnik_sifra;
     
     public String getUlica() {
         return ulica;
@@ -52,6 +56,14 @@ public class AdresaDostave extends Entitet{
 
     public void setKorisnik(Korisnik korisnik) {
         this.korisnik = korisnik;
+    }
+
+    public Long getKorisnik_sifra() {
+        return korisnik_sifra;
+    }
+
+    public void setKorisnik_sifra(Long korisnik_sifra) {
+        this.korisnik_sifra = korisnik_sifra;
     }
     
     
