@@ -122,9 +122,10 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/res/signup.png"/>
+          <Image iconType="3" name="/res/github.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="GitHub"/>
+        <Property name="toolTipText" type="java.lang.String" value="https://github.com/valentinkatic/LjetniZadatak"/>
         <Property name="verticalAlignment" type="int" value="3"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -151,7 +152,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/res/signup.png"/>
+          <Image iconType="3" name="/res/import.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Import podataka"/>
         <Property name="verticalAlignment" type="int" value="3"/>
@@ -180,7 +181,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/res/signup.png"/>
+          <Image iconType="3" name="/res/diagram.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="ERA dijagram"/>
         <Property name="verticalAlignment" type="int" value="3"/>

@@ -5,9 +5,14 @@
  */
 package katic.ljetnizadatak.view;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import katic.ljetnizadatak.FormaAplikacije;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import katic.ljetnizadatak.model.Tab;
 import katic.pomocno.PomagalaIzbornika;
@@ -96,8 +101,9 @@ public class PanelStart extends javax.swing.JPanel {
         btnGitHub.setBackground(new java.awt.Color(38, 40, 55));
         btnGitHub.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         btnGitHub.setForeground(new java.awt.Color(204, 204, 204));
-        btnGitHub.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/signup.png"))); // NOI18N
+        btnGitHub.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/github.png"))); // NOI18N
         btnGitHub.setText("GitHub");
+        btnGitHub.setToolTipText("https://github.com/valentinkatic/LjetniZadatak");
         btnGitHub.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnGitHub.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
         btnGitHub.setOpaque(true);
@@ -116,7 +122,7 @@ public class PanelStart extends javax.swing.JPanel {
         btnImportPodataka.setBackground(new java.awt.Color(38, 40, 55));
         btnImportPodataka.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         btnImportPodataka.setForeground(new java.awt.Color(204, 204, 204));
-        btnImportPodataka.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/signup.png"))); // NOI18N
+        btnImportPodataka.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/import.png"))); // NOI18N
         btnImportPodataka.setText("Import podataka");
         btnImportPodataka.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnImportPodataka.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
@@ -136,7 +142,7 @@ public class PanelStart extends javax.swing.JPanel {
         btnERADijagram.setBackground(new java.awt.Color(38, 40, 55));
         btnERADijagram.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         btnERADijagram.setForeground(new java.awt.Color(204, 204, 204));
-        btnERADijagram.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/signup.png"))); // NOI18N
+        btnERADijagram.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/diagram.png"))); // NOI18N
         btnERADijagram.setText("ERA dijagram");
         btnERADijagram.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnERADijagram.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
@@ -208,7 +214,11 @@ public class PanelStart extends javax.swing.JPanel {
     }//GEN-LAST:event_lblRegistracijaMouseExited
 
     private void btnGitHubMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGitHubMouseClicked
-        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
+        try {
+            Runtime.getRuntime().exec("cmd /c start https://github.com/valentinkatic/LjetniZadatak ");
+        } catch (IOException ex) {
+            Logger.getLogger(PanelStart.class.getName()).log(Level.SEVERE, null, ex);
+}
     }//GEN-LAST:event_btnGitHubMouseClicked
 
     private void btnGitHubMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGitHubMouseEntered
@@ -220,7 +230,14 @@ public class PanelStart extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGitHubMouseExited
 
     private void btnERADijagramMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnERADijagramMouseClicked
-        pressedTab = PomagalaIzbornika.setClickedEffect(tabovi, (JLabel)evt.getComponent(), menuListener);
+        try {
+            String fileName = "/res/dijagram.png";
+            File f = new File(getClass().getResource(fileName).getFile());
+            Desktop dt = Desktop.getDesktop();
+            dt.open(f);           
+        } catch (IOException ex) {
+            Logger.getLogger(PanelStart.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnERADijagramMouseClicked
 
     private void btnERADijagramMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnERADijagramMouseEntered
