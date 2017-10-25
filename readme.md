@@ -1,11 +1,17 @@
 # LjetniZadatak
-Zadatak koji povezuje java aplikaciju s MySQL bazom podataka, te omogu�ava unos, �itanje, promijenu i brisanje podataka.
+Zadatak koji povezuje java aplikaciju s MySQL bazom podataka, te omogućava unos, čitanje, promijenu i brisanje podataka.
 
-Oprema: MySQL server, MySQL Workbench, NetBeans IDE
+Oprema: Java, MySQL server, MySQL Workbench, NetBeans IDE, Hibernate
 
-Realizirane to�ke:
-* Izbornik s gumbovima za otvaranje drugih prozora (restorani, korisnici, kategorije jela) 
-* Gumb za otvaranje ERA dijagrama baze podataka
-* Link na izborniku koji otvara kod na GitHubu
-* U prikazu restorana dodan gumb za otvaranje prozora jela gdje se mogu dodavati nove kategorije te nova jela vezano za ozna�enu kategoriju i restoran.
-* U prikazu korisnika dodan gumb za otvaranje prozora adresa dostave vezane uz tog korisnika.
+Realizirane točke:
+* Izbornik s opcijama za prijavu i registraciju
+* Opcija za import podataka iz json datoteke
+* Opcija za otvaranje ERA dijagrama baze podataka
+* Opcija koja otvara repozitorij na GitHubu
+* Različito sučelje za različite tipove korisnika (restorani i krajnji korisnici)
+* Mogućnost dodavanja stavki u košaricu, mijenjanje količine određenih jela
+* Izmjena korisničkih podatka, dodavanje, izmjena i brisanje adresa za dostavu
+* Pregled povijesti narudžbi i gumb za ponovno dodavanje jela u košaricu
+* Mogućnost dodavanja, izmjene i brisanja jela s prijavljenim korisničkim računom restorana
+* Pregled primljenih narudžbi od strane krajnjih korisnika
+* Izmjena podataka o restoranu
