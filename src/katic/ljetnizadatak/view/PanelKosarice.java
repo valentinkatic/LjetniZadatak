@@ -80,8 +80,10 @@ public class PanelKosarice extends javax.swing.JPanel {
                 
         if (jela.isEmpty()){
             prikaziPodnozje(false);
+            lblNaziv.setText("Košarica");
         } else {            
             prikaziPodnozje(true);
+            lblNaziv.setText(jela.get(0).getRestoran().getNaziv());
         }
         
         if (narudzba.getAdresaDostave()==null){
@@ -89,6 +91,7 @@ public class PanelKosarice extends javax.swing.JPanel {
         } else {
             lblPosaljiNarudzbu.setText("Pošalji narudžbu");
         }
+        
     }
 
     private void ucitajSumu(){
